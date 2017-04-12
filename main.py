@@ -31,6 +31,7 @@ def make_app():
 
 # application = tornado.wsgi.WSGIAdapter(make_app())
 if __name__ == "__main__":
+    print(1111)
     app = make_app()
     app.listen(PORT)
     tornado.ioloop.IOLoop.current().start()
