@@ -1,0 +1,396 @@
+.rectification .content .other, .rectification .tip {
+    color: #3e0000;
+    font-size: .22rem
+}
+
+.alert, .rectification, .show {
+    min-height: 100vh
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%
+}
+
+select {
+    outline: 0;
+    border: none;
+    background: 0 0
+}
+
+body {
+    width: 100%
+}
+
+.rectification {
+    position: relative;
+    width: 100%;
+    height: 10.25rem;
+    background: url(../img/name_activity_bg.png) 0 0/100% 100% no-repeat
+}
+
+.rectification .tip {
+    position: absolute;
+    left: .85rem;
+    top: 1.2rem
+}
+
+.rectification .icon {
+    display: block;
+    width: 2.06rem;
+    height: .3rem;
+    background: url(../img/icon.png) 0 0/2.06rem .3rem no-repeat
+}
+
+.rectification .icon1 {
+    position: absolute;
+    left: 2.25rem;
+    top: 2.1rem
+}
+
+.rectification .icon2 {
+    position: absolute;
+    left: 2.25rem;
+    top: 4rem
+}
+
+.rectification .content {
+    position: absolute;
+    left: .85rem;
+    top: 2.7rem;
+    white-space: nowrap
+}
+
+.rectification .content .select {
+    position: relative;
+    display: inline-block;
+    width: 1rem;
+    height: .3rem;
+    margin: 0 .2rem 0 -.05rem;
+    vertical-align: top
+}
+
+.rectification .content .select .value, .rectification .content .select select {
+    position: absolute;
+    bottom: -.01rem;
+    left: 0;
+    display: block;
+    width: 1rem;
+    height: .3rem;
+    color: #6e6e6e;
+    font-size: .22rem;
+    line-height: .32rem;
+    text-align: center
+}
+
+.rectification .content .select .value:after, .rectification .content .select .value:before, .rectification .content .select select:after, .rectification .content .select select:before {
+    display: block;
+    position: absolute;
+    content: ''
+}
+
+.rectification .content .select .value:before, .rectification .content .select select:before {
+    left: -.1rem;
+    bottom: -.08rem;
+    width: 1.41rem;
+    height: .05rem;
+    background: url(../img/line.png) 0 0/1.41rem .05rem no-repeat
+}
+
+.rectification .content .select .value:after, .rectification .content .select select:after {
+    top: .09rem;
+    right: -.15rem;
+    width: .18rem;
+    height: .11rem;
+    background: url(../img/arrow.png) 0 0/.18rem .11rem no-repeat
+}
+
+.rectification .content .select select {
+    font-size: 0;
+    z-index: 9;
+    -webkit-appearance: none
+}
+
+.rectification .contentTwo {
+    top: 3.28rem
+}
+
+.rectification .edit {
+    position: absolute;
+    bottom: 21.46%;
+    left: .75rem;
+    width: 5rem;
+    height: 3.5rem;
+    line-height: .5rem;
+    font-size: .22rem;
+    color: #6e6e6e;
+    border: none;
+    background: url(../img/text_bg.png) 0 0/5rem .5rem repeat-y
+}
+
+.rectification .residue {
+    position: absolute;
+    bottom: 17.8%;
+    left: 42%;
+    font-size: .2rem;
+    color: #6e6e6e
+}
+
+.rectification .btn {
+    position: absolute;
+    bottom: 11%;
+    left: 32%;
+    width: 2.85rem;
+    height: .6rem;
+    background: url(../img/btn.png) 0 0/2.76rem .53rem no-repeat
+}
+
+.template {
+    width: 6.4rem;
+    height: 10.29rem;
+    background: url(../img/poster_bg.jpg) 0 0/6.4rem 10.29rem no-repeat;
+    overflow: hidden
+}
+
+.template .avatar {
+    position: absolute;
+    left: 2.68rem;
+    top: 1.25rem;
+    width: 1.04rem;
+    height: 1.04rem;
+    background: red;
+    border-radius: 9999px;
+    -webkit-border-radius: 9999px;
+    overflow: hidden
+}
+
+.template .avatar img {
+    width: 1.05rem;
+    height: auto;
+    border-radius: 9999px;
+    -webkit-border-radius: 9999px
+}
+
+.template .rank {
+    position: absolute;
+    right: .5rem;
+    top: .5rem
+}
+
+.template .rank p {
+    font-size: .24rem;
+    color: #000;
+    text-align: right
+}
+
+.template .nickname {
+    position: absolute;
+    width: 6.4rem;
+    top: 2.6rem;
+    font-size: .26rem;
+    font-weight: 700;
+    color: #000;
+    text-align: center
+}
+
+.template .content {
+    width: 4.05rem;
+    height: 3.2rem;
+    margin: 5.4rem auto 0;
+    font-size: .24rem;
+    letter-spacing: 0;
+    color: #000
+}
+
+.show, .show .cover {
+    width: 100%;
+    position: absolute
+}
+
+.template .bottom {
+    margin-top: .6rem
+}
+
+.template .bottom p {
+    font-size: .24rem;
+    color: #000;
+    text-align: center
+}
+
+.loading p, .show p {
+    color: #fff;
+    text-align: center
+}
+
+.show {
+    top: 0;
+    left: 0;
+    height: 10.25rem;
+    z-index: 999
+}
+
+.show .cover {
+    height: 100%;
+    background: rgba(0, 0, 0, .7);
+    -webkit-filter: blur(3px);
+    filter: blur(80px);
+    z-index: 0
+}
+
+.show img {
+    position: absolute;
+    top: .7rem;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    display: block;
+    width: 5.3rem;
+    height: auto
+}
+
+.show p {
+    position: absolute;
+    width: 100%;
+    top: 9.4rem;
+    font-size: .24rem
+}
+
+.loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .8);
+    z-index: 999
+}
+
+.loading .img {
+    position: absolute;
+    top: 36%;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    width: 1rem;
+    height: 1rem
+}
+
+.loading .img img {
+    width: 1rem;
+    height: 1rem;
+    animation: dh 1s infinite linear;
+    -webkit-animation: dh 1s infinite linear
+}
+
+.alert, .alert .cover {
+    width: 100%;
+    position: absolute
+}
+
+@keyframes dh {
+    0% {
+        transform: rotate(0);
+        -webkit-transform: rotate(0)
+    }
+    25% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+    50% {
+        transform: rotate(180deg);
+        -webkit-transform: rotate(180deg)
+    }
+    75% {
+        transform: rotate(270deg);
+        -webkit-transform: rotate(270deg)
+    }
+    100% {
+        transform: rotate(360deg);
+        -webkit-transform: rotate(360deg)
+    }
+}
+
+@-webkit-keyframes dh {
+    0% {
+        transform: rotate(0);
+        -webkit-transform: rotate(0)
+    }
+    25% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+    50% {
+        transform: rotate(180deg);
+        -webkit-transform: rotate(180deg)
+    }
+    75% {
+        transform: rotate(270deg);
+        -webkit-transform: rotate(270deg)
+    }
+    100% {
+        transform: rotate(360deg);
+        -webkit-transform: rotate(360deg)
+    }
+}
+
+.loading p {
+    position: absolute;
+    top: 46%;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    font-size: .3rem;
+    white-space: nowrap
+}
+
+.alert {
+    top: 0;
+    left: 0;
+    height: 10.25rem
+}
+
+.alert .cover {
+    height: 100%;
+    background: rgba(0, 0, 0, .7);
+    -webkit-filter: blur(3px);
+    filter: blur(80px);
+    z-index: 0
+}
+
+.alert .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    width: 5.32rem;
+    height: 2.58rem;
+    background: url(../img/alert-bg.png) 0 0/5.32rem 2.58rem no-repeat;
+    overflow: hidden
+}
+
+.alert .content .word {
+    margin-top: .85rem;
+    color: #3e0000;
+    font-size: .25rem;
+    text-align: center
+}
+
+.alert .content .btn {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    bottom: .3rem;
+    display: block;
+    width: 1.3rem;
+    height: .51rem;
+    line-height: .51rem;
+    color: #fff;
+    font-size: .25rem;
+    text-align: center;
+    text-decoration: none;
+    background: url(../img/btn-bg.png) 0 0/1.3rem .51rem no-repeat
+}
