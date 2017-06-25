@@ -15,7 +15,13 @@
     -webkit-animation: sts 6s infinite; /* Safari 与 Chrome */
     text-shadow: 5px 5px 5px #17AE13;
 }
-
+.login .enter{
+    position: absolute;
+    top: 362px;
+    left: 310px;
+    bottom: 0;
+    right: 0;
+}
 @keyframes sts {
     0% {
         left: 280px;
