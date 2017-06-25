@@ -1,0 +1,6 @@
+local:
+  host: rdsea8n4lglktg5e69p1o.mysql.rds.aliyuncs.com
+  db: yanzi_2_0
+  user: shuwei_dev
+  passwd: pwd_dev2016
+  charset: utf8mb4

@@ -1,0 +1,25 @@
+local:
+  rabbit:
+    host: dev.yanzijia.cn
+    port: 5672
+    user: yanzijia
+    pwd: yzjpwd123
+
+  redis:
+    host: dev.yanzijia.cn
+    port: 6379
+    db: 7
+    password: yzjpwd123
+
+  mongo:
+    host: dev.yanzijia.cn
+    port: 3717
+    db: sheji_dev
+    uname: root
+    pwd: swtech2016
+
+  log:
+    error.log: /var/log/gunicorn/sheji_error.log
+    stdout: /var/log/upstart/runsvdir.log
+    access.log: /var/log/gunicorn/sheji_access.log
+    application.log: /var/log/tornado/sheji.log
