@@ -9,4 +9,5 @@ from common import base
 
 class Index(base.BaseHandler):
     def get(self):
-        return self.render('picture/merge.html')
+        print self.get_cookie(str(self.request.remote_ip))
+        return self.render('dxq_picture/merge.html')
