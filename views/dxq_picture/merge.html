@@ -2,9 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Merge</title>
+    <meta content=”email=no” name=”format-detection”/>
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>菜鸟联盟--图片合成</title>
+    <script src="{{gconf['domain']}}/static/js/common/fit-2.0.js"></script>
+    <script src="{{gconf['domain']}}/static/js/jquery-1.9.1.min.js"></script>
 </head>
+
 <body>
-<div></div>
+<input type="hidden"  id="time_left" value="{{time_left}}">
+<div>
+    <div>
+        <img src="/static/images/boom1.jpg" alt="炸弹">
+        <span style="overflow: inherit" id="left_time">{{time_left}}</span>
+    </div>
+</div>
+<script>
+
+    $(function () {
+        var time_left = parseInt($("#time_left").val());
+        function countDown(btn) {
+            alert(time_left);
+            function time() {
+                if (time_left == 0) {
+                    alert("BOOM!")
+                } else {
+                    btn.html('还剩' + time_left + '秒');
+                    time_left--;
+                    setTimeout(function () {
+                        time()
+                    }, 1000)
+                }
+            }
+            time()
+        }
+        countDown($("#left_time"))
+    });
+</script>
+
 </body>
 </html>
+
