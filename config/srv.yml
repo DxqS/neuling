@@ -12,11 +12,11 @@ local:
     password: yzjpwd123
 
   mongo:
-    host: dev.yanzijia.cn
-    port: 3717
-    db: sheji_dev
-    uname: root
-    pwd: swtech2016
+    host: dxq.neuling.top
+    port: 27017
+    db: dxq
+    uname: dxq
+    pwd: 123
 
   log:
     error.log: /var/log/gunicorn/sheji_error.log
