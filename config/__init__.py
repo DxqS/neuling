@@ -28,6 +28,6 @@ msgDict = {}
 pool = redis.ConnectionPool(**srv['redis'])
 rdb = redis.StrictRedis(connection_pool=pool)
 
-mdb = MongoClient(srv['mongo']['host'], srv['mongo']['port'])
+mdb = MongoClient(srv['mongo']['host'], srv['mongo']['port'], connect=False)
 mdb.admin.authenticate(srv['mongo']['uname'], str(srv['mongo']['pwd']), mechanism='SCRAM-SHA-1')
 mdb = mdb[srv['mongo']['db']]
