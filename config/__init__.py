@@ -9,7 +9,6 @@ import time
 
 import yaml
 import redis
-
 from pymongo import MongoClient
 
 ospath = os.path.split(__file__)[0]

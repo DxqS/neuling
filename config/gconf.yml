@@ -1,3 +1,7 @@
 local:
   web_name: 菜鸟驿站
   domain: http://localhost:8888
+
+develop:
+  web_name: 菜鸟驿站
+  domain: http://dxq.neuling.top
