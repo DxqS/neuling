@@ -16,8 +16,6 @@ ospath = os.path.split(__file__)[0]
 
 run_mode = os.environ.get('RUN_ENV', 'local')
 
-pony = yaml.load(open(os.path.split(__file__)[0] + '/pony.yml', 'r'))[run_mode]
-
 gconf = yaml.load(open(ospath + '/gconf.yml', 'r'))[run_mode]
 
 gconf['uptime'] = time.strftime("%Y%m%d%H%M%S", time.localtime(time.time()))
