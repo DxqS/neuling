@@ -5,7 +5,7 @@ Created on 2017/7/2.
 @author: Dxq
 '''
 from __future__ import absolute_import
-
+from common import base
 import requests
 
 import config
@@ -30,3 +30,9 @@ def mul(x, y):
 def url_call(url, **args):
     r = requests.post(url, data=args)
     return r.text
+
+
+@app.tasks
+def tt():
+    mdb.user.insert({"_id": base.getRedisID("user"), "name": "ss"})
+    return True

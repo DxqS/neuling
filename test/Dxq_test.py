@@ -4,6 +4,6 @@ Created on 2017/6/26.
 
 @author: Dxq
 '''
-import config
-mdb  = config.mdb
-mdb.user.insert({"bb":1})
+from proj import tasks
+
+tasks.tt.delay()
