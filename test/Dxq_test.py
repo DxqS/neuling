@@ -6,4 +6,4 @@ Created on 2017/6/26.
 '''
 from proj import tasks
 
-tasks.tt.delay()
+tasks.add.delay(1,2)
