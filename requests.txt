@@ -1,2 +1,4 @@
 tornado
-web
+web.py
+redis
+pymongo
