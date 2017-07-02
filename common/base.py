@@ -17,7 +17,6 @@ from tornado.web import RequestHandler
 import config
 from common import myfilter
 
-
 import datetime
 import numbers
 import os.path
@@ -42,6 +41,16 @@ except ImportError:
     pass
 
 errorDesc = config.errorDesc
+mdb = config.mdb
+rdb = config.rdb
+
+
+def getRedisID(key):
+    if rdb.hget('RedisID', key) is None:
+        colList = list(mdb[key].find().sort('_id', -1).limit(1))
+        ids = 100000 if len(colList) == 0 else colList[0]['_id'] + 1
+        rdb.hset('RedisID', key, ids)
+    return int(rdb.hincrby('RedisID', key, 1))
 
 
 def rtjson(code=1, **args):
@@ -107,4 +116,5 @@ def login_auth(method):
                 return
             raise web.HTTPError(403)
         return method(self, *args, **kwargs)
+
     return wrapper
