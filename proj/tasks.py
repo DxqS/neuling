@@ -32,7 +32,7 @@ def url_call(url, **args):
     return r.text
 
 
-@app.tasks
+@app.task
 def tt():
     mdb.user.insert({"_id": base.getRedisID("user"), "name": "ss"})
     return True
