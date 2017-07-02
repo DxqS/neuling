@@ -6,10 +6,10 @@ local:
     pwd: yzjpwd123
 
   redis:
-    host: dev.yanzijia.cn
+    host: dxq.neuling.top
     port: 6379
-    db: 7
-    password: yzjpwd123
+    db: 0
+    password: dxqpwd123
 
   mongo:
     host: dxq.neuling.top
