@@ -9,16 +9,15 @@
     <title>菜鸟联盟--图片合成</title>
     <script src="{{gconf['domain']}}/static/js/fit-2.0.js"></script>
     <script src="{{gconf['domain']}}/static/js/jquery-3.0.0.min.js"></script>
+    <link rel="stylesheet" href="{{gconf['domain']}}/static/index/css/dist/index.css">
 </head>
 
-<body>
-<input type="hidden"  id="time_left" value="{{time_left}}">
+<body class="index">
+<input type="hidden" id="time_left" value="{{time_left}}">
 <div>
-    <div>
-        <img src="/static/images/boom1.jpg" alt="炸弹">
-        <span style="overflow: inherit" id="left_time">{{time_left}}</span>
-    </div>
+    <img src="/static/images/boom1.jpg" alt="炸弹">
+    <span style="overflow: inherit" id="left_time">{{time_left}}</span>
 </div>
 </body>
 </html>
-<script src="{{gconf['domain']}}/static/merge/js/merge.js"></script>
+<script src="{{gconf['domain']}}/static/index/js/index.js"></script>
