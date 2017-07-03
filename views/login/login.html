@@ -7,8 +7,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>菜鸟联盟</title>
-    <script src="{{gconf['domain']}}/static/js/common/fit-2.0.js"></script>
-    <script src="{{gconf['domain']}}/static/js/jquery-1.9.1.min.js"></script>
+    <script src="{{gconf['domain']}}/static/js/fit-2.0.js"></script>
+    <script src="{{gconf['domain']}}/static/js/jquery-3.0.0.min.js"></script>
     <link rel="stylesheet" href="{{gconf['domain']}}/static/login/css/dist/login.css">
 </head>
 <body class="login">
@@ -30,36 +30,4 @@
 
 </body>
 </html>
-<script>
-    $(function () {
-        function show() {
-            var a1 = parseInt(Math.random() * 9) + 1;
-            var a2 = parseInt(Math.random() * 9) + 1;
-            var sign = ["+", "-", "*"][parseInt(Math.random() * 3)];
-            $("#uname").val(a1 + sign + a2 + "=?")
-        }
-
-        var iCount = setInterval(show, 1500);
-        $('html').on("keydown", function (e) {
-            if (e.keyCode == 13) {
-                clearInterval(iCount);
-                var pwd = $("#pwd").val();
-                var uname = $("#uname").val().replace("=?", "");
-//                var sg = uname.replace(/\d+/g,'');
-//                var question = uname.split(sg);
-//                alert(question[0][0]);
-                if (parseInt(pwd) == eval(uname)) {
-                    $.post(window.location.pathname, function (res) {
-                        if (res.status == 1) {
-                            window.location.href = '/pic/index'
-                        }
-                    },'json');
-                } else {
-                    alert("太笨了！！！");
-                    $("#pwd").val("");
-                    iCount = setInterval(show, 1500)
-                }
-            }
-        });
-    })
-</script>
+<script src="{{gconf['domain']}}/static/login/js/login.js"></script>

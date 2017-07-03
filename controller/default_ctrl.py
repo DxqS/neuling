@@ -6,6 +6,7 @@ Created on 2017/6/25.
 '''
 from common import base
 
+
 class Login(base.BaseHandler):
     @base.login_auth
     def get(self):
