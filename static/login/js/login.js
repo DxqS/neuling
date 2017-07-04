@@ -2,6 +2,7 @@
  * Created by chk01 on 2017/7/3.
  */
 $(function () {
+    alert(1);
     function show() {
         var a1 = parseInt(Math.random() * 9) + 1;
         var a2 = parseInt(Math.random() * 9) + 1;
