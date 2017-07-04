@@ -26,7 +26,7 @@ import multiprocessing
 #       range.
 #
 
-bind = '0.0.0.0'
+# bind = '0.0.0.0'
 backlog = 2048
 
 #
