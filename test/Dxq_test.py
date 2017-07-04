@@ -6,5 +6,5 @@ Created on 2017/6/26.
 '''
 from proj import tasks
 #
-# tasks.tt.delay()
-# print 1234
+tasks.tt.delay()
+print 1234
