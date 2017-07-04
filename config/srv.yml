@@ -19,7 +19,7 @@ local:
     pwd: 123
 
   log:
-    error.log: /var/log/gunicorn/sheji_error.log
+    error.log: /var/log/gunicorn/neuling_error.log
     stdout: /var/log/upstart/runsvdir.log
-    access.log: /var/log/gunicorn/sheji_access.log
-    application.log: /var/log/tornado/sheji.log
+    access.log: /var/log/gunicorn/neuling_access.log
+    application.log: /var/log/tornado/neuling.log
