@@ -4,7 +4,7 @@ Created on 2017/6/26.
 
 @author: Dxq
 '''
-from proj import tasks
-#
-tasks.tt.delay()
-print 12
+# from proj import tasks
+# #
+# tasks.tt.delay()
+# print 12
