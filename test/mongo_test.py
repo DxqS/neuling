@@ -66,6 +66,14 @@ mdb = config.mdb
 # mdb.user.find({"age": {"$elemMatch": {"$gte": 80, "$lt": 85}}})
 # mdb.user.find({"age": {"$gte": 85}}, {"age.$": 1})
 # mdb.user.find({}, {"age": {"$elemMatch": {"index": {"$gt": 1}}}})
-ss = mdb.user.find({}, {"age": {"$elemMatch": {"index": {"$gt": 1}}}})
-for s in ss:
-    print s
+# mdb.user.find({}, {"age": {"$elemMatch": {"index": {"$gt": 1}}}})
+# mdb.user.find({}, {"age": {"$slice": [0, 1]}})
+# mdb.user.update_one({"_id": 100001}, {"$inc": {"age.0": 1, "ega": 1}})
+# mdb.user.update_one({"_id": 100001}, {"$mul": {"price": 21}})
+# mdb.user.update({"_id": 100001}, {"$rename": {'ega': 'age2'}})
+# mdb.user.update({"_id": 100001}, {"$rename": {'age2.first': 'age2.fname'}})
+
+mdb.user.update({"_id": base.getRedisID("user")}, {"$set": {"item": "apple"},
+                                               "$setOnInsert": {"defaultQty": 100}}, upsert=True)
+# for s in ss:
+#     print s
