@@ -73,7 +73,42 @@ mdb = config.mdb
 # mdb.user.update({"_id": 100001}, {"$rename": {'ega': 'age2'}})
 # mdb.user.update({"_id": 100001}, {"$rename": {'age2.first': 'age2.fname'}})
 
-mdb.user.update({"_id": base.getRedisID("user")}, {"$set": {"item": "apple"},
-                                               "$setOnInsert": {"defaultQty": 100}}, upsert=True)
-# for s in ss:
-#     print s
+# "$addToSet", "pop", 'pullAll', 'pull', 'push', 'each', 'slice', 'sort', 'position'
+# 优先执行update 若查询为无执行upsert->响应setOnInsert 内容
+# mdb.user.update({"name": "莫笑刀"}, {"$set": {"age": 112},
+#                                   "$setOnInsert": {"_id": base.getRedisID("user")}}, upsert=True)
+# 删除字段
+# mdb.user.update({"_id": 100007}, {"$unset": {"item": "", "instock": ""}})
+# mdb.user.update({"_id": 100007, "grades.grade": 85}, {"$set": {"grades.$.std": 6}})
+# 删除所有scour（Array）中的0，5
+# mdb.user.update({"_id": 100007}, {"$pullAll": {"score": [0, 5]}})
+
+# mdb.user.update({"_id": 100007}, {"$push": {"quizzes": {
+#     "$each": [{"wk": 2, "score": 88}, {"wk": 2, "score": 99}],
+#     "$sort": {"score": -1},
+#     "$slice": 3
+# }}})
+
+# mdb.user.update({"_id": 100007}, {"$push": {"scores": {"$each": [20, 30], "$position": 1}}})
+
+# 'collStats', 'project', 'match', 'redact', 'limit', 'skip', 'unwind', 'group', 'sample', 'sort', 'geoNear', 'lookup'
+# 'out', 'indexStats', 'facet', 'bucket', 'bucketAuto', 'sortByCount', 'addFields', 'replaceRoot'
+# 'count', 'graphLookup'
+# project = {'$project': {'temp_mod': 1, 'ctime': 1, 'uid': 1}}
+# mdb.user.aggregate([project])
+# project = {
+#     "$project": {
+#         "title": 1,
+#         "isbn": {
+#             "prefix": {"$substr": ["$isbn", 0, 3]},
+#             "group": {"$substr": ["$isbn", 3, 2]},
+#             "publisher": {"$substr": ["$isbn", 5, 4]},
+#             "title": {"$substr": ["$isbn", 9, 3]},
+#         },
+#         "lastName": "$author.last",
+#         "copiesSold": "$copies"
+#     }
+# }
+# mdb.user.aggregate([project])
+# 性能
+# mdb.user.find({}).explain()

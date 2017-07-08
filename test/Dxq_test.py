@@ -8,3 +8,15 @@ Created on 2017/6/26.
 # #
 # tasks.tt.delay()
 # print 12
+from common import base
+import config
+import time, datetime
+
+#
+mdb = config.mdb
+user = {
+    '_id': base.getRedisID('user'),
+    'name': "莫笑刀3",
+    'date':  datetime.datetime.today()
+}
+mdb.user.insert(user)
