@@ -7,5 +7,6 @@ Created on 2017/6/25.
 from controller import default_ctrl
 
 urls = [
-    ('/login', default_ctrl.Login)
+    ('/login', default_ctrl.Login),
+    ('/index', default_ctrl.Index)
 ]

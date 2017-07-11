@@ -21,7 +21,7 @@ $(function () {
             if (parseInt(pwd) == eval(uname)) {
                 $.post(window.location.pathname, function (res) {
                     if (res.status == 1) {
-                        window.location.href = '/pic/index'
+                        window.location.href = '/index'
                     }
                 }, 'json');
             } else {

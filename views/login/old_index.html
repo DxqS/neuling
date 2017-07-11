@@ -1,0 +1,83 @@
+{% extends "../layout/amzbase.html" %}
+{% block css %}
+{% end %}
+{% module Template("module/js.html", filepath='js/common/formUtils.js') %}
+{% block js %}
+<script>
+    $(function () {
+        $('.status-btn').click(function () {
+            if (!confirm('确认' + $(this).html() + '该素材?')) {
+                return false;
+            }
+
+            $.post($(this).attr('href'), function (res) {
+                if (res.status == 1) {
+                    window.location.reload();
+                }
+            }, 'json');
+
+            return false;
+        });
+    });
+    //  展示二维码
+    var show_code = function (obj) {
+        var src = obj.find('img').attr('src');
+        $('.page').append($('<img src="' + src + '">')).removeClass('sr-only');
+        $('.shadow').removeClass('sr-only');
+    };
+</script>
+{% end %}
+{% block nav %}
+{% module Template("module/abacknav.html", name='index') %}
+{% end %}
+{% block container%}
+<div class="am-g am-u-lg-10 am-u-md-12  am-u-sm-centered">
+    <div class="am-u-md-2" style="border-right: 1px solid #eee;">
+        <ul class="am-nav">
+            <li><a href="/m/material/add">新增</a></li>
+            <li class="am-active"><a href="/m/material/list">列表</a></li>
+            <li><a href="#">其他</a></li>
+        </ul>
+    </div>
+
+    <div class="am-u-md-10">
+        <div class="am-cf">
+            <h2 class="am-fl am-margin-0">内容列表</h2>
+            <a href="/m/poster/list" class="am-btn am-btn-success am-btn-sm am-fr">返回</a>
+        </div>
+        <hr>
+        <table class="am-table am-table-striped am-table-hover">
+            <tr>
+                <th>ID</th>
+                <th>封面</th>
+                <th>分享标题</th>
+                <th>上架时间</th>
+                <th>下架时间</th>
+                <th>类型</th>
+                <th>是否最新</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+
+            <tr>
+                <td class="am-text-middle">1</td>
+                <td>
+                    <img class="am-radius" src="1" width="100" height="100"/>
+                </td>
+                <td class="am-text-middle">1</td>
+                <td class="am-text-middle">1</td>
+                <td class="am-text-middle">1</td>
+                <td class="am-text-middle">1</td>
+                <td class="am-text-middle">1</td>
+                <td class="am-text-middle">1</td>
+                <td class="am-text-middle">
+                    <a href="/m/material/edit/1" class="am-btn am-btn-primary am-btn-sm">查看</a>
+
+                    <a href="/m/material/status/1" class="am-btn am-btn-success am-btn-sm status-btn">上架</a>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+{% end %}
