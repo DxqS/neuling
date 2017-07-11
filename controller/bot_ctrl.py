@@ -7,6 +7,7 @@ Created on 2017/4/12.
 import tornado.web
 
 
+
 class Main(tornado.web.RequestHandler):
     def get(self):
         self.render("bot/dxq.html")
