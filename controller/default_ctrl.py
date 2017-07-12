@@ -26,7 +26,7 @@ class Index(base.BaseHandler):
         date = tools.ts2str(time.time(), '%Y-%m-%d')
         sign_rec = mdb.daily_sign.find_one({"date": date})
         sign = 1 if sign_rec else 0
-        return self.render('login/index.html', sign=0)
+        return self.render('login/index.html', sign=sign)
 
     def post(self):
         self.set_secure_cookie('auth', str(int(time.time())))
