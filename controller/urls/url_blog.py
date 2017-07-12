@@ -7,5 +7,6 @@ Created on 2017/4/12.
 from controller import blog_ctrl
 
 urls = [
-    ('/blog', blog_ctrl.Main)
+    ('/daily/sign', blog_ctrl.DailySign)
+
 ]
