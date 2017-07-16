@@ -11,6 +11,26 @@
 <script src="/static/assets/js/amazeui.ie8polyfill.min.js"></script>
 <![endif]-->
 <script src="/static/assets/js/amazeui.min.js"></script>
+<script>
+    function selectImage(file) {
+        if (!file.files || !file.files[0]) {
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+            var img = $(file).parents().prev('img');
+            img.attr('src', evt.target.result);
+        };
+        reader.readAsDataURL(file.files[0]);
+    }
+    function uploadImage() {
+        $.post(window.location.pathname, {back: $("#back").val(), sub: $("#sub").val()}, function (res) {
+            if (res.status == 1) {
+                alert("oK")
+            }
+        }, 'json');
+    }
+</script>
 {% end %}
 
 
@@ -29,125 +49,33 @@
 <!-- nav end -->
 <!-- content srart -->
 <div class="am-g am-g-fixed blog-fixed">
-    <div class="am-u-md-8 am-u-sm-12">
-        <article class="am-g blog-entry-article">
-            <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-img">
-                <img src="{{gconf['domain']}}/static/assets/i/f10.jpg" alt="" class="am-u-sm-12">
-            </div>
-            <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text">
-                <span><a href="" class="blog-color">article &nbsp;</a></span>
-                <span> @amazeUI &nbsp;</span>
-                <span>2015/10/9</span>
-                <h1><a href="">我本楚狂人，凤歌笑孔丘</a></h1>
-                <p>我们一直在坚持着，不是为了改变这个世界，而是希望不被这个世界所改变。
-                </p>
-                <p><a href="" class="blog-continue">continue reading</a></p>
-            </div>
-        </article>
-        <article class="am-g blog-entry-article">
-            <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-img">
-                <img src="{{gconf['domain']}}/static/assets/i/f6.jpg" alt="" class="am-u-sm-12">
-            </div>
-            <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text">
-                <span><a href="" class="blog-color">article&nbsp;</a></span>
-                <span>@amazeUI &nbsp;</span>
-                <span>2015/10/9</span>
-                <h1><a href="">世间所有的相遇，都是久别重逢。</a></h1>
-                <p>你可以选择在原处不停地跟周遭不解的人解释你为何这么做，让他们理解你，你可以选择什么都不讲，自顾自往前走。
-                </p>
-                <p><a href="" class="blog-continue">continue</a></p>
-            </div>
-        </article>
-        <article class="am-g blog-entry-article">
-            <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-img">
-                <img src="{{gconf['domain']}}/static/assets/i/f12.jpg" alt="" class="am-u-sm-12">
-            </div>
-            <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text">
-                <span><a href="" class="blog-color">article&nbsp;</a></span>
-                <span>@amazeUI</span>
-                <span>2015/10/9</span>
-                <h1><a href="">陌上花开，可缓缓归矣。</a></h1>
-                <p>那时候刚好下着雨，柏油路面湿冷冷的，还闪烁着青、黄、红颜色的灯火。我们就在骑楼下躲雨，看绿色的邮筒孤独地站在街的对面。
-                </p>
-                <p><a href="" class="blog-continue">continue</a></p>
-            </div>
-        </article>
-        <article class="am-g blog-entry-article">
-            <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-img">
-                <img src="{{gconf['domain']}}/static/assets/i/f22.jpg" alt="" class="am-u-sm-12">
-            </div>
-            <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text">
-                <span><a href="" class="blog-color">article&nbsp;</a></span>
-                <span>@amazeUI</span>
-                <span>2015/10/9</span>
-                <h1><a href="">爱自己是终生浪漫的开始</a></h1>
-                <p>the whole of life becomes an act of letting go, but what always hurts the most is not taking a moment
-                    to say goodbye
-                </p>
-                <p><a href="" class="blog-continue">continue</a></p>
-            </div>
-        </article>
-        <article class="am-g blog-entry-article">
-            <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-img">
-                <img src="{{gconf['domain']}}/static/assets/i/f18.jpg" alt="" class="am-u-sm-12">
-            </div>
-            <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text">
-                <span><a href="" class="blog-color">article&nbsp;</a></span>
-                <span> @amazeUI &nbsp;</span>
-                <span>2015/10/9</span>
-                <h1><a href="">My dear amazeUI, Hello </a></h1>
-                <p>那时候刚好下着雨，柏油路面湿冷冷的，还闪烁着青、黄、红颜色的灯火。我们就在骑楼下躲雨，看绿色的邮筒孤独地站在街的对面。
-                </p>
-                <p><a href="" class="blog-continue">continue reading</a></p>
-            </div>
-        </article>
+    <div class="am-form-group am-form-file">
+        <label class="am-u-sm-2 am-form-label" style="margin-top: 1.6em">合成背景图</label>
+        <div class="am-u-sm-4">
+            <img class="am-radius" id="back" src="http://placehold.it/100x100" style="width: 100px;height: 100px"/>
+            <button type="button" class="am-btn am-btn-default">
+                <i class="am-icon-cloud-upload">
+                    <input type="file" onchange="selectImage(this);"
+                           style="font-size: inherit;margin-top:100px;margin-left:20px;width:180px;height:40px"/>
+                </i> 选择要上传的文件
+            </button>
 
-        <ul class="am-pagination">
-            <li class="am-pagination-prev"><a href="">&laquo; Prev</a></li>
-            <li class="am-pagination-next"><a href="">Next &raquo;</a></li>
-        </ul>
-    </div>
 
-    <div class="am-u-md-4 am-u-sm-12 blog-sidebar">
-        <div class="blog-sidebar-widget blog-bor">
-            <h2 class="blog-text-center blog-title"><span>About ME</span></h2>
-            <img src="{{gconf['domain']}}/static/assets/i/f14.jpg" alt="about me" class="blog-entry-img">
-            <p>妹纸</p>
-            <p>
-                我是妹子UI，中国首个开源 HTML5 跨屏前端框架
-            </p>
-            <p>我不想成为一个庸俗的人。十年百年后，当我们死去，质疑我们的人同样死去，后人看到的是裹足不前、原地打转的你，还是一直奔跑、走到远方的我？</p>
+            <p class="am-form-help">图片格式：jpg 不大于2M</p>
         </div>
-        <div class="blog-sidebar-widget blog-bor">
-            <h2 class="blog-text-center blog-title"><span>Contact ME</span></h2>
-            <p>
-                <a href=""><span class="am-icon-qq am-icon-fw am-primary blog-icon"></span></a>
-                <a href=""><span class="am-icon-github am-icon-fw blog-icon"></span></a>
-                <a href=""><span class="am-icon-weibo am-icon-fw blog-icon"></span></a>
-                <a href=""><span class="am-icon-reddit am-icon-fw blog-icon"></span></a>
-                <a href=""><span class="am-icon-weixin am-icon-fw blog-icon"></span></a>
-            </p>
+
+        <label class="am-u-sm-2 am-form-label" style="margin-top: 1.6em">合成附加图</label>
+        <div class="am-u-sm-4">
+            <img class="am-radius" id="sub" src="http://placehold.it/100x100" style="width: 100px;height: 100px">
+            <button type="button" class="am-btn am-btn-default" id="J-img-2">
+                <i class="am-icon-cloud-upload">
+                    <input type="file" onchange="selectImage(this);"
+                           style="font-size: inherit;margin-top:100px;margin-left:20px;width:180px;height:40px"/>
+                </i> 选择要上传的文件
+            </button>
+            <p class="am-form-help">图片格式：jpg 不大于2M</p>
         </div>
-        <div class="blog-clear-margin blog-sidebar-widget blog-bor am-g ">
-            <h2 class="blog-title"><span>TAG cloud</span></h2>
-            <div class="am-u-sm-12 blog-clear-padding">
-                <a href="" class="blog-tag">amaze</a>
-                <a href="" class="blog-tag">妹纸 UI</a>
-                <a href="" class="blog-tag">HTML5</a>
-                <a href="" class="blog-tag">这是标签</a>
-                <a href="" class="blog-tag">Impossible</a>
-                <a href="" class="blog-tag">开源前端框架</a>
-            </div>
-        </div>
-        <div class="blog-sidebar-widget blog-bor">
-            <h2 class="blog-title"><span>么么哒</span></h2>
-            <ul class="am-list">
-                <li><a href="#">每个人都有一个死角， 自己走不出来，别人也闯不进去。</a></li>
-                <li><a href="#">我把最深沉的秘密放在那里。</a></li>
-                <li><a href="#">你不懂我，我不怪你。</a></li>
-                <li><a href="#">每个人都有一道伤口， 或深或浅，盖上布，以为不存在。</a></li>
-            </ul>
-        </div>
+        <input type="button" onclick="uploadImage();" value="提交"/>
     </div>
 </div>
 <!-- content end -->
