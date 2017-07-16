@@ -1,25 +1,29 @@
-<div class="navbar navbar-default">
-    <div class="container">
-        <ul class="nav navbar-nav">
-            <li class="{{'active' if name=='index' else ''}}">
-                <a href="#">首页</a>
-            </li>
-            <li class="{{'active' if name=='page' else ''}}">
-                <a href="/m/page/list">主页素材管理</a>
-            </li>
-            <li class="{{'active' if name=='poster' else ''}}">
-                <a href="/m/poster/list">海报素材管理</a>
-            </li>
-            <li class="{{'active' if name=='wxuser' else ''}}">
-                <a href="/m/user/list">用户管理</a>
-            </li>
-            <li class="{{'active' if name=='cert' else ''}}">
-                <a href="/m/cert/organ/list">认证管理</a>
-            </li>
-            <li class="{{'active' if name=='wxorder' else ''}}">
-                <a href="/m/order/list">订单管理</a>
-            </li>
+<nav class="am-g am-g-fixed blog-fixed blog-nav">
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button"
+            data-am-collapse="{target: '#blog-collapse'}"><span class="am-sr-only">导航切换</span> <span
+            class="am-icon-bars"></span></button>
 
+    <div class="am-collapse am-topbar-collapse" id="blog-collapse">
+        <ul class="am-nav am-nav-pills am-topbar-nav">
+            <li class="am-dropdown {{'am-active' if name=='my' else ''}}" data-am-dropdown>
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                    我 <span class="am-icon-caret-down"></span>
+                </a>
+                <ul class="am-dropdown-content">
+                    <li><a href="/index">1. 我的主页</a></li>
+                    <li><a href="/my/base/info">2. 基本信息</a></li>
+                    <li><a href="/my/her">3. TA</a></li>
+                    <li><a href="/my/daily/life">4. 日常生活</a></li>
+                    <li><a href="javascript:;">5. 等待添加</a></li>
+                </ul>
+            </li>
+            <li class="{{'am-active' if name=='tf' else ''}}"><a href="/tf/index">TF学习</a></li>
+            <li class="{{'am-active' if name=='pic' else ''}}"><a href="/pic/index">图片合成</a></li>
+            <li class="{{'am-active' if name=='bot' else ''}}"><a href="/bot/index">wx机器人后台</a></li>
+            <li class="{{'am-active' if name=='mongo' else ''}}"><a href="/mongo/index">MongoDB记录</a></li>
+            <li class="{{'am-active' if name=='page' else ''}}"><a href="/page/index">主页随笔</a></li>
+            <li class="{{'am-active' if name=='project' else ''}}"><a href="/project/index">项目学习</a></li>
         </ul>
+
     </div>
-</div>
+</nav>

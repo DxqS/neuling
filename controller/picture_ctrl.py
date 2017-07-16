@@ -8,9 +8,9 @@ import time
 from common import base
 
 
+# @base.login_auth
 class Index(base.BaseHandler):
-    @base.login_auth
     def get(self):
-        auth_time = int(self.get_secure_cookie('auth'))
-        time_left = 86400 + auth_time - int(time.time())
-        return self.render('dxq_picture/material_list.html', time_left=time_left)
+        # auth_time = int(self.get_secure_cookie('auth'))
+        # time_left = 86400 + auth_time - int(time.time())
+        return self.render('dxq_picture/index.html')
