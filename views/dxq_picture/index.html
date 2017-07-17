@@ -20,6 +20,7 @@
         reader.onload = function (evt) {
             var img = $(file).parents().prev('img');
             img.attr('src', evt.target.result);
+            img.prev('input').val(evt.target.result)
         };
         reader.readAsDataURL(file.files[0]);
     }
@@ -52,7 +53,8 @@
     <div class="am-form-group am-form-file">
         <label class="am-u-sm-2 am-form-label" style="margin-top: 1.6em">合成背景图</label>
         <div class="am-u-sm-4">
-            <img class="am-radius" id="back" src="http://placehold.it/100x100" style="width: 100px;height: 100px"/>
+            <input type="hidden" id="back">
+            <img class="am-radius" src="http://placehold.it/100x100" style="width: 100px;height: 100px"/>
             <button type="button" class="am-btn am-btn-default">
                 <i class="am-icon-cloud-upload">
                     <input type="file" onchange="selectImage(this);"
@@ -66,7 +68,8 @@
 
         <label class="am-u-sm-2 am-form-label" style="margin-top: 1.6em">合成附加图</label>
         <div class="am-u-sm-4">
-            <img class="am-radius" id="sub" src="http://placehold.it/100x100" style="width: 100px;height: 100px">
+            <input type="hidden" id="sub">
+            <img class="am-radius" src="http://placehold.it/100x100" style="width: 100px;height: 100px">
             <button type="button" class="am-btn am-btn-default" id="J-img-2">
                 <i class="am-icon-cloud-upload">
                     <input type="file" onchange="selectImage(this);"

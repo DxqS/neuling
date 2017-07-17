@@ -6,7 +6,7 @@ Created on 2017/6/25.
 '''
 import time
 from common import base
-from service import picture_service as ps
+from service import picture_service
 
 
 # @base.login_auth
@@ -17,11 +17,7 @@ class Index(base.BaseHandler):
         return self.render('dxq_picture/index.html')
 
     def post(self):
-        back = self.input("back")
-        sub = self.input("sub")
-        if back and sub:
-            back = ps.Base64_to_File(back, 'merge')
-            subImg = ps.Base64_to_File(sub, 'merge')
-        print back
-        print subImg
+        back = picture_service.Base64_to_File(self.input("back"), 'merge')
+        sub = picture_service.Base64_to_File(self.input("sub"), 'merge')
+        picture_service.Poster_Add(back, sub, (100, 100, 100))
         return self.finish(base.rtjson())
