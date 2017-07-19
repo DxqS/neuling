@@ -33,7 +33,6 @@ def Base64_to_File(baseImg, file_dir):
 
 def Poster_Add(img1, img2, position):
     poster_back = Image.open(img1)
-    print poster_back
     size = poster_back.size
     white_back = Image.new("RGBA", size, color=(255, 255, 255, 1))
 
@@ -52,8 +51,8 @@ def Poster_Add(img1, img2, position):
 
     r, g, b, a = poster_back.convert("RGBA").split()
     white_back.paste(poster_back, (0, 0, size[0], size[1]), mask=a)
-    white_back.save('3.jpg')
-    return True
+    white_back.save('static/pic/3.jpg')
+    return '/static/pic/3.jpg'
 
 
 def circle(img):

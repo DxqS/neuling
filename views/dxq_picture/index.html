@@ -27,7 +27,7 @@
     function uploadImage() {
         $.post(window.location.pathname, {back: $("#back").val(), sub: $("#sub").val()}, function (res) {
             if (res.status == 1) {
-                alert("oK")
+               $("#result").attr('src', res.picture);
             }
         }, 'json');
     }
@@ -77,6 +77,9 @@
                 </i> 选择要上传的文件
             </button>
             <p class="am-form-help">图片格式：jpg 不大于2M</p>
+        </div>
+        <div class="am-u-sm-4">
+            <img class="am-radius" src="http://placehold.it/100x100"  id="result" style="width: 100px;height: 100px">
         </div>
         <input type="button" onclick="uploadImage();" value="提交"/>
     </div>

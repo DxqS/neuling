@@ -19,5 +19,5 @@ class Index(base.BaseHandler):
     def post(self):
         back = picture_service.Base64_to_File(self.input("back"), 'merge')
         sub = picture_service.Base64_to_File(self.input("sub"), 'merge')
-        picture_service.Poster_Add(back, sub, (100, 100, 100))
-        return self.finish(base.rtjson())
+        picture = picture_service.Poster_Add(back, sub, (100, 100, 100))
+        return self.finish(base.rtjson(picture=picture))
