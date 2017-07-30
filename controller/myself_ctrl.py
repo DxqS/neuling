@@ -10,6 +10,7 @@ from config import mdb
 
 
 class BaseInfo(base.BaseHandler):
+
     def get(self):
         return self.render('login/base_info.html')
 
