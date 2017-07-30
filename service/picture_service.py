@@ -114,3 +114,5 @@ def love(img):
             if l <= 0:
                 pimb[i, j] = pima[i, j]
     return imb
+
+
