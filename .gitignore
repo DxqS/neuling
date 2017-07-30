@@ -9,7 +9,7 @@
 .project
 .pydevproject
 
-*.dat
+#*.dat
 
 sessions/*
 
