@@ -30,5 +30,5 @@ for face_landmarks in face_landmarks_list:
     # Apply some eyeliner
     d.line(face_landmarks['left_eye'] + [face_landmarks['left_eye'][0]], fill=(0, 0, 0, 110), width=6)
     d.line(face_landmarks['right_eye'] + [face_landmarks['right_eye'][0]], fill=(0, 0, 0, 110), width=6)
-
+    pil_image.save('1.jpg')
     pil_image.show()
