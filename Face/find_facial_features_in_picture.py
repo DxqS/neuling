@@ -35,3 +35,4 @@ for face_landmarks in face_landmarks_list:
         d.line(face_landmarks[facial_feature], width=5)
 
     pil_image.show()
+    pil_image.save('2.jpg')
