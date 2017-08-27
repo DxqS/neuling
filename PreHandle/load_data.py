@@ -7,7 +7,7 @@ Created on 2017/8/10.
 import os
 # import cv2
 # import dlib
-import config
+# import config
 from PIL import Image, ImageDraw
 import face_recognition
 import time
