@@ -11,7 +11,7 @@ import os
 from PIL import Image, ImageDraw
 import face_recognition
 import time
-from common import base
+# from common import base
 import redis
 from pymongo import MongoClient
 
@@ -44,6 +44,13 @@ FEATURES = [
     'bottom_lip'
 ]
 
+
+def getRedisID(key):
+    if rdb.hget('RedisID', key) is None:
+        colList = list(mdb[key].find().sort('_id', -1).limit(1))
+        ids = 100000 if len(colList) == 0 else colList[0]['_id'] + 1
+        rdb.hset('RedisID', key, ids)
+    return int(rdb.hincrby('RedisID', key, 1))
 
 def face_landmarks(face_image):
     image = face_recognition.load_image_file(face_image)
@@ -98,7 +105,7 @@ for root, dirs, files in os.walk(source_dir):
                 result[feature] = file_name
             if face_landmarks_dict != "Error":
                 face = {
-                    '_id': base.getRedisID("face_train_source"),
+                    '_id': getRedisID("face_train_source"),
                     'path': path,
                     'label': label,
                     'type': 'train',
