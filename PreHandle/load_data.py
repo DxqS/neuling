@@ -88,6 +88,7 @@ if __name__ == '__main__':
     source_dir = current_dir_path + '/Source'
     for root, dirs, files in os.walk(source_dir):
         i = 0
+        t0 = time.time()
         for file in files:
             ts = time.time()
             i += 1
@@ -113,3 +114,5 @@ if __name__ == '__main__':
                     face_train_source.update(face_landmarks_dict)
                     mdb.face.insert(face_train_source)
             print(str(i) + '==耗时==' + str(time.time() - ts))
+
+        print(str(i) + '==总耗时==' + str(time.time() - t0))
