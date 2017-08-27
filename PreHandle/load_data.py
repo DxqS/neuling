@@ -103,13 +103,13 @@ for root, dirs, files in os.walk(source_dir):
                 drawPoints(points=outline, file_name=file_name)
                 result[feature] = file_name
             if face_landmarks_dict != "Error":
-                face = {
+                face_train_source = {
                     '_id': getRedisID("face_train_source"),
                     'path': path.replace('/home/dxq/neuling', ''),
                     'label': label,
                     'type': 'train',
                     'result': result
                 }
-                face.update(face_landmarks_dict)
-                mdb.face.insert(face)
+                face_train_source.update(face_landmarks_dict)
+                mdb.face.insert(face_train_source)
         print(str(i) + '==耗时==' + str(time.time() - ts))
