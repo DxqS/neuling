@@ -63,6 +63,7 @@ def getLabel(path):
 
 def drawPoints(points, file_name):
     file_dir = file_name[:file_name.rfind('\\')]
+    print file_dir
     if not os.path.exists(file_dir):
         os.makedirs(file_dir)
 
