@@ -5,10 +5,10 @@ Created on 2017/7/4.
 @author: chk01
 '''
 import os
-import sys
+# import sys
 
-reload(sys)
-sys.setdefaultencoding('utf-8')
+# reload(sys)
+# sys.setdefaultencoding('utf-8')
 
 import tornado.ioloop
 import tornado.log
