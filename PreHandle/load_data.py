@@ -99,7 +99,7 @@ for root, dirs, files in os.walk(source_dir):
             result = {}
             for feature in FEATURES:
                 outline = face_landmarks_dict[feature]
-                file_name = path.replace('Source', 'Result\\' + feature)
+                file_name = path.replace('Source', 'Result/' + feature)
                 print (file_name)
                 drawPoints(points=outline, file_name=file_name)
                 result[feature] = file_name
