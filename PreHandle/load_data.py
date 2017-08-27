@@ -63,32 +63,32 @@ def drawPoints(points, file_name):
     return True
 
 
-if __name__ == '__main__':
-    source_dir = current_dir_path + '/Source'
-    for root, dirs, files in os.walk(source_dir):
-        i = 0
-        for file in files:
-            ts = time.time()
-            i += 1
-            path = os.path.join(root, file)
-            if not mdb.face.find_one({"path": path}):
-                label = getLabel(path)
-                face_landmarks_dict = face_landmarks(path)
-                # 暂时只画轮廓
-                result = {}
-                for feature in FEATURES:
-                    outline = face_landmarks_dict[feature]
-                    file_name = path.replace('Source', 'Result\\' + feature)
-                    drawPoints(points=outline, file_name=file_name)
-                    result[feature] = file_name
-                if face_landmarks_dict != "Error":
-                    face = {
-                        '_id': base.getRedisID("face_train_source"),
-                        'path': path,
-                        'label': label,
-                        'type': 'train',
-                        'result': result
-                    }
-                    face.update(face_landmarks_dict)
-                    mdb.face.insert(face)
-            print(str(i) + '==耗时==' + str(time.time() - ts))
+# if __name__ == '__main__':
+source_dir = current_dir_path + '/Source'
+for root, dirs, files in os.walk(source_dir):
+    i = 0
+    for file in files:
+        ts = time.time()
+        i += 1
+        path = os.path.join(root, file)
+        if not mdb.face.find_one({"path": path}):
+            label = getLabel(path)
+            face_landmarks_dict = face_landmarks(path)
+            # 暂时只画轮廓
+            result = {}
+            for feature in FEATURES:
+                outline = face_landmarks_dict[feature]
+                file_name = path.replace('Source', 'Result\\' + feature)
+                drawPoints(points=outline, file_name=file_name)
+                result[feature] = file_name
+            if face_landmarks_dict != "Error":
+                face = {
+                    '_id': base.getRedisID("face_train_source"),
+                    'path': path,
+                    'label': label,
+                    'type': 'train',
+                    'result': result
+                }
+                face.update(face_landmarks_dict)
+                mdb.face.insert(face)
+        print(str(i) + '==耗时==' + str(time.time() - ts))
