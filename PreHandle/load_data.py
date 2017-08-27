@@ -92,7 +92,7 @@ for root, dirs, files in os.walk(source_dir):
         ts = time.time()
         i += 1
         path = os.path.join(root, file)
-        if not mdb.face.find_one({"path": path}):
+        if not mdb.face.find_one({"path": path.replace('/home/dxq/neuling', '')}):
             label = getLabel(path)
             face_landmarks_dict = face_landmarks(path)
             # 暂时只画轮廓
