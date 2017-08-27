@@ -223,5 +223,6 @@ def worker_int(worker):
                 code.append("  %s" % (line.strip()))
     worker.log.debug("\n".join(code))
 
+
 def worker_abort(worker):
     worker.log.info("worker received SIGABRT signal")
