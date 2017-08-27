@@ -89,7 +89,6 @@ def cutSqure(img):
     head_box = (start_x, start_y, start_x + s_min, start_y + s_min)
 
     img = img.crop(head_box)
-    print time.time()-ts
     return img
 
 
