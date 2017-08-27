@@ -59,11 +59,11 @@ def face_landmarks(face_image):
 
 
 def getLabel(path):
-    return path[path.rfind('\\') - 4:path.rfind('\\')]
+    return path[path.rfind('/') - 4:path.rfind('/')]
 
 
 def drawPoints(points, file_name):
-    file_dir = file_name[:file_name.rfind('\\')]
+    file_dir = file_name[:file_name.rfind('/')]
     if not os.path.exists(file_dir):
         os.makedirs(file_dir)
 
