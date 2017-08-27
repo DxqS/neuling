@@ -12,6 +12,21 @@ from PIL import Image, ImageDraw
 import face_recognition
 import time
 from common import base
+import redis
+from pymongo import MongoClient
+
+import yaml
+
+ospath = os.path.split(__file__)[0]
+
+run_mode = os.environ.get('RUN_ENV', 'local')
+srv = yaml.load(open(ospath + '/srv.yml', 'r'))[run_mode]
+pool = redis.ConnectionPool(**srv['redis'])
+rdb = redis.StrictRedis(connection_pool=pool)
+
+mdb = MongoClient(srv['mongo']['host'], srv['mongo']['port'], connect=False, maxPoolSize=50, waitQueueMultiple=10)
+mdb.admin.authenticate(srv['mongo']['uname'], str(srv['mongo']['pwd']), mechanism='SCRAM-SHA-1')
+mdb = mdb[srv['mongo']['db']]
 
 mdb = config.mdb
 rdb = config.rdb
