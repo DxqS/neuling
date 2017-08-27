@@ -28,8 +28,8 @@ mdb = MongoClient(srv['mongo']['host'], srv['mongo']['port'], connect=False, max
 mdb.admin.authenticate(srv['mongo']['uname'], str(srv['mongo']['pwd']), mechanism='SCRAM-SHA-1')
 mdb = mdb[srv['mongo']['db']]
 
-mdb = config.mdb
-rdb = config.rdb
+# mdb = config.mdb
+# rdb = config.rdb
 # PREDICTOR_PATH = "shape_predictor_68_face_landmarks.dat"
 current_dir_path = os.path.dirname(os.path.realpath(__file__))
 FEATURES = [
