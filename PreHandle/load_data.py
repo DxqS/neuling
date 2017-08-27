@@ -102,7 +102,7 @@ if __name__ == '__main__':
                     outline = face_landmarks_dict[feature]
                     file_name = path.replace('Source', 'Result/' + feature)
                     drawPoints(points=outline, file_name=file_name)
-                    result[feature] = file_name
+                    result[feature] = file_name.replace('/home/dxq/neuling', '')
                 if face_landmarks_dict != "Error":
                     face_train_source = {
                         '_id': getRedisID("face_train_source"),
@@ -112,7 +112,7 @@ if __name__ == '__main__':
                         'result': result
                     }
                     face_train_source.update(face_landmarks_dict)
-                    mdb.face.insert(face_train_source)
+                    mdb.face_train_source.insert(face_train_source)
             print(str(i) + '==耗时==' + str(time.time() - ts))
 
         print(str(i) + '==总耗时==' + str(time.time() - t0))
