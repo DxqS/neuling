@@ -41,5 +41,4 @@ def make_app():
     return application
 
 
-
 dxqwsgi = tornado.wsgi.WSGIAdapter(make_app())
