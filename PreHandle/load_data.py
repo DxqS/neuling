@@ -50,6 +50,7 @@ def getRedisID(key):
         rdb.hset('RedisID', key, ids)
     return int(rdb.hincrby('RedisID', key, 1))
 
+
 def face_landmarks(face_image):
     image = face_recognition.load_image_file(face_image)
     face_landmarks_list = face_recognition.face_landmarks(image)
@@ -63,7 +64,6 @@ def getLabel(path):
 
 def drawPoints(points, file_name):
     file_dir = file_name[:file_name.rfind('\\')]
-    print (file_dir)
     if not os.path.exists(file_dir):
         os.makedirs(file_dir)
 
@@ -100,13 +100,12 @@ for root, dirs, files in os.walk(source_dir):
             for feature in FEATURES:
                 outline = face_landmarks_dict[feature]
                 file_name = path.replace('Source', 'Result/' + feature)
-                print (file_name)
                 drawPoints(points=outline, file_name=file_name)
                 result[feature] = file_name
             if face_landmarks_dict != "Error":
                 face = {
                     '_id': getRedisID("face_train_source"),
-                    'path': path,
+                    'path': path.replace('/home/dxq/neuling', ''),
                     'label': label,
                     'type': 'train',
                     'result': result
