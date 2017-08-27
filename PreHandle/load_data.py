@@ -17,10 +17,8 @@ from pymongo import MongoClient
 
 import yaml
 
-ospath = os.path.split(__file__)[0]
-
 run_mode = os.environ.get('RUN_ENV', 'local')
-srv = yaml.load(open(ospath + '/srv.yml', 'r'))[run_mode]
+srv = yaml.load(open('srv.yml', 'r'))[run_mode]
 pool = redis.ConnectionPool(**srv['redis'])
 rdb = redis.StrictRedis(connection_pool=pool)
 
