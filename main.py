@@ -11,7 +11,6 @@ import tornado.wsgi
 import os
 import controller
 
-
 PORT = 8888
 settings = dict(
     blog_title=u"Tornado Blog",
@@ -28,6 +27,7 @@ settings = dict(
 
 def make_app():
     return tornado.web.Application(controller.urls.ctrls, **settings)
+
 
 # application = tornado.wsgi.WSGIAdapter(make_app())
 if __name__ == "__main__":
