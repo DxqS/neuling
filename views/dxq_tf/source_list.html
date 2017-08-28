@@ -1,0 +1,93 @@
+{% extends "../layout/mbase.html" %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/amazeui/2.7.2/css/amazeui.min.css">
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/amazeui/2.7.2/js/amazeui.min.js"></script>
+<script src="//cdn.bootcss.com/amazeui/2.7.2/js/amazeui.widgets.helper.min.js"></script>
+<style>
+    tr {
+        width: 100%;
+    }
+
+    tr td {
+        width: 11.1%;
+    }
+</style>
+{% end %}
+{% module Template("module/js.html", filepath='js/common/formUtils.js') %}
+<script src="//cdn.bootcss.com/plupload/2.1.9/plupload.full.min.js"></script>
+{% block js %}
+<script>
+    $(function () {
+        $('#label').change(function () {
+            window.location.replace('/tf/index' + '?label=' + $(this).val())
+        });
+    });
+
+</script>
+{% end %}
+{% block nav %}
+{% module Template("module/mbacknav.html", name='tf') %}
+{% end %}
+{% block container%}
+
+<div class="am-g am-u-lg-10 am-u-md-12  am-u-sm-centered">
+    <div class="am-u-md-12">
+        <div class="am-cf">
+            <h2 class="am-fl am-margin-0">图片素材列表</h2>
+            <a href="/tf/add" class="am-btn am-btn-primary am-btn-sm am-fr">添加素材</a>
+
+        </div>
+        <hr>
+    </div>
+    <div class="am-u-md-2" style="border-right: 1px solid #eee;">
+        <ul class="am-nav am-text-center">
+            <li class="am-active"><a href="/tf/index">训练集</a></li>
+            <li><a href="/tf/test">测试</a></li>
+        </ul>
+    </div>
+
+    <div class="am-u-md-10">
+        <div class="am-form-group am-fr">
+            <span class="am-u-sm-2 am-text-right" style="padding: 6px;width: 150px">指定标签：</span>
+
+            <select style="width: 170px;height:40px;border-radius: 5px;" id="label" class="am-u-sm-9">
+                <option value='all' {%if label=='all' %}selected="selected"{%end%}>全部</option>
+                {%for _label in LabelList%}
+                <option value={{_label}} {%if label== _label %}selected="selected" {%end%}>{{LabelName(_label)}}
+                </option>
+                {%end%}
+            </select>
+
+            <span class="am-form-caret"></span>
+        </div>
+        <table class="am-table am-table-striped am-table-hover am-table-centered">
+            <tr>
+                <th>ID</th>
+                <th>原图</th>
+                <th>标签</th>
+                <th>外轮廓</th>
+                <th>操作</th>
+            </tr>
+            {%for source in source_list%}
+            <tr>
+                <td class="am-text-middle">{{source['_id']}}</td>
+                <td>
+                    <img class="am-radius" src="{{LocalImg(source['path'])}}" width="100" height="150"/>
+                </td>
+                <td class="am-text-middle">{{LabelName(source['label'])}}</td>
+                <td>
+                    <img class="am-radius" src="{{LocalImg(source['result']['chin'])}}" width="100" height="100"/>
+                </td>
+                <td class="am-text-middle">
+                    <a class="am-btn am-btn-primary am-btn-sm" href="/tf/edit/{{source['_id']}}">查看</a>
+                </td>
+            </tr>
+            {%end%}
+
+        </table>
+        {% module Template("module/ampager.html", pager=pager,url="/tf/index?pagenum=:page:"+"&label="+label) %}
+    </div>
+</div>
+
+{% end %}

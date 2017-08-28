@@ -42,13 +42,27 @@ def mediaTime(times):
     return str(times / 60) + "分" + str(times % 60) + '秒'
 
 
-
 def hidePhoen(phone):
     return phone[:3] + "*****" + phone[8:]
+
+
+def LocalImg(path):
+    return config.gconf['domain'] + path
+
+
+def LabelName(label):
+    keyval = {
+        'TMKA': '甜美可爱', 'MLSS': '魅力时尚', 'QCJJ': '清纯简洁',
+        'ZRYY': '自然优雅', 'GYRM': '高雅柔美', 'ZXCZ': '知性沉着',
+        'LMMR': '浪漫迷人', 'HLGY': '华丽高雅', 'XDMD': '现代摩登'
+    }
+    return keyval[label]
 
 
 filters = {
     'ftime': ftime,
     'fdate': fdate,
     'mediaTime': mediaTime,
+    'LabelName': LabelName,
+    'LocalImg': LocalImg
 }

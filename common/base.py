@@ -64,6 +64,26 @@ def rtjson(code=1, **args):
     return args
 
 
+def cpage(total, pagenum=1, pagesize=20):
+    pagenum = int(pagenum)
+    ptotal = (total / pagesize + 1) if total % pagesize != 0 else (total / pagesize)
+    pager = {
+        'pagesize': pagesize,
+        'pagenum': pagenum,  # 请求页码
+        'total': total,  # 记录总数
+        'ptotal': int(ptotal),  # 页数
+        'start': (pagenum - 1) * pagesize,
+        'end': pagenum * pagesize
+    }
+    return pager
+
+
+def mongoPager(docs, pagenum, pagesize=20):
+    pager = cpage(docs.count(), pagenum, pagesize)
+    doc_list = list(docs.skip(pager['start']).limit(pager['pagesize']))
+    return doc_list, pager
+
+
 def render(module_path, prefix=''):
     gconf = config.gconf
     gconf['debug'] = web.config.debug

@@ -8,4 +8,6 @@ from controller import tf_ctrl
 
 urls = [
     ('/tf/index', tf_ctrl.Index),
+    ('/tf/add', tf_ctrl.Add),
+    ('/tf/edit/(\d+)', tf_ctrl.Edit),
 ]

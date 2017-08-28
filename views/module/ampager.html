@@ -1,0 +1,69 @@
+<ul class="am-pagination am-pagination-right">
+    {%if pager['pagenum'] > 1%}
+    <li>
+        <a href="{{url.replace(':page:',str(pager['pagenum']-1))}}">&laquo;</a>
+    </li>
+    {%end%}
+
+    {%if pager['ptotal'] > 10%}
+
+    {%if 5> pager['ptotal']-pager['pagenum'] %}
+    {%for num in range(pager['ptotal']-9,pager['ptotal']+1)%}
+    {% if pager['pagenum'] == num %}
+    <li class="am-active">
+        <a href="{{url.replace(':page:',str(num))}}">{{num}}</a>
+    </li>
+    {% else %}
+    <li>
+        <a href="{{url.replace(':page:',str(num))}}">{{num}}</a>
+    </li>
+    {% end %}
+    {%end%}
+    {%elif 5>= pager['pagenum'] %}
+    {% for num in range(10) %}
+    {% if pager['pagenum'] == num+1 %}
+    <li class="am-active">
+        <a href="{{url.replace(':page:',str(num+1))}}">{{num+1}}</a>
+    </li>
+    {% else %}
+    <li>
+        <a href="{{url.replace(':page:',str(num+1))}}">{{num+1}}</a>
+    </li>
+    {% end %}
+    {% end %}
+    {%else%}
+    {%for num in range(pager['pagenum']-5,pager['pagenum']+5)%}
+    {% if pager['pagenum'] == num %}
+    <li class="am-active">
+        <a href="{{url.replace(':page:',str(num))}}">{{num}}</a>
+    </li>
+    {% else %}
+    <li>
+        <a href="{{url.replace(':page:',str(num))}}">{{num}}</a>
+    </li>
+    {% end %}
+    {%end%}
+    {% end %}
+
+    {% else %}
+    {%if pager['ptotal'] > 1%}
+    {% for num in range(pager['ptotal']) %}
+    {% if pager['pagenum'] == num+1 %}
+    <li class="am-active">
+        <a href="{{url.replace(':page:',str(num+1))}}">{{num+1}}</a>
+    </li>
+    {% else %}
+    <li>
+        <a href="{{url.replace(':page:',str(num+1))}}">{{num+1}}</a>
+    </li>
+    {% end %}
+    {% end %}
+    {% end %}
+    {% end %}
+
+    {%if pager['ptotal'] > pager['pagenum'] %}
+    <li>
+        <a href="{{url.replace(':page:',str(pager['pagenum']+1))}}">&raquo;</a>
+    </li>
+    {%end%}
+</ul>
