@@ -78,11 +78,11 @@ def Add_Face_DB(path, label, src_id):
         outline = face_landmarks_dict[feature]
         file_name = path.replace('Source', 'Result/' + feature)
         drawPoints(points=outline, file_name=file_name)
-        result[feature] = file_name.replace('/home/dxq/neuling', '')
+        result[feature] = '/' + file_name
     if face_landmarks_dict != "Error":
         face_train_source = {
             '_id': int(src_id),
-            'path': path.replace('/home/dxq/neuling', ''),
+            'path': '/' + path,
             'label': label,
             'type': 'train',
             'result': result
