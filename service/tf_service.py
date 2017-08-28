@@ -62,7 +62,7 @@ def drawPoints(points, file_name):
     max_y = max(y) + 5
     wid = max(max_y - min_y, max_x - min_x)
 
-    pil_image = Image.open('1.jpg')
+    pil_image = Image.open('static/images/1.jpg')
     d = ImageDraw.Draw(pil_image)
     d.line(points, width=5)
     region = pil_image.crop((min_x, min_y, min_x + wid, min_y + wid))

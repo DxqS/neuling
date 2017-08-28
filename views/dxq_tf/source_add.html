@@ -21,7 +21,6 @@
         reader.readAsDataURL(file.files[0]);
     }
     function uploadImage() {
-        alert(1)
         $.post(window.location.pathname, {face: $("#J-face-hid").val(), label: $("#label").val()}, function (res) {
             if (res.status == 1) {
                 alert("添加成功");
