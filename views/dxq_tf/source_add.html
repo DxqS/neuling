@@ -1,10 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "../layout/mbase.html" %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/amazeui/2.7.2/css/amazeui.min.css">
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/amazeui/2.7.2/js/amazeui.min.js"></script>
+<script src="//cdn.bootcss.com/amazeui/2.7.2/js/amazeui.widgets.helper.min.js"></script>
+{% end %}
+{% block js %}
+{% module Template("module/js.html", filepath='js/formUtils.js') %}
+<script>
+    function selectImage(file) {
+        if (!file.files || !file.files[0]) {
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+            var img = $(file).parents().prev('div').find("img");
+            img.attr('src', evt.target.result);
+            img.prev('input').val(evt.target.result)
+        };
+        reader.readAsDataURL(file.files[0]);
+    }
+    function uploadImage() {
+        alert(1)
+        $.post(window.location.pathname, {face: $("#J-face-hid").val(), label: $("#label").val()}, function (res) {
+            if (res.status == 1) {
+                alert("添加成功");
+                window.location.href = "/tf/index"
+            }
+        }, 'json');
+    }
+    $("#J-save-btn").click(function () {
+        uploadImage()
+    })
+</script>
+{% end %}
+{% block nav %}
+{% module Template("module/mbacknav.html", name='tf') %}
+{% end %}
+{% block container%}
+<div class="am-g am-u-lg-10 am-u-md-12  am-u-sm-centered">
+    <div class="am-u-md-12">
+        <div class="am-cf">
+            <h2 class="am-fl am-margin-0">添加素材</h2>
+            <a href="/tf/index" class="am-btn am-btn-success am-btn-sm am-fr">返回</a>
+        </div>
+        <hr>
+        <form class="am-form am-form-horizontal">
+            <div class="am-form-group">
+                <label class="am-u-sm-2 am-padding-0">图片风格</label>
+                <div class="am-u-sm-2" style="margin-top: -5px;margin-left: auto">
+                    <select id="label">
+                        {%for label in LabelList%}
+                        <option value="{{label}}">{{LabelName(label)}}</option>
+                        {%end%}
+                    </select>
+                </div>
+                <p class="am-u-sm-5" style="margin-bottom: 0"></p>
+            </div>
 
-</body>
-</html>
+            <div class="am-form-group am-cf">
+                <label class="am-u-sm-1 am-padding-0">原始素材</label>
+                <div style="display: inline-block;margin-left: 18px">
+                    <input type="hidden" name="face" id="J-face-hid">
+                    <img class="am-radius" src="http://placehold.it/100x100" style="width: 100px;height: 150px">
+                </div>
+                <i class="am-icon-cloud-upload">
+                    <input type="file" onchange="selectImage(this);"/>
+                </i>
+            </div>
+        </form>
+
+        <div class="btn am-u-md-12" style="border-top: 1px solid #eee;padding: 1rem 0 0 0">
+            <a id="J-save-btn" class="am-btn am-btn-primary">保存</a>
+        </div>
+
+
+    </div>
+</div>
+
+
+{% end %}

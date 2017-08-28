@@ -6,6 +6,7 @@ Created on 2017/7/13.
 '''
 from common import base
 import config
+from service import tf_service
 
 mdb = config.mdb
 LabelList = ['TMKA', 'MLSS', 'QCJJ',
@@ -26,6 +27,14 @@ class Index(base.BaseHandler):
 class Add(base.BaseHandler):
     def get(self):
         return self.render('dxq_tf/source_add.html', LabelList=LabelList)
+
+    def post(self):
+        face = self.input('face')
+        label = self.input('label')
+        src_id = base.getRedisID('face_train_source')
+        path = tf_service.Add_Face_to_Source(face, label, src_id)
+        tf_service.Add_Face_DB(path, label, src_id)
+        return self.finish(base.rtjson())
 
 
 class Edit(base.BaseHandler):
