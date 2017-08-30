@@ -8,7 +8,7 @@ import os
 import base64
 import face_recognition
 from PIL import ImageDraw, Image
-
+from common import tools
 import config
 
 mdb = config.mdb
@@ -40,6 +40,26 @@ def Add_Face_to_Source(baseImg, label, sid):
     with open(file_path, 'wb') as f:
         f.write(imgdata)
     return file_path
+
+
+def face_encoding(baseImg):
+    for typ in IMG_TYPE:
+        replace_str = "data:image/{};base64,".format(typ)
+        baseImg = baseImg.replace(replace_str, "")
+
+    file_path = 'PreHandle/Temporary/{}.jpg'.format(tools.uniqueName())
+    fdir = file_path[:file_path.rfind('/')]
+    if not os.path.exists(fdir):
+        os.makedirs(fdir)
+
+    imgdata = base64.b64decode(baseImg)
+    with open(file_path, 'wb') as f:
+        f.write(imgdata)
+
+    biden_image = face_recognition.load_image_file(file_path)
+    biden_face_encoding = face_recognition.face_encodings(biden_image)[0]
+    os.remove(file_path)
+    return biden_face_encoding
 
 
 def face_landmarks(face_image):

@@ -11,7 +11,7 @@ unknown_image = face_recognition.load_image_file("obama2.jpg")
 biden_face_encoding = face_recognition.face_encodings(biden_image)[0]
 obama_face_encoding = face_recognition.face_encodings(obama_image)[0]
 unknown_face_encoding = face_recognition.face_encodings(unknown_image)[0]
-
+print 'encoding', biden_face_encoding
 known_faces = [
     biden_face_encoding,
     obama_face_encoding

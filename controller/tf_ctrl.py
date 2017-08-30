@@ -46,3 +46,21 @@ class SourceEdit(base.BaseHandler):
 class UserIndex(base.BaseHandler):
     def get(self):
         return self.render('dxq_tf/user_list.html', LabelList=LabelList)
+
+
+class UserAdd(base.BaseHandler):
+    def get(self):
+        return self.render('dxq_tf/user_add.html')
+
+    def post(self):
+        face = self.input("face")
+        name = self.input("name")
+        face_encoding = tf_service.face_encoding(face)
+        tt = {
+            '_id': base.getRedisID('tt'),
+            'name': name,
+            'face_encoding': face_encoding
+        }
+        mdb.tt.insert(tt)
+
+        return self.finish(base.rtjson())

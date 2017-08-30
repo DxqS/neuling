@@ -24,7 +24,7 @@
         $.post(window.location.pathname, {face: $("#J-face-hid").val(), label: $("#label").val()}, function (res) {
             if (res.status == 1) {
                 alert("添加成功");
-                window.location.href = "/tf/index"
+                window.location.href = "/tf/source/index"
             }
         }, 'json');
     }
@@ -34,14 +34,14 @@
 </script>
 {% end %}
 {% block nav %}
-{% module Template("module/mbacknav.html", name='tf') %}
+{% module Template("module/mbacknav.html", name='source') %}
 {% end %}
 {% block container%}
 <div class="am-g am-u-lg-10 am-u-md-12  am-u-sm-centered">
     <div class="am-u-md-12">
         <div class="am-cf">
             <h2 class="am-fl am-margin-0">添加素材</h2>
-            <a href="/tf/index" class="am-btn am-btn-success am-btn-sm am-fr">返回</a>
+            <a href="/tf/source/index" class="am-btn am-btn-success am-btn-sm am-fr">返回</a>
         </div>
         <hr>
         <form class="am-form am-form-horizontal">
