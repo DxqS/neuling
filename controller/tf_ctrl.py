@@ -59,14 +59,13 @@ class UserIndex(base.BaseHandler):
             known_faces.append(np.array(rec['face_encoding']))
             known_names.append(rec['name'])
         results = tf_service.compare_faces(known_faces, unknow_face_encoding, tolerance=0.6)
-        www = np.array(results) & np.array(known_names)
-        res = []
-        for w in www:
-            if w:
-                res.append(w)
-        print (res)
 
-        return self.finish(base.rtjson())
+        name = []
+        for i, res in enumerate(results):
+            if res:
+                name.append(known_names[i])
+        print (name)
+        return self.finish(base.rtjson(name=name))
 
 
 class UserAdd(base.BaseHandler):
