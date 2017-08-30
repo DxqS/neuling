@@ -34,7 +34,7 @@
     function uploadImage() {
         $.post(window.location.pathname, {face: $("#J-face-hid").val()}, function (res) {
             if (res.status == 1) {
-                var nameList = res['name'].length;
+                var nameList = res['name'];
                 var tt = '';
                 nameList.forEach(function (pos) {
                     tt += pos
