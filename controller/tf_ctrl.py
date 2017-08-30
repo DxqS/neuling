@@ -52,19 +52,18 @@ class UserIndex(base.BaseHandler):
     def post(self):
         face = self.input("face")
         unknow_face_encoding = tf_service.face_encoding(face)
-
+        if not unknow_face_encoding:
+            return self.finish(base.rtjson(10002))
         known_faces = []
         known_names = []
         for rec in mdb.tt.find():
             known_faces.append(np.array(rec['face_encoding']))
             known_names.append(rec['name'])
         results = tf_service.compare_faces(known_faces, unknow_face_encoding, tolerance=0.6)
-        print (results)
         name = []
         for i, res in enumerate(results):
             if res:
                 name.append(known_names[i])
-        print (name)
         return self.finish(base.rtjson(name=name))
 
 
