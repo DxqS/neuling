@@ -4,6 +4,8 @@ Created on 2017/7/13.
 
 @author: Dxq
 '''
+import numpy as np
+
 from common import base
 import config
 from service import tf_service
@@ -46,6 +48,25 @@ class SourceEdit(base.BaseHandler):
 class UserIndex(base.BaseHandler):
     def get(self):
         return self.render('dxq_tf/user_list.html', LabelList=LabelList)
+
+    def post(self):
+        face = self.input("face")
+        unknow_face_encoding = tf_service.face_encoding(face)
+
+        known_faces = []
+        known_names = []
+        for rec in mdb.tt.find():
+            known_faces.append(np.array(rec['face_encoding']))
+            known_names.append(rec['names'])
+        results = tf_service.compare_faces(known_faces, unknow_face_encoding, tolerance=0.6)
+        www = np.array(results) & np.array(known_names)
+        res = []
+        for w in www:
+            if w:
+                res.append(w)
+        print res
+
+        return self.finish(base.rtjson())
 
 
 class UserAdd(base.BaseHandler):

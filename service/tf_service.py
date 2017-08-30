@@ -62,6 +62,10 @@ def face_encoding(baseImg):
     return biden_face_encoding
 
 
+def compare_faces(known_faces, unknow_face_encoding, tolerance=0.6):
+    return face_recognition.compare_faces(known_faces, unknow_face_encoding, tolerance)
+
+
 def face_landmarks(face_image):
     image = face_recognition.load_image_file(face_image)
     face_landmarks_list = face_recognition.face_landmarks(image)
