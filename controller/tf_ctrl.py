@@ -64,7 +64,7 @@ class UserIndex(base.BaseHandler):
         for w in www:
             if w:
                 res.append(w)
-        print res
+        print (res)
 
         return self.finish(base.rtjson())
 
