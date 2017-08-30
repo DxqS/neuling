@@ -29,7 +29,6 @@
             img.prev('input').val(evt.target.result)
         };
         reader.readAsDataURL(file.files[0]);
-        uploadImage()
     }
     function uploadImage() {
         $.post(window.location.pathname, {face: $("#J-face-hid").val()}, function (res) {
@@ -84,7 +83,7 @@
         </form>
         <div class="btn am-u-md-12" style="border-top: 1px solid #eee;padding: 1rem 0 0 0">
             <div id="result" style="width:300px"></div>
-            <!--<a id="J-save-btn" class="am-btn am-btn-primary">保存</a>-->
+            <a id="J-save-btn" class="am-btn am-btn-primary">诊断</a>
         </div>
     </div>
 </div>
