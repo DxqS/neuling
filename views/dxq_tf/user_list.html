@@ -33,7 +33,7 @@
     function uploadImage() {
         $.post(window.location.pathname, {face: $("#J-face-hid").val()}, function (res) {
             if (res.status == 1) {
-                alert(res[0])
+                alert('这是' + res['name'][0])
             }
         }, 'json');
     }

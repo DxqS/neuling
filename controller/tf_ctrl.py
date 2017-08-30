@@ -58,8 +58,8 @@ class UserIndex(base.BaseHandler):
         for rec in mdb.tt.find():
             known_faces.append(np.array(rec['face_encoding']))
             known_names.append(rec['name'])
-        results = tf_service.compare_faces(known_faces, unknow_face_encoding, tolerance=0.6)
-
+        results = tf_service.compare_faces(known_faces, unknow_face_encoding, tolerance=0.9)
+        print (results)
         name = []
         for i, res in enumerate(results):
             if res:
