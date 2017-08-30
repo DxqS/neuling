@@ -57,7 +57,10 @@ def face_encoding(baseImg):
         f.write(imgdata)
 
     biden_image = face_recognition.load_image_file(file_path)
-    biden_face_encoding = face_recognition.face_encodings(biden_image)[0]
+    try:
+        biden_face_encoding = face_recognition.face_encodings(biden_image)[0]
+    except:
+        biden_face_encoding = None
     os.remove(file_path)
     return biden_face_encoding
 

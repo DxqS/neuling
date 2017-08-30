@@ -58,7 +58,7 @@ class UserIndex(base.BaseHandler):
         for rec in mdb.tt.find():
             known_faces.append(np.array(rec['face_encoding']))
             known_names.append(rec['name'])
-        results = tf_service.compare_faces(known_faces, unknow_face_encoding, tolerance=0.1)
+        results = tf_service.compare_faces(known_faces, unknow_face_encoding, tolerance=0.6)
         print (results)
         name = []
         for i, res in enumerate(results):
@@ -76,11 +76,14 @@ class UserAdd(base.BaseHandler):
         face = self.input("face")
         name = self.input("name")
         face_encoding = tf_service.face_encoding(face)
-        tt = {
-            '_id': base.getRedisID('tt'),
+        if not face_encoding:
+            return self.finish(base.rtjson(10002))
+
+        user_encoding = {
+            '_id': base.getRedisID('user_encoding'),
             'name': name,
             'face_encoding': list(face_encoding)
         }
-        mdb.tt.insert(tt)
+        mdb.user_encoding.insert(user_encoding)
 
         return self.finish(base.rtjson())
