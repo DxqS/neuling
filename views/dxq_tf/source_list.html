@@ -20,14 +20,14 @@
 <script>
     $(function () {
         $('#label').change(function () {
-            window.location.replace('/tf/index' + '?label=' + $(this).val())
+            window.location.replace('/tf/source/index' + '?label=' + $(this).val())
         });
     });
 
 </script>
 {% end %}
 {% block nav %}
-{% module Template("module/mbacknav.html", name='tf') %}
+{% module Template("module/mbacknav.html", name='source') %}
 {% end %}
 {% block container%}
 
@@ -35,15 +35,15 @@
     <div class="am-u-md-12">
         <div class="am-cf">
             <h2 class="am-fl am-margin-0">图片素材列表</h2>
-            <a href="/tf/add" class="am-btn am-btn-primary am-btn-sm am-fr">添加素材</a>
+            <a href="/tf/source/add" class="am-btn am-btn-primary am-btn-sm am-fr">添加素材</a>
 
         </div>
         <hr>
     </div>
     <div class="am-u-md-2" style="border-right: 1px solid #eee;">
         <ul class="am-nav am-text-center">
-            <li class="am-active"><a href="/tf/index">训练集</a></li>
-            <li><a href="/tf/test">测试</a></li>
+            <li class="am-active"><a href="/tf/source/index">训练集</a></li>
+            <li><a href="/tf/source/test">测试</a></li>
         </ul>
     </div>
 
@@ -80,13 +80,13 @@
                     <img class="am-radius" src="{{LocalImg(source['result']['chin'])}}" width="100" height="100"/>
                 </td>
                 <td class="am-text-middle">
-                    <a class="am-btn am-btn-primary am-btn-sm" href="/tf/edit/{{source['_id']}}">查看</a>
+                    <a class="am-btn am-btn-primary am-btn-sm" href="/tf/source/edit/{{source['_id']}}">查看</a>
                 </td>
             </tr>
             {%end%}
 
         </table>
-        {% module Template("module/ampager.html", pager=pager,url="/tf/index?pagenum=:page:"+"&label="+label) %}
+        {% module Template("module/ampager.html", pager=pager,url="/tf/source/index?pagenum=:page:"+"&label="+label) %}
     </div>
 </div>
 

@@ -7,7 +7,9 @@ Created on 2017/7/13.
 from controller import tf_ctrl
 
 urls = [
-    ('/tf/index', tf_ctrl.Index),
-    ('/tf/add', tf_ctrl.Add),
-    ('/tf/edit/(\d+)', tf_ctrl.Edit),
+    ('/tf/source/index', tf_ctrl.SourceIndex),
+    ('/tf/source/add', tf_ctrl.SourceAdd),
+    ('/tf/source/edit/(\d+)', tf_ctrl.SourceEdit),
+
+    ('/tf/user/index', tf_ctrl.UserIndex),
 ]

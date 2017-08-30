@@ -1,0 +1,72 @@
+{% extends "../layout/mbase.html" %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/amazeui/2.7.2/css/amazeui.min.css">
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/amazeui/2.7.2/js/amazeui.min.js"></script>
+<script src="//cdn.bootcss.com/amazeui/2.7.2/js/amazeui.widgets.helper.min.js"></script>
+<style>
+    tr {
+        width: 100%;
+    }
+
+    tr td {
+        width: 11.1%;
+    }
+</style>
+{% end %}
+{% module Template("module/js.html", filepath='js/common/formUtils.js') %}
+<script src="//cdn.bootcss.com/plupload/2.1.9/plupload.full.min.js"></script>
+{% block js %}
+<script>
+    $(function () {
+        $('#label').change(function () {
+            window.location.replace('/tf/source/index' + '?label=' + $(this).val())
+        });
+    });
+
+</script>
+{% end %}
+{% block nav %}
+{% module Template("module/mbacknav.html", name='user') %}
+{% end %}
+{% block container%}
+
+<div class="am-g am-u-lg-10 am-u-md-12  am-u-sm-centered">
+    <div class="am-u-md-12">
+        <div class="am-cf">
+            <h2 class="am-fl am-margin-0">用户素材列表</h2>
+            <a href="/tf/user/add" class="am-btn am-btn-primary am-btn-sm am-fr">添加用户</a>
+
+        </div>
+        <hr>
+    </div>
+    <div class="am-u-md-2" style="border-right: 1px solid #eee;">
+        <ul class="am-nav am-text-center">
+            <li class="am-active"><a href="/tf/user/index">用户识别</a></li>
+            <li><a href="javascript:;">占位</a></li>
+        </ul>
+    </div>
+
+    <div class="am-u-md-10">
+        <form class="am-form am-form-horizontal">
+            <div class="am-form-group">
+                <label class="am-u-sm-2 am-padding-0">用户姓名：</label>
+                <input type="text" style="width: 200px">
+                <p class="am-u-sm-5" style="margin-bottom: 0"></p>
+            </div>
+
+            <div class="am-form-group am-cf">
+                <label class="am-u-sm-1 am-padding-0">用户头像：</label>
+                <div style="display: inline-block;margin-left: 18px">
+                    <input type="hidden" name="face" id="J-face-hid">
+                    <img class="am-radius" src="http://placehold.it/100x100" style="width: 100px;height: 150px">
+                </div>
+                <i class="am-icon-cloud-upload">
+                    <input type="file" onchange="selectImage(this);"/>
+                </i>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% end %}

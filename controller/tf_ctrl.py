@@ -14,7 +14,7 @@ LabelList = ['TMKA', 'MLSS', 'QCJJ',
              'LMMR', 'HLGY', 'XDMD']
 
 
-class Index(base.BaseHandler):
+class SourceIndex(base.BaseHandler):
     def get(self):
         label = self.input("label", "all")
         match = {} if label == 'all' else {"label": label}
@@ -24,7 +24,7 @@ class Index(base.BaseHandler):
                            pager=pager, label=label)
 
 
-class Add(base.BaseHandler):
+class SourceAdd(base.BaseHandler):
     def get(self):
         return self.render('dxq_tf/source_add.html', LabelList=LabelList)
 
@@ -37,7 +37,12 @@ class Add(base.BaseHandler):
         return self.finish(base.rtjson())
 
 
-class Edit(base.BaseHandler):
+class SourceEdit(base.BaseHandler):
     def get(self, src_id):
         face = mdb.face_train_source.find_one({"_id": int(src_id)})
         return self.render('dxq_tf/source_edit.html', face=face)
+
+
+class UserIndex(base.BaseHandler):
+    def get(self):
+        return self.render('dxq_tf/user_list.html', LabelList=LabelList)
