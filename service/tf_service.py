@@ -43,6 +43,7 @@ def Add_Face_to_Source(baseImg, label, sid):
 
 
 def face_encoding(baseImg):
+    status = True
     for typ in IMG_TYPE:
         replace_str = "data:image/{};base64,".format(typ)
         baseImg = baseImg.replace(replace_str, "")
@@ -60,9 +61,10 @@ def face_encoding(baseImg):
     try:
         biden_face_encoding = face_recognition.face_encodings(biden_image)[0]
     except:
+        status = False
         biden_face_encoding = None
     os.remove(file_path)
-    return biden_face_encoding
+    return biden_face_encoding, status
 
 
 def compare_faces(known_faces, unknow_face_encoding, tolerance=0.6):

@@ -51,12 +51,12 @@ class UserIndex(base.BaseHandler):
 
     def post(self):
         face = self.input("face")
-        unknow_face_encoding = tf_service.face_encoding(face)
-        if not unknow_face_encoding:
+        unknow_face_encoding, status = tf_service.face_encoding(face)
+        if not status:
             return self.finish(base.rtjson(10002))
         known_faces = []
         known_names = []
-        for rec in mdb.tt.find():
+        for rec in mdb.user_encoding.find():
             known_faces.append(np.array(rec['face_encoding']))
             known_names.append(rec['name'])
         results = tf_service.compare_faces(known_faces, unknow_face_encoding, tolerance=0.6)
@@ -74,8 +74,8 @@ class UserAdd(base.BaseHandler):
     def post(self):
         face = self.input("face")
         name = self.input("name")
-        face_encoding = tf_service.face_encoding(face)
-        if not face_encoding:
+        face_encoding, status = tf_service.face_encoding(face)
+        if not status:
             return self.finish(base.rtjson(10002))
 
         user_encoding = {
