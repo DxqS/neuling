@@ -59,7 +59,7 @@ class UserAdd(base.BaseHandler):
         tt = {
             '_id': base.getRedisID('tt'),
             'name': name,
-            'face_encoding': face_encoding
+            'face_encoding': list(face_encoding)
         }
         mdb.tt.insert(tt)
 
