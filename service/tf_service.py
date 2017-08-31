@@ -10,9 +10,11 @@ import face_recognition
 import numpy as np
 from PIL import ImageDraw, Image
 from common import tools
+from model import rdbKey
 import config
 
 mdb = config.mdb
+rdb = config.rdb
 IMG_TYPE = ['png', 'jpeg', 'jpg']
 FEATURES = [
     'chin',
@@ -68,13 +70,10 @@ def face_encoding(baseImg):
     return biden_face_encoding, status
 
 
-def compare_faces(known_faces, unknow_face_encoding, tolerance=0.6):
-    tt = face_distance(known_faces, unknow_face_encoding)
-    ttt = [(i, t) for i, t in enumerate(list(tt))]
-    ttt.sort(key=lambda x: x[1])
-
-    print(ttt)
-    return list(face_distance(known_faces, unknow_face_encoding) <= tolerance)
+def compare_faces(known_faces, unknow_face_encoding, top=3):
+    res = [(i, t) for i, t in enumerate(list(face_distance(known_faces, unknow_face_encoding)))]
+    res.sort(key=lambda x: x[1])
+    return res[:top]
     # return face_recognition.compare_faces(known_faces, unknow_face_encoding, tolerance)
 
 
@@ -132,3 +131,20 @@ def Add_Face_DB(path, label, src_id):
         face_train_source.update(face_landmarks_dict)
         mdb.face_train_source.insert(face_train_source)
     return True
+
+
+def get_know_face_encodings():
+    face_key = rdbKey.encoding_faces()
+    name_key = rdbKey.encoding_names()
+    known_faces = rdb.lrange(face_key, 0, -1)
+    known_names = rdb.lrange(name_key, 0, -1)
+    if not rdb.exists(face_key):
+        known_faces = []
+        known_names = []
+        for rec in mdb.user_encoding.find():
+            known_faces.append(np.array(rec['face_encoding']))
+            known_names.append(rec['name'])
+        rdb.rpush(face_key, known_faces)
+        rdb.rpush(name_key, known_names)
+
+    return known_faces, known_names

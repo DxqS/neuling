@@ -18,8 +18,9 @@ Created on 2017/6/26.
 #     'date':  datetime.datetime.today()
 # }
 # mdb.user.insert(user)
-from service.picture_service import cutSqure
-from PIL import Image
-img = Image.open('3.jpg')
-img = cutSqure(img)
-img.save('4.jpg')
+# from service.picture_service import cutSqure
+# from PIL import Image
+# img = Image.open('3.jpg')
+# img = cutSqure(img)
+# img.save('4.jpg')
+print([1,2,3]<=2)

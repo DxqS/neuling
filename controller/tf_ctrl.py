@@ -15,6 +15,8 @@ LabelList = ['TMKA', 'MLSS', 'QCJJ',
              'ZRYY', 'GYRM', 'ZXCZ',
              'LMMR', 'HLGY', 'XDMD']
 
+tolerance = 0.3
+
 
 class SourceIndex(base.BaseHandler):
     def get(self):
@@ -54,16 +56,14 @@ class UserIndex(base.BaseHandler):
         unknow_face_encoding, status = tf_service.face_encoding(face)
         if not status:
             return self.finish(base.rtjson(10002))
-        known_faces = []
-        known_names = []
-        for rec in mdb.user_encoding.find():
-            known_faces.append(np.array(rec['face_encoding']))
-            known_names.append(rec['name'])
-        results = tf_service.compare_faces(known_faces, unknow_face_encoding, tolerance=0.3)
+
+        known_faces, known_names = tf_service.get_know_face_encodings()
+
+        results = tf_service.compare_faces(known_faces, unknow_face_encoding, top=3)
         name = []
-        for i, res in enumerate(results):
-            if res:
-                name.append(known_names[i])
+        for res in results:
+            if res[1] < tolerance:
+                name.append(known_names[res[0]])
         return self.finish(base.rtjson(name=name))
 
 
