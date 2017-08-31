@@ -69,7 +69,8 @@ def face_encoding(baseImg):
 
 
 def compare_faces(known_faces, unknow_face_encoding, tolerance=0.6):
-    print('face_distance', face_distance(known_faces, unknow_face_encoding))
+    tt = face_distance(known_faces, unknow_face_encoding)
+    print([(i, t) for i, t in enumerate(tt)].sort(key=lambda x: x[1]))
     return list(face_distance(known_faces, unknow_face_encoding) <= tolerance)
     # return face_recognition.compare_faces(known_faces, unknow_face_encoding, tolerance)
 
