@@ -29,7 +29,6 @@ def make_app():
     return tornado.web.Application(controller.urls.ctrls, **settings)
 
 
-
 # application = tornado.wsgi.WSGIAdapter(make_app())
 if __name__ == "__main__":
     app = make_app()

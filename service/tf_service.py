@@ -7,6 +7,7 @@ Created on 2017/8/28.
 import os
 import base64
 import face_recognition
+import numpy as np
 from PIL import ImageDraw, Image
 from common import tools
 import config
@@ -68,7 +69,15 @@ def face_encoding(baseImg):
 
 
 def compare_faces(known_faces, unknow_face_encoding, tolerance=0.6):
-    return face_recognition.compare_faces(known_faces, unknow_face_encoding, tolerance)
+    print('face_distance', face_distance(known_faces, unknow_face_encoding))
+    return list(face_distance(known_faces, unknow_face_encoding) <= tolerance)
+    # return face_recognition.compare_faces(known_faces, unknow_face_encoding, tolerance)
+
+
+def face_distance(face_encodings, face_to_compare):
+    if len(face_encodings) == 0:
+        return np.empty((0))
+    return np.linalg.norm(face_encodings - face_to_compare, axis=1)
 
 
 def face_landmarks(face_image):
