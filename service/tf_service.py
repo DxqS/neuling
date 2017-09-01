@@ -60,14 +60,14 @@ def face_encoding(baseImg):
     with open(file_path, 'wb') as f:
         f.write(imgdata)
 
-    biden_image = face_recognition.load_image_file(file_path)
+    load_image = face_recognition.load_image_file(file_path)
     try:
-        biden_face_encoding = face_recognition.face_encodings(biden_image)[0]
+        res_face_encoding = face_recognition.face_encodings(load_image)[0]
     except:
         status = False
-        biden_face_encoding = None
+        res_face_encoding = None
     os.remove(file_path)
-    return biden_face_encoding, status
+    return res_face_encoding, status
 
 
 def compare_faces(known_faces, unknow_face_encoding, top=3):
@@ -139,7 +139,7 @@ def get_know_face_encodings():
 
     if not rdb.exists(face_key):
         for rec in mdb.user_encoding.find():
-            rdb.rpush(face_key, np.array(rec['face_encoding']))
+            rdb.rpush(face_key, rec['face_encoding'])
             rdb.rpush(name_key, rec['name'])
 
     return rdb.lrange(face_key, 0, -1), rdb.lrange(name_key, 0, -1)

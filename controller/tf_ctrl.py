@@ -87,7 +87,7 @@ class UserAdd(base.BaseHandler):
         }
         mdb.user_encoding.insert(user_encoding)
         if rdb.exists(rdbKey.encoding_faces()):
-            rdb.rpush(rdbKey.encoding_faces(), np.array(face_encoding))
+            rdb.rpush(rdbKey.encoding_faces(), list(face_encoding))
             rdb.rpush(rdbKey.encoding_names(), name)
         else:
             tf_service.get_know_face_encodings()
