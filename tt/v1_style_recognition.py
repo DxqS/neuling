@@ -40,7 +40,7 @@ for x in x_list[0]:
     x3 = []
     for x2 in x['chin']:
         x3.append(x2[0], x2[1])
-    print(x3.shape)
+    print(x3)
     y1 = LabelToCode[x['label']]
 
 for i in range(10):
