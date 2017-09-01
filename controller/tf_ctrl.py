@@ -92,4 +92,5 @@ class TrainIndex(base.BaseHandler):
         return self.render('dxq_tf/train_index.html', LabelList=LabelList)
 
     def post(self):
+        tf_service.train()
         return self.finish(base.rtjson())

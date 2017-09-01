@@ -7,6 +7,7 @@ Created on 2017/8/28.
 import os
 import base64
 import face_recognition
+import tensorflow as tf
 import numpy as np
 from PIL import ImageDraw, Image
 from common import tools
@@ -149,6 +150,8 @@ def get_know_face_encodings():
 
 
 def load_data_mat(file_name):
+    if os.path.exists(file_name):
+        return True
     train_source = mdb.face_train_source.find()
     num = train_source.count()
     x = np.zeros([num, 34])
@@ -167,3 +170,27 @@ def get_random_block_from_data(data, batch_size):
     num = len(data['X'])
     start_index = np.random.randint(0, num - batch_size)
     return data['X'][start_index:(start_index + batch_size)], data['Y'][start_index:(start_index + batch_size)]
+
+
+def train(learning_rate, train_epochs):
+    sess = tf.InteractiveSession()
+    load_data_mat('source/data.mat')
+    data = scio.loadmat('source/data.mat')
+
+    x = tf.placeholder(tf.float32, [None, 34])
+    W = tf.Variable(tf.zeros([34, 9]))
+    b = tf.Variable(tf.zeros([9]))
+    y = tf.nn.softmax(tf.matmul(x, W) + b)
+    y_ = tf.placeholder(tf.float32, [None, 9])
+    cross_entry = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y), reduction_indices=[1]))
+    train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entry)
+    tf.global_variables_initializer().run()
+    for step in range(train_epochs):
+        xs_batch, ys_batch = get_random_block_from_data(data, 100)
+        train_step.run({x: xs_batch, y_: ys_batch})
+        if step % 20 == 0:
+            print(step, sess.run(W))
+
+    saver = tf.train.Saver(tf.global_variables())
+    saver.save(sess, "source/model/face.ckpt")
+    return True
