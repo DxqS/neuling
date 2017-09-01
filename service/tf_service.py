@@ -204,7 +204,8 @@ def tt(sid):
     xs = []
     for point in test_source['chin']:
         xs.extend(point)
-        x_input[1:] = np.transpose(np.array(xs))
+
+    x_input[1:] = np.transpose(np.array(xs))
 
     # 定义变量
     sess = tf.InteractiveSession()
