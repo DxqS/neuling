@@ -147,6 +147,7 @@ def get_know_face_encodings():
     # return [np.array(list(t)) for t in rdb.lrange(face_key, 0, -1)], rdb.lrange(name_key, 0, -1)
     known_faces = rdb.lrange(face_key, 0, -1)
     known_names = rdb.lrange(name_key, 0, -1)
+    known_faces=[np.array(list(t)) for t in known_faces]
     if not rdb.exists(face_key):
         known_faces = []
         known_names = []
