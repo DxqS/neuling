@@ -4,12 +4,10 @@ Created on 2017/7/13.
 
 @author: Dxq
 '''
-import numpy as np
 
 from common import base
 import config
 from service import tf_service
-from model import rdbKey
 
 mdb = config.mdb
 rdb = config.rdb
