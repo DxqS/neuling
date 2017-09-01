@@ -38,6 +38,7 @@ tf.global_variables_initializer().run()
 x_list = mdb.face_train_source.find()
 for x in x_list[0]:
     x3 = []
+    print(x['chin'])
     for x2 in x['chin']:
         x3.extend(x2)
     print(x3)
