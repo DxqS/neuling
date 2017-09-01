@@ -139,28 +139,17 @@ def get_know_face_encodings():
     face_key = rdbKey.encoding_faces()
     name_key = rdbKey.encoding_names()
 
-    # if not rdb.exists(face_key):
-    #     for rec in mdb.user_encoding.find():
-    #         rdb.rpush(face_key, rec['face_encoding'])
-    #         rdb.rpush(name_key, rec['name'])
-    #
-    # return [np.array(list(t)) for t in rdb.lrange(face_key, 0, -1)], rdb.lrange(name_key, 0, -1)
-    known_faces = rdb.lrange(face_key, 0, -1)
-    known_names = rdb.lrange(name_key, 0, -1)
-    for i, t in enumerate(known_faces):
-        if i == 0:
-            tt = []
-            for s in str(t, encoding="utf-8").replace("[", "").replace("]", "").replace("\n", "").split(' '):
-                if s:
-                    tt.append(float(s))
-    print(tt)
-    known_faces = [np.array(list(t)) for t in known_faces]
     if not rdb.exists(face_key):
-        known_faces = []
-        known_names = []
         for rec in mdb.user_encoding.find():
-            known_faces.append(np.array(rec['face_encoding']))
-            known_names.append(rec['name'])
-            rdb.rpush(face_key, np.array(rec['face_encoding']))
+            rdb.rpush(face_key, rec['face_encoding'])
             rdb.rpush(name_key, rec['name'])
+    known_faces_temp = rdb.lrange(face_key, 0, -1)
+    known_names = rdb.lrange(name_key, 0, -1)
+    known_faces = []
+    for t in known_faces_temp:
+        tt = []
+        for s in str(t, encoding="utf-8").replace("[", "").replace("]", "").replace("\n", "").split(' '):
+            if s:
+                tt.append(float(s))
+        known_faces.append(tt)
     return known_faces, known_names
