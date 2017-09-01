@@ -85,3 +85,11 @@ class UserAdd(base.BaseHandler):
         }
         mdb.user_encoding.insert(user_encoding)
         return self.finish(base.rtjson())
+
+
+class TrainIndex(base.BaseHandler):
+    def get(self):
+        return self.render('dxq_tf/train_index.html', LabelList=LabelList)
+
+    def post(self):
+        return self.finish(base.rtjson())

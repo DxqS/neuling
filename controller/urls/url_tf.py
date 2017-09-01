@@ -13,4 +13,7 @@ urls = [
 
     ('/tf/user/index', tf_ctrl.UserIndex),
     ('/tf/user/add', tf_ctrl.UserAdd),
+
+    ('/tf/train/index', tf_ctrl.TrainIndex),
+
 ]

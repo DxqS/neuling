@@ -36,6 +36,22 @@ cross_entry = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y), reduction_indices=[1
 train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entry)
 tf.global_variables_initializer().run()
 
+
+def get_random_block_from_data(batch_size):
+    train_source = mdb.face_train_source.find()
+    for i, source in enumerate(train_source):
+        x = np.zeros([None, 34])
+        y = np.zeros([None, 9])
+        xs = []
+        for point in source['chin']:
+            xs.extend(point)
+        x[i + 1:] = np.transpose(np.array(xs))
+        y[i + 1:] = LabelToCode[source['label']]
+
+    start_index = np.random.randint(0, train_source.count() - batch_size)
+    return x[start_index:(start_index + batch_size)],y[start_index:(start_index + batch_size)]
+
+
 x_list = mdb.face_train_source.find()
 i = 1
 for j in x_list:

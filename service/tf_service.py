@@ -10,9 +10,14 @@ import face_recognition
 import numpy as np
 from PIL import ImageDraw, Image
 from common import tools
-from model import rdbKey
 import config
+import scipy.io as scio
 
+LabelToCode = {
+    'TMKA': [1, 0, 0, 0, 0, 0, 0, 0, 0], 'MLSS': [0, 1, 0, 0, 0, 0, 0, 0, 0], 'QCJJ': [0, 0, 1, 0, 0, 0, 0, 0, 0],
+    'ZRYY': [0, 0, 0, 1, 0, 0, 0, 0, 0], 'GYRM': [0, 0, 0, 0, 1, 0, 0, 0, 0], 'ZXCZ': [0, 0, 0, 0, 0, 1, 0, 0, 0],
+    'LMMR': [0, 0, 0, 0, 0, 0, 1, 0, 0], 'HLGY': [0, 0, 0, 0, 0, 0, 0, 1, 0], 'XDMD': [0, 0, 0, 0, 0, 0, 0, 0, 1],
+}
 mdb = config.mdb
 rdb = config.rdb
 IMG_TYPE = ['png', 'jpeg', 'jpg']
@@ -141,3 +146,24 @@ def get_know_face_encodings():
         known_names.append(rec['name'])
 
     return known_faces, known_names
+
+
+def load_data_mat(file_name):
+    train_source = mdb.face_train_source.find()
+    num = train_source.count()
+    x = np.zeros([num, 34])
+    y = np.zeros([num, 9])
+    for i, source in enumerate(train_source):
+        xs = []
+        for point in source['chin']:
+            xs.extend(point)
+        x[i + 1:] = np.transpose(np.array(xs))
+        y[i + 1:] = LabelToCode[source['label']]
+    scio.savemat(file_name, {'X': x, 'Y': y})
+    return True
+
+
+def get_random_block_from_data(data, batch_size):
+    num = len(data['X'])
+    start_index = np.random.randint(0, num - batch_size)
+    return data['X'][start_index:(start_index + batch_size)], data['Y'][start_index:(start_index + batch_size)]
