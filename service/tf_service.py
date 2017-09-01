@@ -136,20 +136,10 @@ def Add_Face_DB(path, label, src_id):
 
 
 def get_know_face_encodings():
-    face_key = rdbKey.encoding_faces()
-    name_key = rdbKey.encoding_names()
-
-    if not rdb.exists(face_key):
-        for rec in mdb.user_encoding.find():
-            rdb.rpush(face_key, rec['face_encoding'])
-            rdb.rpush(name_key, rec['name'])
-    known_faces_temp = rdb.lrange(face_key, 0, -1)
-    known_names = rdb.lrange(name_key, 0, -1)
     known_faces = []
-    for t in known_faces_temp:
-        tt = []
-        for s in str(t, encoding="utf-8").replace("[", "").replace("]", "").replace("\n", "").split(' '):
-            if s:
-                tt.append(float(s))
-        known_faces.append(tt)
+    known_names = []
+    for rec in mdb.user_encoding.find():
+        known_faces.append(np.array(rec['face_encoding']))
+        known_names.append(rec['name'])
+
     return known_faces, known_names
