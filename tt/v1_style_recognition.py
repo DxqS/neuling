@@ -38,26 +38,26 @@ tf.global_variables_initializer().run()
 
 x_list = mdb.face_train_source.find()
 i = 1
-# for x in x_list:
-#     if i == 1:
-#         x4 = np.zeros([1, 34])
-#         y4 = np.zeros([1, 9])
-#         i += 1
-#         x3 = []
-#         for x2 in x['chin']:
-#             x3.extend(x2)
-#         x4[1:] = np.transpose(np.array(x3))
-#         y4[1:] = LabelToCode[x['label']]
-#         print(x4.shape)
-#         print(y4.shape)
+for j in x_list:
+    if i == 1:
+        x4 = np.zeros([1, 34])
+        y4 = np.zeros([1, 9])
+        i += 1
+        x3 = []
+        for x2 in j['chin']:
+            x3.extend(x2)
+        x4[1:] = np.transpose(np.array(x3))
+        y4[1:] = LabelToCode[j['label']]
+        print(x4.shape)
+        print(y4.shape)
 
-mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
-for i in range(1):
-    xs, ys = mnist.train.next_batch(100)
-    train_step.run({x: xs, y_: ys})
-    print(xs.shape)
-    print(ys.shape)
+# mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
+# for i in range(1):
+#     xs, ys = mnist.train.next_batch(100)
+#     train_step.run({x: xs, y_: ys})
+#     print(xs.shape)
+#     print(ys.shape)
 #
-# for i in range(10):
-#     print(i)
-#     train_step.run({x: x4, y_: y4})
+for i in range(10):
+    print(i)
+    train_step.run({x: x4, y_: y4})
