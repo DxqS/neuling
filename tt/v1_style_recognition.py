@@ -10,6 +10,7 @@ import redis
 from pymongo import MongoClient
 import numpy as np
 import yaml
+from tensorflow.examples.tutorials.mnist import input_data
 
 LabelToCode = {
     'TMKA': [1, 0, 0, 0, 0, 0, 0, 0, 0], 'MLSS': [0, 1, 0, 0, 0, 0, 0, 0, 0], 'QCJJ': [0, 0, 1, 0, 0, 0, 0, 0, 0],
@@ -44,7 +45,15 @@ for x in x_list:
         for x2 in x['chin']:
             x3.extend(x2)
         y1 = LabelToCode[x['label']]
+        print(np.array(x3).shape)
+#
+# for i in range(10):
+#     print(i)
+#     train_step.run({x: np.array(x3), y_: np.array(y1)})
 
-for i in range(10):
-    print(i)
-    train_step.run({x: np.array(x3), y_: np.array(y1)})
+
+mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
+for i in range(1):
+    xs, ys = mnist.train.next_batch(100)
+    print(xs.shape)
+    print(ys.shape)
