@@ -20,11 +20,10 @@ mdb = MongoClient(srv['mongo']['host'], srv['mongo']['port'], connect=False, max
 mdb.admin.authenticate(srv['mongo']['uname'], str(srv['mongo']['pwd']), mechanism='SCRAM-SHA-1')
 mdb = mdb[srv['mongo']['db']]
 
-
 sess = tf.InteractiveSession()
 x = tf.placeholder(tf.float32, [None, 400 * 400])
-W = tf.Variable(tf.zeros(400 * 400, 9))
-b = tf.Variable(tf.zeros([9]))
+W = tf.Variable(tf.zeros(400 * 400, 9), dtype=tf.float32)
+b = tf.Variable(tf.zeros([9]), dtype=tf.float32)
 y = tf.nn.softmax(tf.matmul(x, W) + b)
 y_ = tf.placeholder(tf.float32, [None, 9])
 cross_entry = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y), reduction_indices=[1]))
