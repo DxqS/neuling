@@ -5,9 +5,21 @@ Created on 2017/9/1.
 @author: chk01
 '''
 import tensorflow as tf
-import config
+import os
+import redis
+from pymongo import MongoClient
 
-mdb = config.mdb
+import yaml
+
+run_mode = os.environ.get('RUN_ENV', 'local')
+srv = yaml.load(open('srv.yml', 'r'))[run_mode]
+pool = redis.ConnectionPool(**srv['redis'])
+rdb = redis.StrictRedis(connection_pool=pool)
+
+mdb = MongoClient(srv['mongo']['host'], srv['mongo']['port'], connect=False, maxPoolSize=50, waitQueueMultiple=10)
+mdb.admin.authenticate(srv['mongo']['uname'], str(srv['mongo']['pwd']), mechanism='SCRAM-SHA-1')
+mdb = mdb[srv['mongo']['db']]
+
 
 sess = tf.InteractiveSession()
 x = tf.placeholder(tf.float32, [None, 400 * 400])
