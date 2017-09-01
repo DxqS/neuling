@@ -149,10 +149,11 @@ def get_know_face_encodings():
     known_names = rdb.lrange(name_key, 0, -1)
     for i, t in enumerate(known_faces):
         if i == 0:
-            print('t', t)
-            print('list t', list(t))
-            print('array list t', np.array(list(t)))
-            print('array t', np.array(t))
+            tt = []
+            for s in str(t, encoding="utf-8").replace("[", "").replace("]", "").replace("\n", "").split(' '):
+                if s:
+                    tt.append(float(s))
+    print(tt)
     known_faces = [np.array(list(t)) for t in known_faces]
     if not rdb.exists(face_key):
         known_faces = []
