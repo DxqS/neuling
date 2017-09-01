@@ -35,5 +35,5 @@ x_list = mdb.face_train_source.find()
 for x in x_list:
     print(x['_id'])
 
-for i in range(10):
-    train_step.run({x: 1, y_: 1})
+# for i in range(10):
+#     train_step.run({x: 1, y_: 1})
