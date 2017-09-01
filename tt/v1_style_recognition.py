@@ -27,11 +27,11 @@ mdb.admin.authenticate(srv['mongo']['uname'], str(srv['mongo']['pwd']), mechanis
 mdb = mdb[srv['mongo']['db']]
 
 sess = tf.InteractiveSession()
-x = tf.placeholder(tf.float32, [None, 34])
-W = tf.Variable(tf.zeros([34, 9]), dtype=tf.float32)
-b = tf.Variable(tf.zeros([9]), dtype=tf.float32)
+x = tf.placeholder(tf.float32, [None, 784])
+W = tf.Variable(tf.zeros([784, 10]), dtype=tf.float32)
+b = tf.Variable(tf.zeros([10]), dtype=tf.float32)
 y = tf.nn.softmax(tf.matmul(x, W) + b)
-y_ = tf.placeholder(tf.float32, [None, 9])
+y_ = tf.placeholder(tf.float32, [None, 10])
 cross_entry = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y), reduction_indices=[1]))
 train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entry)
 tf.global_variables_initializer().run()
@@ -54,6 +54,7 @@ for x in x_list:
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 for i in range(1):
     xs, ys = mnist.train.next_batch(100)
+    train_step.run({x: xs, y_: ys})
     print(xs.shape)
     print(ys.shape)
 
