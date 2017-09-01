@@ -4,23 +4,14 @@ Created on 2017/6/26.
 
 @author: Dxq
 '''
-# from proj import tasks
-# #
-# tasks.tt.delay()
-# print 12
 
+import config
+import numpy as np
 
-#
-# mdb = config.mdb
-# user = {
-#     '_id': base.getRedisID('user'),
-#     'name': "莫笑刀3",
-#     'date':  datetime.datetime.today()
-# }
-# mdb.user.insert(user)
-# from service.picture_service import cutSqure
-# from PIL import Image
-# img = Image.open('3.jpg')
-# img = cutSqure(img)
-# img.save('4.jpg')
-print([1,2,3]<=2)
+rdb = config.rdb
+rdb.lpush('tt', np.array([2, 3, 3]))
+ss = [np.array(list(t)) for t in rdb.lrange('tt', 0, -1)]
+print(ss)
+for i in rdb.lrange('tt', 0, -1):
+    print(i)
+    print(type(i))
