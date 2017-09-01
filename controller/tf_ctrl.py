@@ -96,7 +96,7 @@ class TrainIndex(base.BaseHandler):
         return self.finish(base.rtjson())
 
 
-class Traintest(base.BaseHandler):
+class TrainTest(base.BaseHandler):
     def post(self):
         face = self.input('face')
         src_id = base.getRedisID('face_test_source')

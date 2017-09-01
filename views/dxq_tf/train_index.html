@@ -43,7 +43,7 @@
         reader.readAsDataURL(file.files[0]);
     }
     function uploadImage() {
-        $.post(window.location.pathname, {face: $("#J-face-hid").val()}, function (res) {
+        $.post('', {face: $("#J-face-hid").val()}, function (res) {
             if (res.status == 1) {
                alert(1)
             }
