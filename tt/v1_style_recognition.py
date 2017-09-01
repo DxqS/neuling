@@ -36,13 +36,15 @@ train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entry)
 tf.global_variables_initializer().run()
 
 x_list = mdb.face_train_source.find()
-for x in x_list[0]:
-    x3 = []
-    print(x['chin'])
-    for x2 in x['chin']:
-        x3.extend(x2)
-    print(x3)
-    y1 = LabelToCode[x['label']]
+i = 1
+for x in x_list:
+    if i == 1:
+        i += 1
+        x3 = []
+        for x2 in x['chin']:
+            x3.extend(x2)
+        print(x3)
+        y1 = LabelToCode[x['label']]
 
 for i in range(10):
     train_step.run({x: x3, y_: y1})
