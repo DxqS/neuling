@@ -28,8 +28,8 @@ mdb = mdb[srv['mongo']['db']]
 
 sess = tf.InteractiveSession()
 x = tf.placeholder(tf.float32, [None, 784])
-W = tf.Variable(tf.zeros([784, 10]), dtype=tf.float32)
-b = tf.Variable(tf.zeros([10]), dtype=tf.float32)
+W = tf.Variable(tf.zeros([784, 10]))
+b = tf.Variable(tf.zeros([10]))
 y = tf.nn.softmax(tf.matmul(x, W) + b)
 y_ = tf.placeholder(tf.float32, [None, 10])
 cross_entry = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y), reduction_indices=[1]))
@@ -38,18 +38,18 @@ tf.global_variables_initializer().run()
 
 x_list = mdb.face_train_source.find()
 i = 1
-for x in x_list:
-    if i == 1:
-        x4 = np.zeros([1, 34])
-        y4 = np.zeros([1, 9])
-        i += 1
-        x3 = []
-        for x2 in x['chin']:
-            x3.extend(x2)
-        x4[1:] = np.transpose(np.array(x3))
-        y4[1:] = LabelToCode[x['label']]
-        print(x4.shape)
-        print(y4.shape)
+# for x in x_list:
+#     if i == 1:
+#         x4 = np.zeros([1, 34])
+#         y4 = np.zeros([1, 9])
+#         i += 1
+#         x3 = []
+#         for x2 in x['chin']:
+#             x3.extend(x2)
+#         x4[1:] = np.transpose(np.array(x3))
+#         y4[1:] = LabelToCode[x['label']]
+#         print(x4.shape)
+#         print(y4.shape)
 
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 for i in range(1):
@@ -57,7 +57,7 @@ for i in range(1):
     train_step.run({x: xs, y_: ys})
     print(xs.shape)
     print(ys.shape)
-
-for i in range(10):
-    print(i)
-    train_step.run({x: x4, y_: y4})
+#
+# for i in range(10):
+#     print(i)
+#     train_step.run({x: x4, y_: y4})
