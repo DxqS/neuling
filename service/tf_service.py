@@ -71,6 +71,8 @@ def face_encoding(baseImg):
 
 
 def compare_faces(known_faces, unknow_face_encoding, top=3):
+    print(known_faces)
+    print(unknow_face_encoding)
     res = [(i, t) for i, t in enumerate(list(face_distance(known_faces, unknow_face_encoding)))]
     res.sort(key=lambda x: x[1])
     return res[:top]
