@@ -26,8 +26,8 @@ mdb.admin.authenticate(srv['mongo']['uname'], str(srv['mongo']['pwd']), mechanis
 mdb = mdb[srv['mongo']['db']]
 
 sess = tf.InteractiveSession()
-x = tf.placeholder(tf.float32, [None, 400 * 400])
-W = tf.Variable(tf.zeros([400 * 400, 9]), dtype=tf.float32)
+x = tf.placeholder(tf.float32, [None, 34])
+W = tf.Variable(tf.zeros([34, 9]), dtype=tf.float32)
 b = tf.Variable(tf.zeros([9]), dtype=tf.float32)
 y = tf.nn.softmax(tf.matmul(x, W) + b)
 y_ = tf.placeholder(tf.float32, [None, 9])
