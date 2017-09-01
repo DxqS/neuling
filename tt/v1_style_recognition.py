@@ -40,12 +40,12 @@ x_list = mdb.face_train_source.find()
 i = 1
 for x in x_list:
     if i == 1:
-        x4 = np.zeros(1, 34)
+        x4 = np.zeros([1, 34])
         i += 1
         x3 = []
         for x2 in x['chin']:
             x3.extend(x2)
-        x4[1:]=np.transpose(np.array(x3))
+        x4[1:] = np.transpose(np.array(x3))
         y1 = LabelToCode[x['label']]
         print(np.array(x3).shape)
         print(np.transpose(np.array(x3)).shape)
