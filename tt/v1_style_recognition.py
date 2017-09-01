@@ -48,16 +48,15 @@ for x in x_list:
             x3.extend(x2)
         x4[1:] = np.transpose(np.array(x3))
         y4[1:] = LabelToCode[x['label']]
-        print(np.array(x3).shape)
-        print(np.transpose(np.array(x3)).shape)
         print(x4.shape)
-
-for i in range(10):
-    print(i)
-    train_step.run({x: np.transpose(x4), y_: np.transpose(np.array(y4))})
+        print(y4.shape)
 
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 for i in range(1):
     xs, ys = mnist.train.next_batch(100)
     print(xs.shape)
     print(ys.shape)
+
+for i in range(10):
+    print(i)
+    train_step.run({x: x4, y_: y4})
