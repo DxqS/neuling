@@ -127,15 +127,17 @@ def Add_Face_DB(path, label, src_id):
         drawPoints(points=outline, file_name=file_name)
         result[feature] = '/' + file_name
     if face_landmarks_dict != "Error":
-        face_train_source = {
+        table_name = 'face_train_source' if label != 'TEST'else 'face_test_source'
+
+        face_source = {
             '_id': int(src_id),
             'path': '/' + path,
             'label': label,
             'type': 'train',
             'result': result
         }
-        face_train_source.update(face_landmarks_dict)
-        mdb.face_train_source.insert(face_train_source)
+        face_source.update(face_landmarks_dict)
+        mdb[table_name].insert(face_source)
     return True
 
 
@@ -194,3 +196,25 @@ def train(learning_rate, train_epochs):
     saver = tf.train.Saver(tf.global_variables())
     saver.save(sess, "source/model/face.ckpt")
     return True
+
+
+def tt(sid):
+    test_source = mdb.face_test_source.find({"_id": int(sid)})
+    x_input = np.zeros([1, 34])
+    xs = []
+    for point in test_source['chin']:
+        xs.extend(point)
+        x_input[1:] = np.transpose(np.array(xs))
+
+    # 定义变量
+    sess = tf.InteractiveSession()
+
+    x = tf.placeholder(tf.float32, [None, 34])
+    W = tf.Variable(tf.zeros([34, 9]))
+    b = tf.Variable(tf.zeros([9]))
+    y = tf.nn.softmax(tf.matmul(x, W) + b)
+
+    saver = tf.train.Saver()
+    saver.restore(sess, "source/model/face.ckpt")
+    res = sess.run(y, feed_dict={x: x_input})
+    return res

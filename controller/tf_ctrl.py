@@ -94,3 +94,15 @@ class TrainIndex(base.BaseHandler):
     def post(self):
         tf_service.train(0.05, 100)
         return self.finish(base.rtjson())
+
+
+class Traintest(base.BaseHandler):
+    def post(self):
+        face = self.input('face')
+        src_id = base.getRedisID('face_test_source')
+        path = tf_service.Add_Face_to_Source(face, 'TEST', src_id)
+        tf_service.Add_Face_DB(path, 'TEST', src_id)
+
+        print(tf_service.tt(src_id))
+
+        return self.finish(base.rtjson())
