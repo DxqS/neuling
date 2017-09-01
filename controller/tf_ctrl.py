@@ -9,8 +9,10 @@ import numpy as np
 from common import base
 import config
 from service import tf_service
+from model import rdbKey
 
 mdb = config.mdb
+rdb = config.rdb
 LabelList = ['TMKA', 'MLSS', 'QCJJ',
              'ZRYY', 'GYRM', 'ZXCZ',
              'LMMR', 'HLGY', 'XDMD']
@@ -84,5 +86,9 @@ class UserAdd(base.BaseHandler):
             'face_encoding': list(face_encoding)
         }
         mdb.user_encoding.insert(user_encoding)
-
+        if rdb.exists(rdbKey.encoding_faces()):
+            rdb.rpush(rdbKey.encoding_faces(), np.array(face_encoding))
+            rdb.rpush(rdbKey.encoding_names(), name)
+        else:
+            tf_service.get_know_face_encodings()
         return self.finish(base.rtjson())
