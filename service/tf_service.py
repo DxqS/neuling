@@ -160,6 +160,6 @@ def get_know_face_encodings():
         for rec in mdb.user_encoding.find():
             known_faces.append(np.array(rec['face_encoding']))
             known_names.append(rec['name'])
-            rdb.rpush(face_key, rec['face_encoding'])
+            rdb.rpush(face_key, np.array(rec['face_encoding']))
             rdb.rpush(name_key, rec['name'])
     return known_faces, known_names
