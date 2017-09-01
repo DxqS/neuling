@@ -11,6 +11,11 @@ from pymongo import MongoClient
 
 import yaml
 
+LabelToCode = {
+    'TMKA': [1, 0, 0, 0, 0, 0, 0, 0, 0], 'MLSS': [0, 1, 0, 0, 0, 0, 0, 0, 0], 'QCJJ': [0, 0, 1, 0, 0, 0, 0, 0, 0],
+    'ZRYY': [0, 0, 0, 1, 0, 0, 0, 0, 0], 'GYRM': [0, 0, 0, 0, 1, 0, 0, 0, 0], 'ZXCZ': [0, 0, 0, 0, 0, 1, 0, 0, 0],
+    'LMMR': [0, 0, 0, 0, 0, 0, 1, 0, 0], 'HLGY': [0, 0, 0, 0, 0, 0, 0, 1, 0], 'XDMD': [0, 0, 0, 0, 0, 0, 0, 0, 1],
+}
 run_mode = os.environ.get('RUN_ENV', 'local')
 srv = yaml.load(open('srv.yml', 'r'))[run_mode]
 pool = redis.ConnectionPool(**srv['redis'])
@@ -31,8 +36,12 @@ train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entry)
 tf.global_variables_initializer().run()
 
 x_list = mdb.face_train_source.find()
-for x in x_list:
-    print(x['_id'])
+for x in x_list[0]:
+    x3 = []
+    for x2 in x['chin']:
+        x3.append(x2[0], x2[1])
+    print(x3.shape)
+    y1 = LabelToCode[x['label']]
 
-# for i in range(10):
-#     train_step.run({x: 1, y_: 1})
+for i in range(10):
+    train_step.run({x: x3, y_: y1})
