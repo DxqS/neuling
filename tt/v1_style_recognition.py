@@ -8,7 +8,7 @@ import tensorflow as tf
 import os
 import redis
 from pymongo import MongoClient
-
+import numpy as np
 import yaml
 
 LabelToCode = {
@@ -43,8 +43,8 @@ for x in x_list:
         x3 = []
         for x2 in x['chin']:
             x3.extend(x2)
-        print(x3)
         y1 = LabelToCode[x['label']]
 
 for i in range(10):
-    train_step.run({x: x3, y_: y1})
+    print(i)
+    train_step.run({x: np.array(x3), y_: np.array(y1)})
