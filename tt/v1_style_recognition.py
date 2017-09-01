@@ -40,18 +40,20 @@ x_list = mdb.face_train_source.find()
 i = 1
 for x in x_list:
     if i == 1:
+        x4 = np.zeros(1, 34)
         i += 1
         x3 = []
         for x2 in x['chin']:
             x3.extend(x2)
+        x4[1:]=np.transpose(np.array(x3))
         y1 = LabelToCode[x['label']]
         print(np.array(x3).shape)
         print(np.transpose(np.array(x3)).shape)
+        print(x4.shape)
 
 for i in range(10):
     print(i)
     train_step.run({x: np.transpose(np.array(x3)), y_: np.transpose(np.array(y1))})
-
 
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 for i in range(1):
