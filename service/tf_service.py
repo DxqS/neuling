@@ -139,9 +139,20 @@ def get_know_face_encodings():
     face_key = rdbKey.encoding_faces()
     name_key = rdbKey.encoding_names()
 
+    # if not rdb.exists(face_key):
+    #     for rec in mdb.user_encoding.find():
+    #         rdb.rpush(face_key, rec['face_encoding'])
+    #         rdb.rpush(name_key, rec['name'])
+    #
+    # return [np.array(list(t)) for t in rdb.lrange(face_key, 0, -1)], rdb.lrange(name_key, 0, -1)
+    known_faces = rdb.lrange(face_key, 0, -1)
+    known_names = rdb.lrange(name_key, 0, -1)
     if not rdb.exists(face_key):
+        known_faces = []
+        known_names = []
         for rec in mdb.user_encoding.find():
-            rdb.rpush(face_key, rec['face_encoding'])
-            rdb.rpush(name_key, rec['name'])
-
-    return [np.array(list(t)) for t in rdb.lrange(face_key, 0, -1)], rdb.lrange(name_key, 0, -1)
+            known_faces.append(np.array(rec['face_encoding']))
+            known_names.append(rec['name'])
+        rdb.rpush(face_key, known_faces)
+        rdb.rpush(name_key, known_names)
+    return known_faces, known_names
