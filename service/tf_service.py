@@ -142,4 +142,4 @@ def get_know_face_encodings():
             rdb.rpush(face_key, rec['face_encoding'])
             rdb.rpush(name_key, rec['name'])
 
-    return rdb.lrange(face_key, 0, -1), rdb.lrange(name_key, 0, -1)
+    return [np.array(t) for t in rdb.lrange(face_key, 0, -1)], rdb.lrange(name_key, 0, -1)
