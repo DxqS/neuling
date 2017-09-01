@@ -199,7 +199,7 @@ def train(learning_rate, train_epochs):
 
 
 def tt(sid):
-    test_source = mdb.face_test_source.find({"_id": int(sid)})
+    test_source = mdb.face_test_source.find_one({"_id": int(sid)})
     x_input = np.zeros([1, 34])
     xs = []
     for point in test_source['chin']:
