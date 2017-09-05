@@ -46,4 +46,6 @@ def load_data_mat(file_name):
 
 
 if __name__ == "__main__":
-    load_data_mat('1.mat')
+    data = scio.loadmat('1.mat')
+    print(data['X'].shape)
+    print(data['Y'].shape)
