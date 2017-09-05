@@ -193,7 +193,6 @@ def train(learning_rate, train_epochs):
             ww = sess.run(W)
             print(step, ww)
             print(ww.shape)
-
     saver = tf.train.Saver(tf.global_variables())
     saver.save(sess, "source/model/face.ckpt")
     return True
