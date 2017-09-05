@@ -179,8 +179,8 @@ def train(learning_rate, train_epochs):
     data = scio.loadmat('source/data.mat')
 
     x = tf.placeholder(tf.float32, [None, 784])
-    W = tf.Variable(tf.zeros([784, 9]))
-    b = tf.Variable(tf.zeros([9]))
+    W = tf.Variable(tf.truncated_normal([784, 9], stddev=0.1))
+    b = tf.Variable(tf.constant(0.1, shape=[9]))
     y = tf.nn.softmax(tf.matmul(x, W) + b)
     y_ = tf.placeholder(tf.float32, [None, 9])
     cross_entry = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y), reduction_indices=[1]))
