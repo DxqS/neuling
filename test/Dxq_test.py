@@ -45,4 +45,5 @@ def load_data_mat(file_name):
     return True
 
 
-load_data_mat('1.mat')
+if __name__ == "__main__":
+    load_data_mat('1.mat')
