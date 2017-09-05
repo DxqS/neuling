@@ -37,7 +37,7 @@ def load_data_mat(file_name):
     y = np.zeros([num, 9])
     for i, source in enumerate(train_source):
         out_line = source['result']['chin']
-        img = Image.open(out_line)
+        img = Image.open('..' + out_line)
         img2 = np.array(img.resize([28, 28]).convert("L")).reshape(1, 784)
         x[i + 1:] = img2
         y[i + 1:] = LabelToCode[source['label']]
