@@ -156,13 +156,12 @@ def load_data_mat(file_name):
         return True
     train_source = mdb.face_train_source.find()
     num = train_source.count()
-    x = np.zeros([num, 34])
+    x = np.zeros([num, 784])
     y = np.zeros([num, 9])
     for i, source in enumerate(train_source):
-        xs = []
-        for point in source['chin']:
-            xs.extend(point)
-        x[i + 1:] = np.transpose(np.array(xs))
+        out_line = source['result']['chin']
+        img = Image.open('..' + out_line)
+        x[i + 1:] = np.array(img.resize([28, 28]).convert("L")).reshape(1, 784)
         y[i + 1:] = LabelToCode[source['label']]
     scio.savemat(file_name, {'X': x, 'Y': y})
     return True
@@ -179,8 +178,8 @@ def train(learning_rate, train_epochs):
     load_data_mat('source/data.mat')
     data = scio.loadmat('source/data.mat')
 
-    x = tf.placeholder(tf.float32, [None, 34])
-    W = tf.Variable(tf.zeros([34, 9]))
+    x = tf.placeholder(tf.float32, [None, 784])
+    W = tf.Variable(tf.zeros([784, 9]))
     b = tf.Variable(tf.zeros([9]))
     y = tf.nn.softmax(tf.matmul(x, W) + b)
     y_ = tf.placeholder(tf.float32, [None, 9])
