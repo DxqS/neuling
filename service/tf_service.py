@@ -175,14 +175,14 @@ def get_random_block_from_data(data, batch_size):
 
 def train(learning_rate, train_epochs):
     sess = tf.InteractiveSession()
-    load_data_mat('source/data.mat')
-    data = scio.loadmat('source/data.mat')
+    load_data_mat('source/mnist_data.mat')
+    data = scio.loadmat('source/mnist_data.mat')
 
     x = tf.placeholder(tf.float32, [None, 784])
-    W = tf.Variable(tf.truncated_normal([784, 9], stddev=0.1))
-    b = tf.Variable(tf.constant(0.1, shape=[9]))
+    W = tf.Variable(tf.truncated_normal([784, 10], stddev=0.1))
+    b = tf.Variable(tf.constant(0.1, shape=[10]))
     y = tf.nn.softmax(tf.matmul(x, W) + b)
-    y_ = tf.placeholder(tf.float32, [None, 9])
+    y_ = tf.placeholder(tf.float32, [None, 10])
     cross_entry = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y), reduction_indices=[1]))
     train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entry)
     tf.global_variables_initializer().run()

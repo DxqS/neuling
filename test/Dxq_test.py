@@ -47,7 +47,6 @@ def load_data_mat(file_name):
 
 
 if __name__ == "__main__":
-    mnist = input_data.read_data_sets("MNIST", one_hot=True)
-    # data = scio.loadmat('1.mat')
-    # print(data['X'].shape)
-    # print(data['Y'].shape)
+    data = scio.loadmat('mnist_data.mat')
+    print(data['X'].shape)
+    print(data['Y'].shape)
