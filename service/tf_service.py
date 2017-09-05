@@ -190,6 +190,7 @@ def train(learning_rate, train_epochs):
         xs_batch, ys_batch = get_random_block_from_data(data, 100)
         train_step.run({x: xs_batch, y_: ys_batch})
         if step % 20 == 0:
+
             ww = sess.run(W)
             print(step, ww)
             print(ww.shape)
