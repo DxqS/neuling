@@ -5,27 +5,8 @@ Created on 2017/9/6.
 @author: chk01
 '''
 import tensorflow as tf
-import os
-import tempfile
-from six.moves import urllib
 import numpy
 import gzip
-
-
-def maybe_download(filename, work_directory):
-    """Download the data from Yann's website, unless it's already here."""
-    if not tf.gfile.Exists(work_directory):
-        tf.gfile.MakeDirs(work_directory)
-    filepath = os.path.join(work_directory, filename)
-    if not tf.gfile.Exists(filepath):
-        with tempfile.NamedTemporaryFile() as tmpfile:
-            temp_file_name = tmpfile.name
-            urllib.request.urlretrieve(SOURCE_URL + filename, temp_file_name)
-            tf.gfile.Copy(temp_file_name, filepath)
-            with tf.gfile.GFile(filepath) as f:
-                size = f.Size()
-            print('Successfully downloaded', filename, size, 'bytes.')
-    return filepath
 
 
 def _read32(bytestream):
@@ -47,9 +28,6 @@ def extract_images(filename):
         cols = _read32(bytestream)
         buf = bytestream.read(rows * cols * num_images)
         data = numpy.frombuffer(buf, dtype=numpy.uint8)
-        data1 = numpy.frombuffer(buf, dtype=numpy.float32)
-        print(data)
-        print(data1)
         data = data.reshape(num_images, rows, cols, 1)
         return data
 
@@ -60,7 +38,7 @@ TEST_IMAGES = 't10k-images-idx3-ubyte.gz'
 TEST_LABELS = 't10k-labels-idx1-ubyte.gz'
 
 if __name__ == '__main__':
-
+    '''
+    运行该脚本需要先下载MNIST数据集到同级目录下*.gz文件
+    '''
     train_images = extract_images(TRAIN_IMAGES)
-    print(train_images)
-    print(train_images.shape)
