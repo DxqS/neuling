@@ -50,7 +50,6 @@ def loadLabelSet(filename):
     offset = struct.calcsize('>II')  # 定位到label数据开始的位置
 
     labelNum = head[1]
-    print(labelNum)
     numString = '>' + str(labelNum) + "B"  # fmt格式：'>60000B'
     labels = struct.unpack_from(numString, buffers, offset)  # 取label数据
 
