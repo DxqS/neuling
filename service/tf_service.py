@@ -210,9 +210,9 @@ def tt(sid):
     # 定义变量
     sess = tf.InteractiveSession()
 
-    x = tf.placeholder(tf.float32, [None, 34])
-    W = tf.Variable(tf.zeros([34, 9]))
-    b = tf.Variable(tf.zeros([9]))
+    x = tf.placeholder(tf.float32, [None, 784])
+    W = tf.Variable(tf.zeros([784, 10]))
+    b = tf.Variable(tf.zeros([10]))
     y = tf.nn.softmax(tf.matmul(x, W) + b)
 
     saver = tf.train.Saver()
