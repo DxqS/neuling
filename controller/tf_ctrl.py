@@ -108,7 +108,5 @@ class ModelTest(base.BaseHandler):
         image = img.astype(np.float32)
         x_input = np.multiply(image, 1.0 / 255.0)
         res = tf_service.number_test(x_input)
-        print(res)
-        print(res.shape)
-        print(sum(sum(res)))
+        print(np.argmax(res))
         return self.finish(base.rtjson())

@@ -213,13 +213,10 @@ def number_test(x_input):
     W = tf.Variable(tf.zeros([784, 10]))
     b = tf.Variable(tf.zeros([10]))
     y = tf.nn.softmax(tf.matmul(x, W) + b)
-    zz = tf.argmax(y, 1)
 
     saver = tf.train.Saver()
     saver.restore(sess, "resource/model/number.ckpt")
     res = sess.run(y, feed_dict={x: x_input})
-    zzz = sess.run(zz, feed_dict={y: res})
-    print(zzz)
     return res
 
 
