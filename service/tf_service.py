@@ -209,7 +209,7 @@ def train(learning_rate, train_epochs):
             print('my', xs_batch.shape)
             print('mnist', batch[0].shape)
 
-        train_step.run({x: batch[0], y_: batch[1]})
+        train_step.run({x: xs_batch, y_: ys_batch})
         if step % 20 == 0:
             ww = sess.run(W)
             print(step, ww)

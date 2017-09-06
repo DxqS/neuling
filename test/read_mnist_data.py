@@ -51,19 +51,20 @@ def loadLabelSet(filename):
 
 #
 if __name__ == "__main__":
-    file1 = 'train-images.idx3-ubyte'
-    # file2 = 'train-labels.idx1-ubyte'
+    pass
+    #     file1 = 'train-images.idx3-ubyte'
+    #     file2 = 'train-labels.idx1-ubyte'
     #
-    imgs, data_head = loadImageSet(file1)
-    # labels, labels_head = loadLabelSet(file2)
-    # print('labels_head:', labels_head)
-    # print(type(labels))
-    # print(labels)
-    # print(labels.shape)
-    print(type(imgs[0][0]))
-#
-#     y = np.zeros([60000, 10])
-#     for i, label in enumerate(labels):
-#         y[i][label] = 1
-#
-#     scio.savemat('mnist_data.mat', {'X': imgs[:20000], 'Y': y[:20000]})
+    #     imgs, data_head = loadImageSet(file1)
+    #     labels, labels_head = loadLabelSet(file2)
+    #
+    #     images = imgs.astype(np.float32)
+    #     images = np.multiply(images, 1.0 / 255.0)
+    #
+    # #
+    #     y = np.zeros([60000, 10])
+    #     for i, label in enumerate(labels):
+    #         y[i][label] = 1
+    #
+    # scio.savemat('mnist_data.mat', {'X': images, 'Y': y})
+    # data = scio.loadmat('mnist_data.mat')
