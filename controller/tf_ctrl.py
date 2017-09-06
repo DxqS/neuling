@@ -109,4 +109,4 @@ class ModelTest(base.BaseHandler):
         x_input = np.multiply(image, 1.0 / 255.0)
         res = tf_service.number_test(x_input)
         print(np.argmax(res))
-        return self.finish(base.rtjson())
+        return self.finish(base.rtjson(num=np.argmax(res)))
