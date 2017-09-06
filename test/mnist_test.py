@@ -25,4 +25,6 @@ def test(x_input):
 
 if __name__ == "__main__":
     img = np.array(Image.open('5.png').convert("L").resize((28, 28), Image.ANTIALIAS)).reshape(1, 784)
-    print(test(img))
+    image = img.astype(np.float32)
+    image = np.multiply(image, 1.0 / 255.0)
+    print(test(image))
