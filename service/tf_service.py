@@ -183,8 +183,8 @@ def train(learning_rate, train_epochs):
     b = tf.Variable(tf.constant(0.1, shape=[10]))
     y = tf.nn.softmax(tf.matmul(x, W) + b)
     y_ = tf.placeholder(tf.float32, [None, 10])
-    cross_entry = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y), reduction_indices=[1]))
-    train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entry)
+    cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
+    train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
     tf.global_variables_initializer().run()
     for step in range(train_epochs):
         xs_batch, ys_batch = get_random_block_from_data(data, 100)
