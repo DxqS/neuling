@@ -102,18 +102,21 @@ class ModelTest(base.BaseHandler):
     def post(self):
         face = self.input('face')
         src_id = base.getRedisID('number_train_source')
-        img_path = 'static/local/number/{}.jpg'.format(src_id)
+        img_path = 'static/local/number/source_{}.jpg'.format(src_id)
+        train_path = 'static/local/number/train_{}.jpg'.format(src_id)
         tf_service.saveBaseImg(face, img_path)
 
         img = Image.open(img_path)
-        cutImg = np.array(picture_service.cutSqure(img).convert("L").resize((28, 28), Image.ANTIALIAS)).reshape(1, 784)
+        train = picture_service.cutSqure(img).convert("L").resize((28, 28), Image.ANTIALIAS)
+        train.save(train_path)
 
-        image = cutImg.astype(np.float32)
+        image = np.array(train).reshape(1, 784).astype(np.float32)
         x_input = np.multiply(image, 1.0 / 255.0)
         res = tf_service.number_test(x_input)
         number_train_source = {
             '_id': src_id,
             'source': img_path,
+            'train': train_path,
             'predict': np.argmax(res).tolist()
             # 'label':0 #编辑使用
         }
