@@ -48,17 +48,19 @@ def loadLabelSet(filename):
 
     return labels, head
 
+
 #
-# if __name__ == "__main__":
-#     file1 = 'train-images.idx3-ubyte'
-#     file2 = 'train-labels.idx1-ubyte'
-#
-#     imgs, data_head = loadImageSet(file1)
-#     labels, labels_head = loadLabelSet(file2)
-#     print('labels_head:', labels_head)
-#     print(type(labels))
-#     print(labels)
-#     print(labels.shape)
+if __name__ == "__main__":
+    file1 = 'train-images.idx3-ubyte'
+    # file2 = 'train-labels.idx1-ubyte'
+    #
+    imgs, data_head = loadImageSet(file1)
+    # labels, labels_head = loadLabelSet(file2)
+    # print('labels_head:', labels_head)
+    # print(type(labels))
+    # print(labels)
+    # print(labels.shape)
+    print(type(imgs[0][0]))
 #
 #     y = np.zeros([60000, 10])
 #     for i, label in enumerate(labels):
