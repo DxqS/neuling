@@ -29,7 +29,7 @@ def maybe_download(filename, work_directory):
 
 
 def _read32(bytestream):
-    dt = numpy.dtype(numpy.uint32).newbyteorder('>')
+    dt = numpy.dtype(numpy.float32).newbyteorder('>')
     return numpy.frombuffer(bytestream.read(4), dtype=dt)[0]
 
 
@@ -63,3 +63,4 @@ if __name__ == '__main__':
 
     train_images = extract_images(filepath)
     print(train_images)
+    print(train_images.shape)
