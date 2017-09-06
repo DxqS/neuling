@@ -175,8 +175,8 @@ def get_random_block_from_data(data, batch_size):
 
 def train(learning_rate, train_epochs):
     sess = tf.InteractiveSession()
-    load_data_mat('source/mnist_data.mat')
-    data = scio.loadmat('source/mnist_data.mat')
+    load_data_mat('resource/mnist_data.mat')
+    data = scio.loadmat('resource/mnist_data.mat')
 
     x = tf.placeholder(tf.float32, [None, 784])
     W = tf.Variable(tf.truncated_normal([784, 10], stddev=0.1))
@@ -194,7 +194,7 @@ def train(learning_rate, train_epochs):
             print(step, ww)
             print(ww.shape)
     saver = tf.train.Saver(tf.global_variables())
-    saver.save(sess, "source/model/face.ckpt")
+    saver.save(sess, "resource/model/face.ckpt")
     return True
 
 
@@ -216,6 +216,6 @@ def tt(sid):
     y = tf.nn.softmax(tf.matmul(x, W) + b)
 
     saver = tf.train.Saver()
-    saver.restore(sess, "source/model/face.ckpt")
+    saver.restore(sess, "resource/model/face.ckpt")
     res = sess.run(y, feed_dict={x: x_input})
     return res
