@@ -29,7 +29,7 @@ def maybe_download(filename, work_directory):
 
 
 def _read32(bytestream):
-    dt = numpy.dtype(numpy.float32).newbyteorder('>')
+    dt = numpy.dtype(numpy.uint32).newbyteorder('>')
     return numpy.frombuffer(bytestream.read(4), dtype=dt)[0]
 
 
@@ -57,10 +57,7 @@ TEST_IMAGES = 't10k-images-idx3-ubyte.gz'
 TEST_LABELS = 't10k-labels-idx1-ubyte.gz'
 
 if __name__ == '__main__':
-    if not tf.gfile.Exists(''):
-        tf.gfile.MakeDirs('')
-    filepath = os.path.join('', TRAIN_IMAGES)
 
-    train_images = extract_images(filepath)
+    train_images = extract_images(TRAIN_IMAGES)
     print(train_images)
     print(train_images.shape)
