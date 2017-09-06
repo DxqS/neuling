@@ -200,6 +200,8 @@ def train(learning_rate, train_epochs):
         if step == 0:
             print('my', xs_batch)
             print('mnist', batch[0])
+            print('my', xs_batch[0][0])
+            print('mnist', batch[0][0][0])
             print('my', xs_batch.shape)
             print('mnist', batch[0].shape)
 
