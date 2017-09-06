@@ -194,6 +194,8 @@ def train(learning_rate, train_epochs):
     train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
     for step in range(train_epochs):
         xs_batch, ys_batch = get_random_block_from_data(data, 100)
+        print(xs_batch.shape)
+        print(ys_batch.shape)
         train_step.run({x: xs_batch, y_: ys_batch})
         if step % 20 == 0:
             ww = sess.run(W)
