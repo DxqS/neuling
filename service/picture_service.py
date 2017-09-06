@@ -79,7 +79,6 @@ def circle(img):
 
 def cutSqure(img):
     # 居中裁剪正方形
-    ts = time.time()
     size = img.size
     s_max = max(size[0], size[1])
     s_min = min(size[0], size[1])

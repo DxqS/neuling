@@ -222,3 +222,18 @@ def number_test(x_input):
 
 def extract_image(face):
     return 1
+
+
+def saveBaseImg(baseImg, file_path='static/local/temporary/1.jpg'):
+    for typ in IMG_TYPE:
+        replace_str = "data:image/{};base64,".format(typ)
+        baseImg = baseImg.replace(replace_str, "")
+
+    fdir = file_path[:file_path.rfind('/')]
+    if not os.path.exists(fdir):
+        os.makedirs(fdir)
+
+    imgdata = base64.b64decode(baseImg)
+    with open(file_path, 'wb') as f:
+        f.write(imgdata)
+    return file_path

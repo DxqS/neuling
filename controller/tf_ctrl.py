@@ -4,10 +4,12 @@ Created on 2017/7/13.
 
 @author: Dxq
 '''
+from PIL import Image
+import numpy as np
 
 from common import base
 import config
-from service import tf_service
+from service import tf_service, picture_service
 
 mdb = config.mdb
 rdb = config.rdb
@@ -98,15 +100,24 @@ class ModelNumber(base.BaseHandler):
 
 class ModelTest(base.BaseHandler):
     def post(self):
-        import numpy as np
-        from PIL import Image
-        # face = self.input('face')
-        # x_input = tf_service.extract_image(face)
-        # print(tf_service.number_test(x_input))
-        file_path = 'static/images/number_test/7.png'
-        img = np.array(Image.open(file_path).convert("L").resize((28, 28), Image.ANTIALIAS)).reshape(1, 784)
-        image = img.astype(np.float32)
+        face = self.input('face')
+        src_id = base.getRedisID('number_train_source')
+        img_path = 'static/local/number/{}.jpg'.format(src_id)
+        tf_service.saveBaseImg(face, img_path)
+
+        img = Image.open(img_path)
+        cutImg = np.array(picture_service.cutSqure(img).convert("L").resize((28, 28), Image.ANTIALIAS)).reshape(1, 784)
+
+        image = cutImg.astype(np.float32)
         x_input = np.multiply(image, 1.0 / 255.0)
         res = tf_service.number_test(x_input)
+        number_train_source = {
+            '_id': src_id,
+            'source': img_path,
+            'predict': np.argmax(res)
+            # 'label':0 #编辑使用
+        }
+        mdb.number_train_source.insert(number_train_source)
+
         print(np.argmax(res))
-        return self.finish(base.rtjson(num=np.argmax(res)))
+        return self.finish(base.rtjson(num=str(np.argmax(res))))
