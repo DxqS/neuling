@@ -127,7 +127,7 @@ class ModelTest(base.BaseHandler):
         x_input = np.multiply(image, 1.0 / 255.0)
 
         # res = tf_service.number_test(x_input)
-        res = sess.run(y, feed_dict={x: np.subtract(1, x_input)})
+        res = sess.run(y, feed_dict={x: x_input})
         number_train_source = {
             '_id': src_id,
             'source': '/' + img_path,
