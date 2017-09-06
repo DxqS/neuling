@@ -192,10 +192,10 @@ def train(learning_rate, train_epochs):
     cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
 
     train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
+    from tensorflow.examples.tutorials.mnist import input_data
+    mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
     for step in range(train_epochs):
         xs_batch, ys_batch = get_random_block_from_data(data, 100)
-        from tensorflow.examples.tutorials.mnist import input_data
-        mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
         batch = mnist.train.next_batch(100)
         if step == 0:
             print('my', xs_batch)
