@@ -31,7 +31,6 @@ saver = tf.train.Saver()
 saver.restore(sess, "resource/model/number.ckpt")
 
 
-
 class SourceIndex(base.BaseHandler):
     def get(self):
         label = self.input("label", "all")
@@ -103,7 +102,9 @@ class UserAdd(base.BaseHandler):
 
 class ModelNumber(base.BaseHandler):
     def get(self):
-        return self.render('dxq_tf/model_number.html', LabelList=LabelList)
+        sourceList = mdb.number_train_source.find()
+        source_list, pager = base.mongoPager(sourceList, self.input("pagenum", 1))
+        return self.render('dxq_tf/model_number.html', LabelList=LabelList, source_list=source_list, pager=pager)
 
     def post(self):
         tf_service.number_train(0.01, 3000)
@@ -128,8 +129,8 @@ class ModelTest(base.BaseHandler):
         res = sess.run(y, feed_dict={x: x_input})
         number_train_source = {
             '_id': src_id,
-            'source': img_path,
-            'train': train_path,
+            'source': '/' + img_path,
+            'train': '/' + train_path,
             'predict': np.argmax(res).tolist()
             # 'label':0 #编辑使用
         }

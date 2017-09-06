@@ -94,6 +94,30 @@
                 </i>
                 <a id="J-save-btn" class="am-btn am-btn-primary">测试</a>
             </div>
+            <table class="am-table am-table-striped am-table-hover am-table-centered">
+                <tr>
+                    <th>ID</th>
+                    <th>原图</th>
+                    <th>训练图</th>
+                    <th>检测结果</th>
+                    <th>真实结果</th>
+                </tr>
+                {%for source in source_list%}
+                <tr>
+                    <td class="am-text-middle">{{source['_id']}}</td>
+                    <td>
+                        <img class="am-radius" src="{{LocalImg(source['source'])}}" width="100" height="150"/>
+                    </td>
+                    <td>
+                        <img class="am-radius" src="{{LocalImg(source['train'])}}" width="100" height="150"/>
+                    </td>
+                    <td class="am-text-middle">{{source['predict']}}</td>
+                    <td class="am-text-middle">{{source.get("label","暂未编辑")}}</td>
+                </tr>
+                {%end%}
+
+            </table>
+            {% module Template("module/ampager.html", pager=pager,url="/tf/model/number?pagenum=:page:")%}
         </form>
     </div>
 </div>
