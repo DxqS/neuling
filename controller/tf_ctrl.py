@@ -110,6 +110,7 @@ class ModelTest(base.BaseHandler):
         train = picture_service.cutSqure(img).convert("L").resize((28, 28), Image.ANTIALIAS)
         train.save(train_path)
 
+
         image = np.array(train).reshape(1, 784).astype(np.float32)
         x_input = np.multiply(image, 1.0 / 255.0)
         res = tf_service.number_test(x_input)
