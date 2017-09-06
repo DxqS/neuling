@@ -110,5 +110,5 @@ class ModelTest(base.BaseHandler):
         res = tf_service.number_test(x_input)
         print(res)
         print(res.shape)
-        print(sum(res))
+        print(sum(sum(res)))
         return self.finish(base.rtjson())
