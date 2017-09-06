@@ -103,7 +103,7 @@ class ModelTest(base.BaseHandler):
         # face = self.input('face')
         # x_input = tf_service.extract_image(face)
         # print(tf_service.number_test(x_input))
-        file_path = 'static/images/number_test/5.png'
+        file_path = 'static/images/number_test/7.png'
         img = np.array(Image.open(file_path).convert("L").resize((28, 28), Image.ANTIALIAS)).reshape(1, 784)
         image = img.astype(np.float32)
         x_input = np.multiply(image, 1.0 / 255.0)
