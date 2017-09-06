@@ -173,9 +173,9 @@ def get_random_block_from_data(data, batch_size):
     return data['X'][start_index:(start_index + batch_size)], data['Y'][start_index:(start_index + batch_size)]
 
 
-def train(learning_rate, train_epochs):
+def number_train(learning_rate, train_epochs):
+    # 数据集已经处理完毕存resource/mnist_data.mat后才能正常使用
     sess = tf.InteractiveSession()
-    load_data_mat('resource/mnist_data.mat')
     data = scio.loadmat('resource/mnist_data.mat')
 
     x = tf.placeholder(tf.float32, [None, 784])
@@ -188,46 +188,24 @@ def train(learning_rate, train_epochs):
     tf.global_variables_initializer().run()
 
     y = tf.nn.softmax(tf.matmul(x, W) + b)
-
     cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
 
     train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
-    from tensorflow.examples.tutorials.mnist import input_data
-    mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
+    correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
+    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
     for step in range(train_epochs):
         xs_batch, ys_batch = get_random_block_from_data(data, 100)
-        batch = mnist.train.next_batch(100)
-        if step == 0:
-            print('my', xs_batch)
-            print('mnist', batch[0])
-            print('my', type(xs_batch))
-            print('mnist', type(batch[0]))
-            print('my', xs_batch[0][0])
-            print('mnist', batch[0][0][0])
-            print('my', type(xs_batch[0][0]))
-            print('mnist', type(batch[0][0][0]))
-            print('my', xs_batch.shape)
-            print('mnist', batch[0].shape)
-
         train_step.run({x: xs_batch, y_: ys_batch})
-        if step % 20 == 0:
-            ww = sess.run(W)
-            print(step, ww)
-            print(ww.shape)
+        if step % 100 == 0:
+            print(accuracy.eval(feed_dict={x: xs_batch, y_: ys_batch}))
+
     saver = tf.train.Saver(tf.global_variables())
-    saver.save(sess, "resource/model/face.ckpt")
+    saver.save(sess, "resource/model/number.ckpt")
     return True
 
 
-def tt(sid):
-    test_source = mdb.face_test_source.find_one({"_id": int(sid)})
-    x_input = np.zeros([1, 34])
-    xs = []
-    for point in test_source['chin']:
-        xs.extend(point)
-
-    x_input[1:] = np.transpose(np.array(xs))
-
+def number_test(x_input):
     # 定义变量
     sess = tf.InteractiveSession()
 
@@ -237,6 +215,10 @@ def tt(sid):
     y = tf.nn.softmax(tf.matmul(x, W) + b)
 
     saver = tf.train.Saver()
-    saver.restore(sess, "resource/model/face.ckpt")
+    saver.restore(sess, "resource/model/number.ckpt")
     res = sess.run(y, feed_dict={x: x_input})
     return res
+
+
+def extract_image(face):
+    return 1

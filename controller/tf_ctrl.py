@@ -87,22 +87,25 @@ class UserAdd(base.BaseHandler):
         return self.finish(base.rtjson())
 
 
-class TrainIndex(base.BaseHandler):
+class ModelNumber(base.BaseHandler):
     def get(self):
-        return self.render('dxq_tf/train_index.html', LabelList=LabelList)
+        return self.render('dxq_tf/model_number.html', LabelList=LabelList)
 
     def post(self):
-        tf_service.train(0.01, 100)
+        tf_service.number_train(0.01, 3000)
         return self.finish(base.rtjson())
 
 
-class TrainTest(base.BaseHandler):
+class ModelTest(base.BaseHandler):
     def post(self):
-        face = self.input('face')
-        src_id = base.getRedisID('face_test_source')
-        path = tf_service.Add_Face_to_Source(face, 'TEST', src_id)
-        tf_service.Add_Face_DB(path, 'TEST', src_id)
-
-        print(tf_service.tt(src_id))
-
+        import numpy as np
+        from PIL import Image
+        # face = self.input('face')
+        # x_input = tf_service.extract_image(face)
+        # print(tf_service.number_test(x_input))
+        file_path = 'static/images/number_test/5.png'
+        img = np.array(Image.open(file_path).convert("L").resize((28, 28), Image.ANTIALIAS)).reshape(1, 784)
+        image = img.astype(np.float32)
+        x_input = np.multiply(image, 1.0 / 255.0)
+        print(tf_service.number_test(x_input))
         return self.finish(base.rtjson())

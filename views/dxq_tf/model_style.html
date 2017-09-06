@@ -1,0 +1,102 @@
+{% extends "../layout/mbase.html" %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/amazeui/2.7.2/css/amazeui.min.css">
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/amazeui/2.7.2/js/amazeui.min.js"></script>
+<script src="//cdn.bootcss.com/amazeui/2.7.2/js/amazeui.widgets.helper.min.js"></script>
+<style>
+    tr {
+        width: 100%;
+    }
+
+    tr td {
+        width: 11.1%;
+    }
+</style>
+{% end %}
+{% module Template("module/js.html", filepath='js/common/formUtils.js') %}
+<script src="//cdn.bootcss.com/plupload/2.1.9/plupload.full.min.js"></script>
+{% block js %}
+<script>
+    $(function () {
+        $('#train').click(function () {
+            $.post(window.location.pathname, function (res) {
+                if (res.status == 1) {
+                    alert(1)
+                }
+            })
+        })
+    });
+
+</script>
+<script>
+    function selectImage(file) {
+        if (!file.files || !file.files[0]) {
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+            var img = $(file).parents().prev('div').find("img");
+            img.attr('src', evt.target.result);
+            img.prev('input').val(evt.target.result)
+        };
+        reader.readAsDataURL(file.files[0]);
+    }
+    function uploadImage() {
+        $.post('/tf/train/test', {face: $("#J-face-hid").val()}, function (res) {
+            if (res.status == 1) {
+                alert(1)
+            }
+        }, 'json');
+    }
+    $("#J-save-btn").click(function () {
+        uploadImage()
+    })
+</script>
+{% end %}
+{% block nav %}
+{% module Template("module/mbacknav.html", name='model') %}
+{% end %}
+{% block container%}
+
+<div class="am-g am-u-lg-10 am-u-md-12  am-u-sm-centered">
+    <div class="am-u-md-12">
+        <div class="am-cf">
+            <h2 class="am-fl am-margin-0"></h2>
+        </div>
+        <hr>
+    </div>
+    <div class="am-u-md-2" style="border-right: 1px solid #eee;">
+        <ul class="am-nav am-text-center">
+            <li><a href="/tf/model/number">数字模型</a></li>
+            <li class="am-active"><a href="/tf/model/style">风格模型</a></li>
+        </ul>
+    </div>
+
+    <div class="am-u-md-10">
+        <div class="am-form-group am-fr">
+            <a href="javascript:;" class="am-btn am-btn-primary am-btn-sm am-fr" id="train">开始训练</a>
+
+            <span class="am-form-caret"></span>
+        </div>
+    </div>
+    <div class="am-u-md-10">
+        <form class="am-form am-form-horizontal">
+            <div class="am-form-group am-cf">
+                <label class="am-u-sm-2 am-padding-0">用户头像：</label>
+                <div style="display: inline-block;margin-left: 18px">
+                    <input type="hidden" name="face" id="J-face-hid">
+                    <img class="am-radius" src="http://placehold.it/100x100" style="width: 100px;height: 150px">
+                </div>
+                <i class="am-icon-cloud-upload">
+                    <input type="file" onchange="selectImage(this);"/>
+                </i>
+            </div>
+        </form>
+        <div class="btn am-u-md-12" style="border-top: 1px solid #eee;padding: 1rem 0 0 0">
+            <a id="J-save-btn" class="am-btn am-btn-primary">测试</a>
+        </div>
+    </div>
+</div>
+
+{% end %}
