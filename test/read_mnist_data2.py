@@ -57,9 +57,9 @@ TEST_IMAGES = 't10k-images-idx3-ubyte.gz'
 TEST_LABELS = 't10k-labels-idx1-ubyte.gz'
 
 if __name__ == '__main__':
-    if not tf.gfile.Exists('data'):
-        tf.gfile.MakeDirs('data')
-    filepath = os.path.join('data', TRAIN_IMAGES)
+    if not tf.gfile.Exists(''):
+        tf.gfile.MakeDirs('')
+    filepath = os.path.join('', TRAIN_IMAGES)
 
     train_images = extract_images(filepath)
     print(train_images)
