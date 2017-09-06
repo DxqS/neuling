@@ -179,13 +179,19 @@ def train(learning_rate, train_epochs):
     data = scio.loadmat('resource/mnist_data.mat')
 
     x = tf.placeholder(tf.float32, [None, 784])
-    W = tf.Variable(tf.truncated_normal([784, 10], stddev=0.1))
-    b = tf.Variable(tf.constant(0.1, shape=[10]))
-    y = tf.nn.softmax(tf.matmul(x, W) + b)
     y_ = tf.placeholder(tf.float32, [None, 10])
-    cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
-    train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
+
+    # W = tf.Variable(tf.truncated_normal([784, 10], stddev=0.1))
+    # b = tf.Variable(tf.constant(0.1, shape=[10]))
+    W = tf.Variable(tf.zeros([784, 10]))
+    b = tf.Variable(tf.zeros([10]))
     tf.global_variables_initializer().run()
+
+    y = tf.nn.softmax(tf.matmul(x, W) + b)
+
+    cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
+
+    train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
     for step in range(train_epochs):
         xs_batch, ys_batch = get_random_block_from_data(data, 100)
         train_step.run({x: xs_batch, y_: ys_batch})
