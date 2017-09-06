@@ -111,8 +111,6 @@ class ModelTest(base.BaseHandler):
         image = cutImg.astype(np.float32)
         x_input = np.multiply(image, 1.0 / 255.0)
         res = tf_service.number_test(x_input)
-        print(type(np.argmax(res)))
-        print(np.argmax(res))
         number_train_source = {
             '_id': src_id,
             'source': img_path,
@@ -121,5 +119,4 @@ class ModelTest(base.BaseHandler):
         }
         mdb.number_train_source.insert(number_train_source)
 
-        print(np.argmax(res))
         return self.finish(base.rtjson(num=str(np.argmax(res))))
