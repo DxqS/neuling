@@ -10,7 +10,7 @@ import numpy as np
 from common import base
 import config
 from service import tf_service, picture_service
-
+import tensorflow as tf
 mdb = config.mdb
 rdb = config.rdb
 LabelList = ['TMKA', 'MLSS', 'QCJJ',
@@ -18,6 +18,17 @@ LabelList = ['TMKA', 'MLSS', 'QCJJ',
              'LMMR', 'HLGY', 'XDMD']
 
 tolerance = 0.3
+
+sess = tf.InteractiveSession()
+
+x = tf.placeholder(tf.float32, [None, 784])
+W = tf.Variable(tf.zeros([784, 10]))
+b = tf.Variable(tf.zeros([10]))
+y = tf.nn.softmax(tf.matmul(x, W) + b)
+
+saver = tf.train.Saver()
+saver.restore(sess, "resource/model/number.ckpt")
+
 
 
 class SourceIndex(base.BaseHandler):
@@ -112,7 +123,8 @@ class ModelTest(base.BaseHandler):
 
         image = np.array(train).reshape(1, 784).astype(np.float32)
         x_input = np.multiply(image, 1.0 / 255.0)
-        res = tf_service.number_test(x_input)
+        # res = tf_service.number_test(x_input)
+        res = sess.run(y, feed_dict={x: x_input})
         number_train_source = {
             '_id': src_id,
             'source': img_path,
