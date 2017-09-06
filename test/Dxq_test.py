@@ -48,9 +48,15 @@ def load_data_mat(file_name):
 
 
 if __name__ == "__main__":
-    x = np.argmax([1, 2],axis=0)
+    # x = np.argmax([1, 2], axis=0)
 
-    print(x.tolist())
-    # data = scio.loadmat('mnist_data.mat')
-    # print(data['X'].shape)
-    # print(data['Y'].shape)
+    # print(x.tolist())
+    x1 = np.arange(9.0).reshape((3, 3))
+    x2 = np.arange(3.0)
+    print(x1)
+    print(x2)
+    print(np.subtract(x1, 1))
+
+# data = scio.loadmat('mnist_data.mat')
+# print(data['X'].shape)
+# print(data['Y'].shape)
