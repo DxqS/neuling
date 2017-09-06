@@ -217,6 +217,8 @@ def number_test(x_input):
     saver = tf.train.Saver()
     saver.restore(sess, "resource/model/number.ckpt")
     res = sess.run(y, feed_dict={x: x_input})
+    print(tf.argmax(res, 1))
+
     return res
 
 
