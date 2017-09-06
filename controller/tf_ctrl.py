@@ -11,6 +11,7 @@ from common import base
 import config
 from service import tf_service, picture_service
 import tensorflow as tf
+
 mdb = config.mdb
 rdb = config.rdb
 LabelList = ['TMKA', 'MLSS', 'QCJJ',
