@@ -92,7 +92,7 @@ class TrainIndex(base.BaseHandler):
         return self.render('dxq_tf/train_index.html', LabelList=LabelList)
 
     def post(self):
-        tf_service.train(0.05, 100)
+        tf_service.train(0.01, 100)
         return self.finish(base.rtjson())
 
 
