@@ -11,7 +11,8 @@ import redis
 from pymongo import MongoClient
 import scipy.io as scio
 from PIL import Image
-from tensorflow.examples.tutorials.mnist import input_data
+
+# from tensorflow.examples.tutorials.mnist import input_data
 
 LabelToCode = {
     'TMKA': [1, 0, 0, 0, 0, 0, 0, 0, 0], 'MLSS': [0, 1, 0, 0, 0, 0, 0, 0, 0], 'QCJJ': [0, 0, 1, 0, 0, 0, 0, 0, 0],
@@ -47,6 +48,9 @@ def load_data_mat(file_name):
 
 
 if __name__ == "__main__":
-    data = scio.loadmat('mnist_data.mat')
-    print(data['X'].shape)
-    print(data['Y'].shape)
+    x = np.argmax([1, 2],axis=0)
+
+    print(x.tolist())
+    # data = scio.loadmat('mnist_data.mat')
+    # print(data['X'].shape)
+    # print(data['Y'].shape)

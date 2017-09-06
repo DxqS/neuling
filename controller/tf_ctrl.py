@@ -113,13 +113,13 @@ class ModelTest(base.BaseHandler):
         res = tf_service.number_test(x_input)
         print(type(np.argmax(res)))
         print(np.argmax(res))
-        # number_train_source = {
-        #     '_id': src_id,
-        #     'source': img_path,
-        #     'predict': np.argmax(res)
-        #     # 'label':0 #编辑使用
-        # }
-        # mdb.number_train_source.insert(number_train_source)
+        number_train_source = {
+            '_id': src_id,
+            'source': img_path,
+            'predict': np.argmax(res).tolist()
+            # 'label':0 #编辑使用
+        }
+        mdb.number_train_source.insert(number_train_source)
 
         print(np.argmax(res))
         return self.finish(base.rtjson(num=str(np.argmax(res))))
