@@ -4,7 +4,7 @@ Created on 2017/9/6.
 
 @author: chk01
 '''
-# import tensorflow as tf
+import tensorflow as tf
 import numpy as np
 from PIL import Image
 
