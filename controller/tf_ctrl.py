@@ -189,7 +189,7 @@ class ModelStyleTest(base.BaseHandler):
 
         img_path = mdb.face_test_source.find_one({"_id": src_id})['result']['chin']
 
-        img = Image.open(img_path)
+        img = Image.open('..'+img_path)
         print(img)
         train = img.resize((28, 28), Image.ANTIALIAS)
 
