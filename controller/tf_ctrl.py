@@ -10,7 +10,6 @@ import numpy as np
 from common import base
 import config
 from service import tf_service, picture_service
-import tensorflow as tf
 import model_variable
 
 number_softmax_sess = model_variable.number_softmax_sess
