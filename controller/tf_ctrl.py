@@ -11,11 +11,11 @@ from common import base
 import config
 from service import tf_service, picture_service
 import tensorflow as tf
-# import model_variable
+import model_variable
 
-# number_softmax_sess = model_variable.number_softmax_sess
-# number_softmax_x = model_variable.number_softmax_x
-# number_softmax_y = model_variable.number_softmax_y
+number_softmax_sess = model_variable.number_softmax_sess
+number_softmax_x = model_variable.number_softmax_x
+number_softmax_y = model_variable.number_softmax_y
 
 mdb = config.mdb
 rdb = config.rdb
