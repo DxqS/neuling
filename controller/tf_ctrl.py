@@ -187,7 +187,7 @@ class ModelStyleTest(base.BaseHandler):
         path = tf_service.Add_Face_to_Source(face, "TEST", src_id)
         tf_service.Add_Face_DB(path, "TEST", src_id)
 
-        img_path = mdb.face_train_source.find_one({"_id": src_id})['result']['chin']
+        img_path = mdb.face_test_source.find_one({"_id": src_id})['result']['chin']
 
         img = Image.open(img_path)
         print(img)
