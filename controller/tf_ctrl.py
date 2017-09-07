@@ -19,7 +19,8 @@ number_softmax_y = model_variable.number_softmax_y
 
 number_cnn_sess = model_variable.number_cnn_sess
 number_cnn_x = model_variable.number_cnn_x
-number_cnn_y = model_variable.number_softmax_y
+number_cnn_y = model_variable.number_cnn_y
+number_cnn_keep_prob = model_variable.number_cnn_keep_prob
 
 mdb = config.mdb
 rdb = config.rdb
@@ -138,7 +139,7 @@ class ModelTest(base.BaseHandler):
 
         # res = tf_service.number_test(x_input)
         # res = number_softmax_sess.run(number_softmax_y, feed_dict={number_softmax_x: x_input})
-        res = number_cnn_sess.run(number_cnn_y, feed_dict={number_cnn_x: x_input})
+        res = number_cnn_sess.run(number_cnn_y, feed_dict={number_cnn_x: x_input, number_cnn_keep_prob: 1})
         number_train_source = {
             '_id': src_id,
             'source': '/' + img_path,

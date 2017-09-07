@@ -13,3 +13,4 @@ number_softmax_y = number_softmax.y
 number_cnn_sess = number_cnn.sess
 number_cnn_x = number_cnn.x
 number_cnn_y = number_cnn.y_conv
+number_cnn_keep_prob = number_cnn.keep_prob
