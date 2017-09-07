@@ -118,7 +118,7 @@ class ModelNumberCNN(base.BaseHandler):
         return self.render('dxq_tf/model_number_cnn.html',source_list=source_list, pager=pager)
 
     def post(self):
-        tf_service.number_cnn_train(0.01, 3000)
+        tf_service.number_cnn_train(0.0001, 3000)
         return self.finish(base.rtjson())
 
 

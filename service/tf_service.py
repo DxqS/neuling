@@ -268,7 +268,7 @@ def number_cnn_train(learning_rate, train_epochs):
     tf.global_variables_initializer().run()
 
     for i in range(train_epochs):
-        xs_batch, ys_batch = get_random_block_from_data(data, 100)
+        xs_batch, ys_batch = get_random_block_from_data(data, 50)
 
         if i % 100 == 0:
             train_accuracy = accuracy.eval(feed_dict={x: xs_batch, y_: ys_batch, keep_prob: 1.0})
