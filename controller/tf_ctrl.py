@@ -113,7 +113,9 @@ class ModelNumber(base.BaseHandler):
 
 class ModelNumberCNN(base.BaseHandler):
     def get(self):
-        return self.render('dxq_tf/model_number_cnn.html')
+        sourceList = mdb.number_train_source.find()
+        source_list, pager = base.mongoPager(sourceList, self.input("pagenum", 1))
+        return self.render('dxq_tf/model_number_cnn.html',source_list=source_list, pager=pager)
 
     def post(self):
         tf_service.number_cnn_train(0.01, 3000)
