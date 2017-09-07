@@ -22,7 +22,7 @@
         $('#train').click(function () {
             $.post(window.location.pathname, function (res) {
                 if (res.status == 1) {
-                    alert(1)
+                    alert("训练已完成，赶紧测试下效果吧！")
                 }
             })
         })
@@ -43,7 +43,7 @@
         reader.readAsDataURL(file.files[0]);
     }
     function uploadImage() {
-        $.post('/tf/train/test', {face: $("#J-face-hid").val()}, function (res) {
+        $.post('/tf/model/style/cnn/test', {face: $("#J-face-hid").val()}, function (res) {
             if (res.status == 1) {
                 alert(1)
             }
@@ -77,7 +77,8 @@
 
     <div class="am-u-md-10">
         <div class="am-form-group am-fr">
-            <a href="javascript:;" class="am-btn am-btn-primary am-btn-sm am-fr" id="train">开始训练</a>
+            <a href="javascript:;" class="am-btn am-btn-primary am-btn-sm am-fr" id="train"
+               style="display:none;">开始训练</a>
 
             <span class="am-form-caret"></span>
         </div>

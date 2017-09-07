@@ -17,6 +17,10 @@ number_softmax_sess = model_variable.number_softmax_sess
 number_softmax_x = model_variable.number_softmax_x
 number_softmax_y = model_variable.number_softmax_y
 
+style_softmax_sess = model_variable.style_softmax_sess
+style_softmax_x = model_variable.style_softmax_x
+style_softmax_y = model_variable.style_softmax_y
+
 number_cnn_sess = model_variable.number_cnn_sess
 number_cnn_x = model_variable.number_cnn_x
 number_cnn_y = model_variable.number_cnn_y
@@ -179,30 +183,31 @@ class ModelStyleCNN(base.BaseHandler):
 class ModelStyleTest(base.BaseHandler):
     def post(self, model):
         face = self.input('face')
-        src_id = base.getRedisID('number_train_source')
-        img_path = 'static/local/number/source_{}.jpg'.format(src_id)
-        train_path = 'static/local/number/train_{}.jpg'.format(src_id)
-        tf_service.saveBaseImg(face, img_path)
+        src_id = base.getRedisID('face_train_source')
+        path = tf_service.Add_Face_to_Source(face, "TEST", src_id)
+        tf_service.Add_Face_DB(path, "TEST", src_id)
+
+        img_path = mdb.face_train_source.find_one({"_id": src_id})['result']['chin']
 
         img = Image.open(img_path)
-        train = picture_service.cutSqure(img).convert("L").resize((28, 28), Image.ANTIALIAS)
-        train.save(train_path)
+        print(img)
+        train = img.resize((28, 28), Image.ANTIALIAS)
 
         image = np.array(train).reshape(1, 784).astype(np.float32)
         x_input = np.multiply(image, 1.0 / 255.0)
 
         if model == 'softmax':
-            res = number_softmax_sess.run(number_softmax_y, feed_dict={number_softmax_x: x_input})
+            res = style_softmax_sess.run(style_softmax_y, feed_dict={style_softmax_x: x_input})
         else:
-            res = number_cnn_sess.run(number_cnn_y, feed_dict={number_cnn_x: x_input, number_cnn_keep_prob: 1})
-        number_train_source = {
+            res = style_cnn_sess.run(style_cnn_y, feed_dict={style_cnn_x: x_input, style_cnn_keep_prob: 1})
+        style_train_source = {
             '_id': src_id,
-            'source': '/' + img_path,
-            'train': '/' + train_path,
-            'predict': np.argmax(res).tolist(),
+            'source': '/' + path,
+            'train': '/' + img_path,
+            'predict': LabelList[np.argmax(res).tolist()],
             'model': model
             # 'label':0 #编辑使用
         }
-        mdb.number_train_source.insert(number_train_source)
+        mdb.style_train_source.insert(style_train_source)
 
         return self.finish(base.rtjson(num=str(np.argmax(res))))
