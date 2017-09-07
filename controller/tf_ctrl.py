@@ -189,9 +189,9 @@ class ModelStyleTest(base.BaseHandler):
 
         img_path = mdb.face_test_source.find_one({"_id": src_id})['result']['chin']
 
-        img = Image.open('..'+img_path)
+        img = Image.open(img_path.replace('/PreHandle', 'PreHandle'))
         print(img)
-        train = img.resize((28, 28), Image.ANTIALIAS)
+        train = img.resize((28, 28), Image.ANTIALIAS).convert("L")
 
         image = np.array(train).reshape(1, 784).astype(np.float32)
         x_input = np.multiply(image, 1.0 / 255.0)
