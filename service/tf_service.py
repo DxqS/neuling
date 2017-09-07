@@ -247,12 +247,11 @@ def number_cnn_train(learning_rate, train_epochs):
     h_pool2 = max_pool_2x2(h_conv2)
 
     W_fc1 = weight_variable([7 * 7 * 64, 1024])
-    b_fc1 = weight_variable([1024])
+    b_fc1 = bias_variable([1024])
     h_pool2_flat = tf.reshape(h_pool2, [-1, 7 * 7 * 64])
     h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
 
     keep_prob = tf.placeholder(tf.float32)
-    tf.summary.scalar('dropout', keep_prob)
     h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 
     W_fc2 = weight_variable([1024, 10])
