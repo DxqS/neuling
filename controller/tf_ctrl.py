@@ -102,7 +102,7 @@ class UserAdd(base.BaseHandler):
 
 class ModelNumber(base.BaseHandler):
     def get(self):
-        sourceList = mdb.number_train_source.find()
+        sourceList = mdb.number_train_source.find({"model": "softmax"})
         source_list, pager = base.mongoPager(sourceList, self.input("pagenum", 1))
         return self.render('dxq_tf/model_number.html', LabelList=LabelList, source_list=source_list, pager=pager)
 
@@ -113,7 +113,7 @@ class ModelNumber(base.BaseHandler):
 
 class ModelNumberCNN(base.BaseHandler):
     def get(self):
-        sourceList = mdb.number_train_source.find()
+        sourceList = mdb.number_train_source.find({"model": "cnn"})
         source_list, pager = base.mongoPager(sourceList, self.input("pagenum", 1))
         return self.render('dxq_tf/model_number_cnn.html', source_list=source_list, pager=pager)
 
@@ -122,8 +122,8 @@ class ModelNumberCNN(base.BaseHandler):
         return self.finish(base.rtjson())
 
 
-class ModelTest(base.BaseHandler):
-    def post(self):
+class ModelNumberTest(base.BaseHandler):
+    def post(self, model):
         face = self.input('face')
         src_id = base.getRedisID('number_train_source')
         img_path = 'static/local/number/source_{}.jpg'.format(src_id)
@@ -137,14 +137,16 @@ class ModelTest(base.BaseHandler):
         image = np.array(train).reshape(1, 784).astype(np.float32)
         x_input = np.multiply(image, 1.0 / 255.0)
 
-        # res = tf_service.number_test(x_input)
-        # res = number_softmax_sess.run(number_softmax_y, feed_dict={number_softmax_x: x_input})
-        res = number_cnn_sess.run(number_cnn_y, feed_dict={number_cnn_x: x_input, number_cnn_keep_prob: 1})
+        if model == 'softmax':
+            res = number_softmax_sess.run(number_softmax_y, feed_dict={number_softmax_x: x_input})
+        else:
+            res = number_cnn_sess.run(number_cnn_y, feed_dict={number_cnn_x: x_input, number_cnn_keep_prob: 1})
         number_train_source = {
             '_id': src_id,
             'source': '/' + img_path,
             'train': '/' + train_path,
-            'predict': np.argmax(res).tolist()
+            'predict': np.argmax(res).tolist(),
+            'model': model
             # 'label':0 #编辑使用
         }
         mdb.number_train_source.insert(number_train_source)

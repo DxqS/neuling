@@ -17,6 +17,6 @@ urls = [
     ('/tf/model/number', tf_ctrl.ModelNumber),
     ('/tf/model/number/cnn', tf_ctrl.ModelNumberCNN),
 
-    ('/tf/model/number/test', tf_ctrl.ModelTest),
+    ('/tf/model/number/(softmax|cnn)/test', tf_ctrl.ModelNumberTest),
 
 ]

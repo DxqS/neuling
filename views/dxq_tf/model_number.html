@@ -43,7 +43,7 @@
         reader.readAsDataURL(file.files[0]);
     }
     function uploadImage() {
-        $.post('/tf/model/number/test', {face: $("#J-face-hid").val()}, function (res) {
+        $.post('/tf/model/number/softmax/test', {face: $("#J-face-hid").val()}, function (res) {
             if (res.status == 1) {
                 alert("这是" + res['num'] + '?');
                 window.location.reload()
