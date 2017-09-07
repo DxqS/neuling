@@ -39,10 +39,11 @@ def load_data_mat(file_name):
     for i, source in enumerate(train_source):
         out_line = source['result']['chin']
         img = Image.open('..' + out_line)
-        img2 = np.array(img.resize([28, 28]).convert("L")).reshape(1, 784)
-        x[i + 1:] = img2
+        img2 = np.array(img.resize([28, 28]).convert("L")).reshape(1, 784).astype(np.float32)
+        image = np.multiply(img2, 1.0 / 255.0)
+        x[i + 1:] = image
         y[i + 1:] = LabelToCode[source['label']]
-    scio.savemat(file_name, {'X': x, 'Y': y})
+    scio.savemat('../resource/'+file_name, {'X': x, 'Y': y})
     return True
 
 
