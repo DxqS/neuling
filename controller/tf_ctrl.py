@@ -210,4 +210,4 @@ class ModelStyleTest(base.BaseHandler):
         }
         mdb.style_train_source.insert(style_train_source)
 
-        return self.finish(base.rtjson(num=str(np.argmax(res))))
+        return self.finish(base.rtjson(num=LabelList[np.argmax(res).tolist()]))
