@@ -203,7 +203,7 @@ def number_train(learning_rate, train_epochs):
             print(accuracy.eval(feed_dict={x: xs_batch, y_: ys_batch}))
 
     saver = tf.train.Saver(tf.global_variables())
-    saver.save(sess, "resource/model/number.ckpt")
+    saver.save(sess, "resource/model/number/softmax/model.ckpt")
     return True
 
 
@@ -276,7 +276,7 @@ def number_cnn_train(learning_rate, train_epochs):
         train_step.run(feed_dict={x: xs_batch, y_: ys_batch, keep_prob: 0.5})
     # print("test accuracy %g" % accuracy.eval(feed_dict={x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0}))
     saver = tf.train.Saver(tf.global_variables())
-    saver.save(sess, "resource/model/number_cnn.ckpt")
+    saver.save(sess, "resource/model/number/cnn/model.ckpt")
     print(time.time() - ts)
     return True
 

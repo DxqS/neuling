@@ -14,6 +14,9 @@ import tensorflow as tf
 import model_variable
 
 number_softmax_sess = model_variable.number_softmax_sess
+number_softmax_x = model_variable.number_softmax_x
+number_softmax_y = model_variable.number_softmax_y
+
 mdb = config.mdb
 rdb = config.rdb
 LabelList = ['TMKA', 'MLSS', 'QCJJ',
@@ -130,7 +133,7 @@ class ModelTest(base.BaseHandler):
         x_input = np.multiply(image, 1.0 / 255.0)
 
         # res = tf_service.number_test(x_input)
-        res = sess.run(y_conv, feed_dict={x: x_input})
+        res = number_softmax_sess.run(number_softmax_y, feed_dict={number_softmax_x: x_input})
         number_train_source = {
             '_id': src_id,
             'source': '/' + img_path,
