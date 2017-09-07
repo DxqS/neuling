@@ -111,6 +111,15 @@ class ModelNumber(base.BaseHandler):
         return self.finish(base.rtjson())
 
 
+class ModelNumberCNN(base.BaseHandler):
+    def get(self):
+        return self.render('dxq_tf/model_number_cnn.html')
+
+    def post(self):
+        tf_service.number_cnn_train(0.01, 3000)
+        return self.finish(base.rtjson())
+
+
 class ModelTest(base.BaseHandler):
     def post(self):
         face = self.input('face')

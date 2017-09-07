@@ -45,7 +45,7 @@
     function uploadImage() {
         $.post('/tf/model/number/test', {face: $("#J-face-hid").val()}, function (res) {
             if (res.status == 1) {
-                alert("这是" + res['num'] + '?')
+                alert("这是" + res['num'] + '?');
                 window.location.reload()
             }
         }, 'json');
@@ -69,8 +69,10 @@
     </div>
     <div class="am-u-md-2" style="border-right: 1px solid #eee;">
         <ul class="am-nav am-text-center">
-            <li class="am-active"><a href="/tf/model/number">数字模型</a></li>
-            <li><a href="/tf/model/style">风格模型</a></li>
+            <li class="am-active"><a href="/tf/model/number">数字模型Softmax</a></li>
+            <li class="am-active"><a href="/tf/model/cnn/number">数字模型CNN</a></li>
+            <li><a href="/tf/model/style">风格模型Softmax</a></li>
+            <li><a href="/tf/model/cnn/style">风格模型CNN</a></li>
         </ul>
     </div>
 

@@ -15,6 +15,8 @@ urls = [
     ('/tf/user/add', tf_ctrl.UserAdd),
 
     ('/tf/model/number', tf_ctrl.ModelNumber),
+    ('/tf/model/number/cnn', tf_ctrl.ModelNumberCNN),
+
     ('/tf/model/number/test', tf_ctrl.ModelTest),
 
 ]

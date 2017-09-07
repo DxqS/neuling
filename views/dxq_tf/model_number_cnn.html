@@ -22,7 +22,7 @@
         $('#train').click(function () {
             $.post(window.location.pathname, function (res) {
                 if (res.status == 1) {
-                    alert(1)
+                    alert("训练已完成，赶紧测试下效果吧！")
                 }
             })
         })
@@ -43,9 +43,10 @@
         reader.readAsDataURL(file.files[0]);
     }
     function uploadImage() {
-        $.post('/tf/train/test', {face: $("#J-face-hid").val()}, function (res) {
+        $.post('/tf/model/number/test', {face: $("#J-face-hid").val()}, function (res) {
             if (res.status == 1) {
-                alert(1)
+                alert("这是" + res['num'] + '?');
+                window.location.reload()
             }
         }, 'json');
     }
@@ -69,15 +70,16 @@
     <div class="am-u-md-2" style="border-right: 1px solid #eee;">
         <ul class="am-nav am-text-center">
             <li><a href="/tf/model/number">数字模型Softmax</a></li>
-            <li><a href="/tf/model/cnn/number">数字模型CNN</a></li>
-            <li class="am-active"><a href="/tf/model/style">风格模型Softmax</a></li>
+            <li class="am-active"><a href="/tf/model/cnn/number">数字模型CNN</a></li>
+            <li><a href="/tf/model/style">风格模型Softmax</a></li>
             <li><a href="/tf/model/cnn/style">风格模型CNN</a></li>
         </ul>
     </div>
 
     <div class="am-u-md-10">
         <div class="am-form-group am-fr">
-            <a href="javascript:;" class="am-btn am-btn-primary am-btn-sm am-fr" id="train">开始训练</a>
+            <a href="javascript:;" class="am-btn am-btn-primary am-btn-sm am-fr" id="train"
+               style="display: none">开始训练</a>
 
             <span class="am-form-caret"></span>
         </div>
@@ -85,7 +87,7 @@
     <div class="am-u-md-10">
         <form class="am-form am-form-horizontal">
             <div class="am-form-group am-cf">
-                <label class="am-u-sm-2 am-padding-0">用户头像：</label>
+                <label class="am-u-sm-2 am-padding-0">数字图片：</label>
                 <div style="display: inline-block;margin-left: 18px">
                     <input type="hidden" name="face" id="J-face-hid">
                     <img class="am-radius" src="http://placehold.it/100x100" style="width: 100px;height: 150px">
@@ -93,11 +95,33 @@
                 <i class="am-icon-cloud-upload">
                     <input type="file" onchange="selectImage(this);"/>
                 </i>
+                <a id="J-save-btn" class="am-btn am-btn-primary">测试</a>
             </div>
+            <table class="am-table am-table-striped am-table-hover am-table-centered">
+                <tr>
+                    <th>ID</th>
+                    <th>原图</th>
+                    <th>训练图</th>
+                    <th>检测结果</th>
+                    <th>真实结果</th>
+                </tr>
+                {%for source in source_list%}
+                <tr>
+                    <td class="am-text-middle">{{source['_id']}}</td>
+                    <td>
+                        <img class="am-radius" src="{{LocalImg(source['source'])}}" width="100" height="150"/>
+                    </td>
+                    <td>
+                        <img class="am-radius" src="{{LocalImg(source['train'])}}" width="150" height="150"/>
+                    </td>
+                    <td class="am-text-middle">{{source['predict']}}</td>
+                    <td class="am-text-middle">{{source.get("label","暂未编辑")}}</td>
+                </tr>
+                {%end%}
+
+            </table>
+            {% module Template("module/ampager.html", pager=pager,url="/tf/model/number?pagenum=:page:")%}
         </form>
-        <div class="btn am-u-md-12" style="border-top: 1px solid #eee;padding: 1rem 0 0 0">
-            <a id="J-save-btn" class="am-btn am-btn-primary">测试</a>
-        </div>
     </div>
 </div>
 
