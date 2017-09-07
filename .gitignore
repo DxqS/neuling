@@ -30,4 +30,4 @@ htmldev/*/.idea/*
 htmldev/*/*/node_modules/*
 
 publisher.log
-
+/face_recognition.py

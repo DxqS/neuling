@@ -36,10 +36,10 @@ tolerance = 0.3
 
 
 class SourceIndex(base.BaseHandler):
-    def get(self):
+    def get(self, typ):
         label = self.input("label", "all")
-        match = {} if label == 'all' else {"label": label}
-        sourceList = mdb.face_train_source.find(match)
+        match = {"type": typ} if label == 'all' else {"label": label, "type": typ}
+        sourceList = mdb.style_source.find(match)
         source_list, pager = base.mongoPager(sourceList, self.input("pagenum", 1))
         return self.render('dxq_tf/source_list.html', LabelList=LabelList, source_list=source_list,
                            pager=pager, label=label)

@@ -7,7 +7,7 @@ Created on 2017/7/13.
 from controller import tf_ctrl
 
 urls = [
-    ('/tf/source/index', tf_ctrl.SourceIndex),
+    ('/tf/source/(train|test)/index', tf_ctrl.SourceIndex),
     ('/tf/source/add', tf_ctrl.SourceAdd),
     ('/tf/source/edit/(\d+)', tf_ctrl.SourceEdit),
 
