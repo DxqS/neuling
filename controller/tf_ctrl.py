@@ -104,7 +104,7 @@ class ModelNumber(base.BaseHandler):
     def get(self):
         sourceList = mdb.number_train_source.find({"model": "softmax"})
         source_list, pager = base.mongoPager(sourceList, self.input("pagenum", 1))
-        return self.render('dxq_tf/model_number.html', LabelList=LabelList, source_list=source_list, pager=pager)
+        return self.render('dxq_tf/model_number.html', source_list=source_list, pager=pager)
 
     def post(self):
         tf_service.number_train(0.01, 3000)
@@ -123,6 +123,60 @@ class ModelNumberCNN(base.BaseHandler):
 
 
 class ModelNumberTest(base.BaseHandler):
+    def post(self, model):
+        face = self.input('face')
+        src_id = base.getRedisID('number_train_source')
+        img_path = 'static/local/number/source_{}.jpg'.format(src_id)
+        train_path = 'static/local/number/train_{}.jpg'.format(src_id)
+        tf_service.saveBaseImg(face, img_path)
+
+        img = Image.open(img_path)
+        train = picture_service.cutSqure(img).convert("L").resize((28, 28), Image.ANTIALIAS)
+        train.save(train_path)
+
+        image = np.array(train).reshape(1, 784).astype(np.float32)
+        x_input = np.multiply(image, 1.0 / 255.0)
+
+        if model == 'softmax':
+            res = number_softmax_sess.run(number_softmax_y, feed_dict={number_softmax_x: x_input})
+        else:
+            res = number_cnn_sess.run(number_cnn_y, feed_dict={number_cnn_x: x_input, number_cnn_keep_prob: 1})
+        number_train_source = {
+            '_id': src_id,
+            'source': '/' + img_path,
+            'train': '/' + train_path,
+            'predict': np.argmax(res).tolist(),
+            'model': model
+            # 'label':0 #编辑使用
+        }
+        mdb.number_train_source.insert(number_train_source)
+
+        return self.finish(base.rtjson(num=str(np.argmax(res))))
+
+
+class ModelStyle(base.BaseHandler):
+    def get(self):
+        sourceList = mdb.style_train_source.find({"model": "softmax"})
+        source_list, pager = base.mongoPager(sourceList, self.input("pagenum", 1))
+        return self.render('dxq_tf/model_style.html', source_list=source_list, pager=pager)
+
+    def post(self):
+        tf_service.style_train(0.0001, 3000)
+        return self.finish(base.rtjson())
+
+
+class ModelStyleCNN(base.BaseHandler):
+    def get(self):
+        sourceList = mdb.style_train_source.find({"model": "cnn"})
+        source_list, pager = base.mongoPager(sourceList, self.input("pagenum", 1))
+        return self.render('dxq_tf/model_style_cnn.html', source_list=source_list, pager=pager)
+
+    def post(self):
+        tf_service.style_cnn_train(0.0001, 3000)
+        return self.finish(base.rtjson())
+
+
+class ModelStyleTest(base.BaseHandler):
     def post(self, model):
         face = self.input('face')
         src_id = base.getRedisID('number_train_source')

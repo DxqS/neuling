@@ -207,6 +207,36 @@ def number_train(learning_rate, train_epochs):
     return True
 
 
+def style_train(learning_rate, train_epochs):
+    # 数据集已经处理完毕存resource/face_data.mat后才能正常使用
+    sess = tf.InteractiveSession()
+    data = scio.loadmat('resource/face_data.mat')
+
+    x = tf.placeholder(tf.float32, [None, 784])
+    y_ = tf.placeholder(tf.float32, [None, 9])
+
+    W = tf.Variable(tf.zeros([784, 9]))
+    b = tf.Variable(tf.zeros([9]))
+    tf.global_variables_initializer().run()
+
+    y = tf.nn.softmax(tf.matmul(x, W) + b)
+    cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
+
+    train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
+    correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
+    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
+    for step in range(train_epochs):
+        xs_batch, ys_batch = get_random_block_from_data(data, 100)
+        train_step.run({x: xs_batch, y_: ys_batch})
+        if step % 100 == 0:
+            print(accuracy.eval(feed_dict={x: xs_batch, y_: ys_batch}))
+
+    saver = tf.train.Saver(tf.global_variables())
+    saver.save(sess, "resource/model/style/softmax/model.ckpt")
+    return True
+
+
 ###################################################CNN模型###############################################
 
 def weight_variable(shape):
