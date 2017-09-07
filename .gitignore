@@ -31,4 +31,4 @@ htmldev/*/*/node_modules/*
 
 publisher.log
 /face_recognition.py
-/tensorflow
+/tensorflow.py
