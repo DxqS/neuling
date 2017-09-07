@@ -22,10 +22,12 @@ tolerance = 0.3
 
 sess = tf.InteractiveSession()
 
+# Softmax
 # x = tf.placeholder(tf.float32, [None, 784])
 # W = tf.Variable(tf.zeros([784, 10]))
 # b = tf.Variable(tf.zeros([10]))
 # y = tf.nn.softmax(tf.matmul(x, W) + b)
+# CNN
 x = tf.placeholder(tf.float32, [None, 784])
 y_ = tf.placeholder(tf.float32, [None, 10])
 x_image = tf.reshape(x, [-1, 28, 28, 1])
@@ -51,7 +53,6 @@ h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 W_fc2 = tf_service.weight_variable([1024, 10])
 b_fc2 = tf_service.bias_variable([10])
 y_conv = tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
-
 
 saver = tf.train.Saver()
 saver.restore(sess, "resource/model/number_cnn.ckpt")
@@ -141,7 +142,7 @@ class ModelNumberCNN(base.BaseHandler):
     def get(self):
         sourceList = mdb.number_train_source.find()
         source_list, pager = base.mongoPager(sourceList, self.input("pagenum", 1))
-        return self.render('dxq_tf/model_number_cnn.html',source_list=source_list, pager=pager)
+        return self.render('dxq_tf/model_number_cnn.html', source_list=source_list, pager=pager)
 
     def post(self):
         tf_service.number_cnn_train(0.0001, 3000)
