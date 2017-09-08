@@ -12,6 +12,7 @@ import numpy as np
 import time
 from PIL import ImageDraw, Image
 import scipy.io as scio
+import random
 
 from common import tools
 import config
@@ -171,8 +172,8 @@ def get_know_face_encodings():
 
 def get_random_block_from_data(data, batch_size):
     num = len(data['X'])
-    start_index = np.random.randint(0, num - batch_size)
-    return data['X'][start_index:(start_index + batch_size)], data['Y'][start_index:(start_index + batch_size)]
+    randomlist = random.sample(range(num - batch_size), batch_size)
+    return [data['X'][i] for i in randomlist], [data['Y'][i] for i in randomlist]
 
 
 def number_train(learning_rate, train_epochs):
@@ -363,6 +364,8 @@ def style_cnn_train(learning_rate, train_epochs):
     saver.save(sess, "resource/model/style/cnn/model.ckpt")
     print(time.time() - ts)
     return True
+
+
 ###################################################CNN模型###############################################
 def number_test(x_input):
     # 定义变量
