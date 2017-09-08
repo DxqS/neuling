@@ -26,10 +26,10 @@ number_cnn_x = model_variable.number_cnn_x
 number_cnn_y = model_variable.number_cnn_y
 number_cnn_keep_prob = model_variable.number_cnn_keep_prob
 
-# style_cnn_sess = model_variable.style_cnn_sess
-# style_cnn_x = model_variable.style_cnn_x
-# style_cnn_y = model_variable.style_cnn_y
-# style_cnn_keep_prob = model_variable.style_cnn_keep_prob
+style_cnn_sess = model_variable.style_cnn_sess
+style_cnn_x = model_variable.style_cnn_x
+style_cnn_y = model_variable.style_cnn_y
+style_cnn_keep_prob = model_variable.style_cnn_keep_prob
 
 mdb = config.mdb
 rdb = config.rdb
