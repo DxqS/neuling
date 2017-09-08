@@ -101,7 +101,7 @@ class SourceAdd(base.BaseHandler):
 
             mdb.style_source.insert(face_source)
 
-        return self.finish(base.rtjson())
+        return self.finish(base.rtjson(src_id=src_id))
 
 
 # class SourceAdd2(base.BaseHandler):
@@ -216,6 +216,7 @@ class ModelNumberCNN(base.BaseHandler):
 class ModelNumberTest(base.BaseHandler):
     def post(self, model):
         face = self.input('face')
+
         src_id = base.getRedisID('number_train_source')
         img_path = 'static/local/number/source_{}.jpg'.format(src_id)
         train_path = 'static/local/number/train_{}.jpg'.format(src_id)
@@ -269,32 +270,21 @@ class ModelStyleCNN(base.BaseHandler):
 
 class ModelStyleTest(base.BaseHandler):
     def post(self, model):
-        face = self.input('face')
-        src_id = base.getRedisID('face_train_source')
-        path = tf_service.Add_Face_to_Source(face, "TEST", src_id)
-        tf_service.Add_Face_DB(path, "TEST", src_id)
-
-        img_path = mdb.face_test_source.find_one({"_id": src_id})['result']['chin']
-
-        img = Image.open(img_path.replace('/PreHandle', 'PreHandle'))
-        print(img)
-        train = img.resize((28, 28), Image.ANTIALIAS).convert("L")
-
-        image = np.array(train).reshape(1, 784).astype(np.float32)
-        x_input = np.multiply(image, 1.0 / 255.0)
-
-        if model == 'softmax':
-            res = style_softmax_sess.run(style_softmax_y, feed_dict={style_softmax_x: x_input})
-        else:
-            res = style_cnn_sess.run(style_cnn_y, feed_dict={style_cnn_x: x_input, style_cnn_keep_prob: 1})
-        style_train_source = {
-            '_id': src_id,
-            'source': '/' + path,
-            'train': '/' + img_path,
-            'predict': LabelList[np.argmax(res).tolist()],
-            'model': model
-            # 'label':0 #编辑使用
+        face = self.input('face')  # Base64Img
+        import requests
+        args = {
+            "face": face,
+            "label": "TMKA",  # 标签
+            "type": "predict"
         }
-        mdb.style_train_source.insert(style_train_source)
+        res = requests.post(config.gconf['domain'] + '/tf/source/add', data=args)
+        if res.status_code == 200:
+            src_id = res.json()['src_id']
+            source = mdb.style_source.find_one({"_id": int(src_id)})
+            file_path = config.gconf['domain'] + source['result']['chin']
+            img = Image.open(file_path)
+            img2 = np.array(img.resize([28, 28]).convert("L")).reshape(1, 784).astype(np.float32)
+            image = np.multiply(img2, 1.0 / 255.0)
+            tf_service.number_test()
 
         return self.finish(base.rtjson(num=LabelList[np.argmax(res).tolist()]))
