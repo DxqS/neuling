@@ -54,9 +54,9 @@ def read_source_to_db(label):
         print(1)
         print(Image.open('../resource/' + label + '/' + sourceDir))
 
-    if __name__ == "__main__":
-        read_source_to_db("GYRM")
-        # load_data_mat('face_data.mat')
-        # data = scio.loadmat('face_data.mat')
-        # print(data['X'].shape)
-        # print(data['Y'].shape)
+if __name__ == "__main__":
+    read_source_to_db("GYRM")
+    # load_data_mat('face_data.mat')
+    # data = scio.loadmat('face_data.mat')
+    # print(data['X'].shape)
+    # print(data['Y'].shape)
