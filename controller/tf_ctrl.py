@@ -71,7 +71,7 @@ class SourceAdd(base.BaseHandler):
         typ = self.input('type')  # 类型
         src_id = base.getRedisID('style_source')
 
-        file_path = 'source/style/origin/{}/{}.jpg'.format(label, src_id)
+        file_path = 'resource/style/origin/{}/{}.jpg'.format(label, src_id)
         # BaseImg 存入本地
         tf_service.saveBaseImg(face, file_path)
         # 获取图片的关键点
