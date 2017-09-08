@@ -67,6 +67,8 @@
                 <th>ID</th>
                 <th>原图</th>
                 <th>标签</th>
+                <th>量感</th>
+                <th>轮廓</th>
                 <th>外轮廓</th>
                 <th>操作</th>
             </tr>
@@ -77,6 +79,8 @@
                     <img class="am-radius" src="{{LocalImg(source['path'])}}" width="100" height="150"/>
                 </td>
                 <td class="am-text-middle">{{LabelName(source['label'])}}</td>
+                <td class="am-text-middle">{{source['sense']}}</td>
+                <td class="am-text-middle">{{source['outline']}}</td>
                 <td>
                     <img class="am-radius" src="{{LocalImg(source['result']['chin'])}}" width="100" height="100"/>
                 </td>

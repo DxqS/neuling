@@ -115,7 +115,7 @@ def draw_points(points, file_name):
     d = ImageDraw.Draw(pil_image)
     d.line(points, width=5)
     region = pil_image.crop((min_x, min_y, min_x + wid, min_y + wid))
-    res = region.resize((300, 300), Image.ANTIALIAS)
+    res = region.resize((300, 300), Image.ANTIALIAS).convert("L")
     res.save(file_name)
     return True
 
