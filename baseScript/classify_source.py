@@ -1,5 +1,11 @@
 # coding:utf-8
 '''
+Created on 2017/9/8.
+
+@author: chk01
+'''
+# coding:utf-8
+'''
 Created on 2017/8/3.
 
 @author: Dxq
@@ -39,7 +45,6 @@ def eachFile(Label):
 def get_label_ids():
     data = xlrd.open_workbook(root_dir + '/result.xlsx')
     table = data.sheets()[0]
-    print(table.nrows)
     # nrows = table.nrows
     # ncols = table.ncols
     for i in range(table.nrows):
@@ -50,10 +55,14 @@ def get_label_ids():
                 # table.col_values(i)
                 label_id = table.row_values(i)[0].replace("图", "")
                 LabelDict[key].append(label_id)
-    print(LabelDict)
     # print LabelDict.keys()
     for key in LabelDict.keys():
         eachFile(key)
 
 
-get_label_ids()
+if __name__ == "__main__":
+    '''
+    前提：此脚本需要将素材和素材分类表放到root_dir目录下
+    功能：将素材根据分类表分到各自的文件夹中
+    '''
+    get_label_ids()
