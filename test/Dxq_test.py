@@ -51,13 +51,11 @@ def load_data_mat(file_name):
 def read_source_to_db(label):
     pathDir = os.listdir('../resource/' + label)
     for sourceDir in pathDir:
+        print(Image.open('../resource/' + label + '/' + sourceDir))
 
-        print(Image.open(sourceDir))
-
-
-if __name__ == "__main__":
-    read_source_to_db("GYRM")
-    # load_data_mat('face_data.mat')
-    # data = scio.loadmat('face_data.mat')
-    # print(data['X'].shape)
-    # print(data['Y'].shape)
+    if __name__ == "__main__":
+        read_source_to_db("GYRM")
+        # load_data_mat('face_data.mat')
+        # data = scio.loadmat('face_data.mat')
+        # print(data['X'].shape)
+        # print(data['Y'].shape)
