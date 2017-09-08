@@ -51,7 +51,8 @@ def load_data_mat(file_name):
 def read_source_to_db(label):
     pathDir = os.listdir('../resource/' + label)
     for sourceDir in pathDir:
-        print(sourceDir)
+
+        print(Image.open(sourceDir))
 
 
 if __name__ == "__main__":
