@@ -49,7 +49,7 @@ def load_data_mat(file_name):
 
 
 def read_source_to_db(label):
-    pathDir = os.listdir('resource/' + label)
+    pathDir = os.listdir('../resource/' + label)
     for sourceDir in pathDir:
         print(sourceDir)
 
