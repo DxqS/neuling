@@ -58,7 +58,7 @@ class SourceIndex(base.BaseHandler):
         sourceList = mdb.style_source.find(match)
         source_list, pager = base.mongoPager(sourceList, self.input("pagenum", 1))
         return self.render('dxq_tf/source_list.html', LabelList=LabelList, source_list=source_list,
-                           pager=pager, label=label)
+                           pager=pager, label=label, typ=typ)
 
 
 class SourceAdd(base.BaseHandler):
