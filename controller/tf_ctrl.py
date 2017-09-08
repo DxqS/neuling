@@ -107,6 +107,12 @@ class SourceAdd2(base.BaseHandler):
             for sourceDir in pathDir:
                 src_id = base.getRedisID('style_source')
                 file_path = 'resource/style/origin/{}/{}.jpg'.format(label, src_id)
+
+                fdir = file_path[:file_path.rfind('/')]
+                if not os.path.exists(fdir):
+                    os.makedirs(fdir)
+                if os.path.exists(file_path):
+                    continue
                 Image.open('resource/{}/{}'.format(label, sourceDir)).save(file_path)
 
                 # 获取图片的关键点
