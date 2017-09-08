@@ -98,7 +98,7 @@ def face_landmarks(face_image):
     return face_landmarks_list[0]
 
 
-def drawPoints(points, file_name):
+def draw_points(points, file_name):
     file_dir = file_name[:file_name.rfind('/')]
     if not os.path.exists(file_dir):
         os.makedirs(file_dir)

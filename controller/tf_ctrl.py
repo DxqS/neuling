@@ -10,27 +10,44 @@ import numpy as np
 from common import base
 import config
 from service import tf_service, picture_service
-import model_variable
 
-number_softmax_sess = model_variable.number_softmax_sess
-number_softmax_x = model_variable.number_softmax_x
-number_softmax_y = model_variable.number_softmax_y
-
-style_softmax_sess = model_variable.style_softmax_sess
-style_softmax_x = model_variable.style_softmax_x
-style_softmax_y = model_variable.style_softmax_y
-
-number_cnn_sess = model_variable.number_cnn_sess
-number_cnn_x = model_variable.number_cnn_x
-number_cnn_y = model_variable.number_cnn_y
-number_cnn_keep_prob = model_variable.number_cnn_keep_prob
+# import model_variable
+#
+# number_softmax_sess = model_variable.number_softmax_sess
+# number_softmax_x = model_variable.number_softmax_x
+# number_softmax_y = model_variable.number_softmax_y
+#
+# style_softmax_sess = model_variable.style_softmax_sess
+# style_softmax_x = model_variable.style_softmax_x
+# style_softmax_y = model_variable.style_softmax_y
+#
+# number_cnn_sess = model_variable.number_cnn_sess
+# number_cnn_x = model_variable.number_cnn_x
+# number_cnn_y = model_variable.number_cnn_y
+# number_cnn_keep_prob = model_variable.number_cnn_keep_prob
 
 mdb = config.mdb
 rdb = config.rdb
 LabelList = ['TMKA', 'MLSS', 'QCJJ',
              'ZRYY', 'GYRM', 'ZXCZ',
              'LMMR', 'HLGY', 'XDMD']
+FEATURES = [
+    'chin',
+    'left_eyebrow',
+    'right_eyebrow',
+    'nose_bridge',
+    'nose_tip',
+    'left_eye',
+    'right_eye',
+    'top_lip',
+    'bottom_lip'
+]
 
+SenceAndOutline = {
+    'TMKA': ['小', '曲'], 'MLSS': ['小', '中'], 'QCJJ': ['小', '直'],
+    'ZRYY': ['中', '曲'], 'GYRM': ['中', '中'], 'ZXCZ': ['中', '直'],
+    'LMMR': ['大', '曲'], 'HLGY': ['大', '中'], 'XDMD': ['大', '直']
+}
 tolerance = 0.3
 
 
@@ -49,11 +66,36 @@ class SourceAdd(base.BaseHandler):
         return self.render('dxq_tf/source_add.html', LabelList=LabelList)
 
     def post(self):
-        face = self.input('face')
-        label = self.input('label')
-        src_id = base.getRedisID('face_train_source')
-        path = tf_service.Add_Face_to_Source(face, label, src_id)
-        tf_service.Add_Face_DB(path, label, src_id)
+        face = self.input('face')  # Base64Img
+        label = self.input('label')  # 标签
+        typ = self.input('type')  # 类型
+        src_id = base.getRedisID('style_source')
+
+        file_path = 'source/style/origin/{}/{}.jpg'.format(label, src_id)
+        # BaseImg 存入本地
+        tf_service.saveBaseImg(face, file_path)
+        # 获取图片的关键点
+        face_landmarks_dict = tf_service.face_landmarks(file_path)
+        result = {}
+        for feature in FEATURES:
+            outline = face_landmarks_dict[feature]
+            file_name = file_path.replace('origin', 'result/' + feature)
+            tf_service.draw_points(points=outline, file_name=file_name)
+            result[feature] = '/' + file_name
+        if face_landmarks_dict != "Error":
+            face_source = {
+                '_id': int(src_id),
+                'path': '/' + file_path,
+                'label': label,
+                'type': typ,
+                'sense': SenceAndOutline[label][0],
+                'outline': SenceAndOutline[label][1],
+                'result': result
+            }
+            face_source.update(face_landmarks_dict)
+
+            mdb.style_source.insert(face_source)
+
         return self.finish(base.rtjson())
 
 
