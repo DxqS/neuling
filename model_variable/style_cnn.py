@@ -11,7 +11,7 @@ sess = tf.InteractiveSession()
 
 # CNN
 x = tf.placeholder(tf.float32, [None, 784])
-y_ = tf.placeholder(tf.float32, [None, 10])
+y_ = tf.placeholder(tf.float32, [None, 9])
 x_image = tf.reshape(x, [-1, 28, 28, 1])
 
 W_conv1 = tf_service.weight_variable([5, 5, 1, 32])
@@ -32,9 +32,9 @@ h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
 keep_prob = tf.placeholder(tf.float32)
 h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 
-W_fc2 = tf_service.weight_variable([1024, 10])
-b_fc2 = tf_service.bias_variable([10])
+W_fc2 = tf_service.weight_variable([1024, 9])
+b_fc2 = tf_service.bias_variable([9])
 y_conv = tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
 
 saver = tf.train.Saver()
-saver.restore(sess, "resource/model/number/cnn/model.ckpt")
+saver.restore(sess, "resource/model/style/cnn/model.ckpt")
