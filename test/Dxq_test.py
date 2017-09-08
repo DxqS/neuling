@@ -51,8 +51,8 @@ def load_data_mat(file_name):
 def read_source_to_db(label):
     pathDir = os.listdir('../resource/' + label)
     for sourceDir in pathDir:
-        print(1)
         print(Image.open('../resource/' + label + '/' + sourceDir))
+
 
 if __name__ == "__main__":
     read_source_to_db("GYRM")
