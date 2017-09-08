@@ -11,6 +11,7 @@ import redis
 from pymongo import MongoClient
 import scipy.io as scio
 from PIL import Image
+
 # from tensorflow.examples.tutorials.mnist import input_data
 
 LabelToCode = {
@@ -43,12 +44,19 @@ def load_data_mat(file_name):
         image = np.multiply(img2, 1.0 / 255.0)
         x[i + 1:] = image
         y[i + 1:] = LabelToCode[source['label']]
-    scio.savemat('../resource/'+file_name, {'X': x, 'Y': y})
+    scio.savemat('../resource/' + file_name, {'X': x, 'Y': y})
     return True
 
 
+def read_source_to_db(label):
+    pathDir = os.listdir('resource/' + label)
+    for sourceDir in pathDir:
+        print(sourceDir)
+
+
 if __name__ == "__main__":
-    load_data_mat('face_data.mat')
+    read_source_to_db("GYRM")
+    # load_data_mat('face_data.mat')
     # data = scio.loadmat('face_data.mat')
     # print(data['X'].shape)
     # print(data['Y'].shape)
