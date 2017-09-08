@@ -21,7 +21,7 @@
         reader.readAsDataURL(file.files[0]);
     }
     function uploadImage() {
-        $.post(window.location.pathname+'2', {
+        $.post(window.location.pathname, {
             face: $("#J-face-hid").val(),
             label: $("#label").val(),
             type: $("#type").val()

@@ -99,45 +99,45 @@ class SourceAdd(base.BaseHandler):
         return self.finish(base.rtjson())
 
 
-class SourceAdd2(base.BaseHandler):
-    def post(self):
-        import os
-        for label in LabelList:
-            pathDir = os.listdir('resource/' + label)
-            for sourceDir in pathDir:
-                src_id = base.getRedisID('style_source')
-                file_path = 'resource/style/origin/{}/{}.jpg'.format(label, src_id)
-
-                fdir = file_path[:file_path.rfind('/')]
-                if not os.path.exists(fdir):
-                    os.makedirs(fdir)
-                if os.path.exists(file_path):
-                    continue
-                Image.open('resource/{}/{}'.format(label, sourceDir)).save(file_path)
-
-                # 获取图片的关键点
-                face_landmarks_dict = tf_service.face_landmarks(file_path)
-                result = {}
-                for feature in FEATURES:
-                    outline = face_landmarks_dict[feature]
-                    file_name = file_path.replace('origin', 'result/' + feature)
-                    tf_service.draw_points(points=outline, file_name=file_name)
-                    result[feature] = '/' + file_name
-                if face_landmarks_dict != "Error":
-                    face_source = {
-                        '_id': int(src_id),
-                        'path': '/' + file_path,
-                        'label': label,
-                        'type': "train",
-                        'sense': SenceAndOutline[label][0],
-                        'outline': SenceAndOutline[label][1],
-                        'result': result
-                    }
-                    face_source.update(face_landmarks_dict)
-
-                    mdb.style_source.insert(face_source)
-
-        return self.finish(base.rtjson())
+# class SourceAdd2(base.BaseHandler):
+#     def post(self):
+#         import os
+#         for label in LabelList:
+#             pathDir = os.listdir('resource/' + label)
+#             for sourceDir in pathDir:
+#                 src_id = base.getRedisID('style_source')
+#                 file_path = 'resource/style/origin/{}/{}.jpg'.format(label, src_id)
+#
+#                 fdir = file_path[:file_path.rfind('/')]
+#                 if not os.path.exists(fdir):
+#                     os.makedirs(fdir)
+#                 if os.path.exists(file_path):
+#                     continue
+#                 Image.open('resource/{}/{}'.format(label, sourceDir)).save(file_path)
+#
+#                 # 获取图片的关键点
+#                 face_landmarks_dict = tf_service.face_landmarks(file_path)
+#                 result = {}
+#                 for feature in FEATURES:
+#                     outline = face_landmarks_dict[feature]
+#                     file_name = file_path.replace('origin', 'result/' + feature)
+#                     tf_service.draw_points(points=outline, file_name=file_name)
+#                     result[feature] = '/' + file_name
+#                 if face_landmarks_dict != "Error":
+#                     face_source = {
+#                         '_id': int(src_id),
+#                         'path': '/' + file_path,
+#                         'label': label,
+#                         'type': "train",
+#                         'sense': SenceAndOutline[label][0],
+#                         'outline': SenceAndOutline[label][1],
+#                         'result': result
+#                     }
+#                     face_source.update(face_landmarks_dict)
+#
+#                     mdb.style_source.insert(face_source)
+#
+#         return self.finish(base.rtjson())
 
 
 class SourceEdit(base.BaseHandler):

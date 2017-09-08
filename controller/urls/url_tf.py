@@ -9,7 +9,7 @@ from controller import tf_ctrl
 urls = [
     ('/tf/source/(train|test)/index', tf_ctrl.SourceIndex),
     ('/tf/source/add', tf_ctrl.SourceAdd),
-    ('/tf/source/add2', tf_ctrl.SourceAdd2),
+    # ('/tf/source/add2', tf_ctrl.SourceAdd2),
     ('/tf/source/edit/(\d+)', tf_ctrl.SourceEdit),
 
     ('/tf/user/index', tf_ctrl.UserIndex),
