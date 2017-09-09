@@ -45,7 +45,11 @@
     function uploadImage() {
         $.post('/tf/model/style/cnn/test', {face: $("#J-face-hid").val()}, function (res) {
             if (res.status == 1) {
-                alert("这是" + res['num'] + '?');
+                if (res['style'] == "Error") {
+                    alert("图片出错，请重试！")
+                } else {
+                    alert("这是" + res['style'] + '?')
+                }
                 window.location.reload()
             }
         }, 'json');
