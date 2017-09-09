@@ -53,6 +53,7 @@ def read_source_to_db(label):
     for sourceDir in pathDir:
         print(Image.open('../resource/' + label + '/' + sourceDir))
 
+
 if __name__ == "__main__":
     read_source_to_db("GYRM")
 
