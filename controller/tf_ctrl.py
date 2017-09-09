@@ -74,13 +74,17 @@ class SourceAdd(base.BaseHandler):
         face = self.input('face')  # Base64Img
         label = self.input('label')  # 标签
         typ = self.input('type')  # 类型
+        print('label', label)
+        print('type', typ)
         src_id = base.getRedisID('style_source')
 
         file_path = 'resource/style/origin/{}/{}.jpg'.format(label, src_id)
         # BaseImg 存入本地
         tf_service.saveBaseImg(face, file_path)
+        print('saved')
         # 获取图片的关键点
         face_landmarks_dict = tf_service.face_landmarks(file_path)
+        print('points')
         result = {}
         for feature in FEATURES:
             outline = face_landmarks_dict[feature]
