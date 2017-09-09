@@ -182,7 +182,7 @@ def number_train(learning_rate, train_epochs):
     data = scio.loadmat('resource/mnist_data.mat')
 
     # 限定命名空间
-    with tf.name_scop("input"):
+    with tf.name_scope("input"):
         x = tf.placeholder(tf.float32, [None, 784], name='x-input')
         y_ = tf.placeholder(tf.float32, [None, 10], name='y-input')
 
