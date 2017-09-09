@@ -56,7 +56,6 @@ def read_source_to_db(label):
 
 if __name__ == "__main__":
     read_source_to_db("GYRM")
-
     # load_data_mat('face_data.mat')
     # data = scio.loadmat('face_data.mat')
     # print(data['X'].shape)
