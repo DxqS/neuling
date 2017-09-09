@@ -274,31 +274,64 @@ class ModelStyleCNN(base.BaseHandler):
 
 class ModelStyleTest(base.BaseHandler):
     def post(self, model):
+        print('test')
         face = self.input('face')  # Base64Img
-        import requests
-        args = {
-            "face": face,
-            "label": "TMKA",  # 标签
-            "type": "predict"
-        }
-        res = requests.post(config.gconf['domain'] + '/tf/source/add', data=args)
-        print(res)
+        # import requests
+        # args = {
+        #     "face": face,
+        #     "label": "TMKA",  # 标签
+        #     "type": "predict"
+        # }
+        # res = requests.post(config.gconf['domain'] + '/tf/source/add', data=args)
+        # print(res)
+
+        label = "TMKA" # 标签
+        typ = "predict"  # 类型
+        src_id = base.getRedisID('style_source')
+        file_path = 'resource/style/origin/{}/{}.jpg'.format(label, src_id)
+        # BaseImg 存入本地
+        tf_service.saveBaseImg(face, file_path)
+        print('saved')
+        # 获取图片的关键点
+        face_landmarks_dict = tf_service.face_landmarks(file_path)
+        print('points')
+        result = {}
+        for feature in FEATURES:
+            outline = face_landmarks_dict[feature]
+            file_name = file_path.replace('origin', 'result/' + feature)
+            tf_service.draw_points(points=outline, file_name=file_name)
+            result[feature] = '/' + file_name
+        if face_landmarks_dict != "Error":
+            face_source = {
+                '_id': int(src_id),
+                'path': '/' + file_path,
+                'label': label,
+                'type': typ,
+                'sense': SenceAndOutline[label][0],
+                'outline': SenceAndOutline[label][1],
+                'result': result
+            }
+            face_source.update(face_landmarks_dict)
+
+            mdb.style_source.insert(face_source)
+
+
         style = "Error"
-        if res.status_code == 200:
-            src_id = res.json()['src_id']
-            source = mdb.style_source.find_one({"_id": int(src_id)})
-            file_path = config.gconf['domain'] + source['result']['chin']
-            img = Image.open(file_path)
-            img2 = np.array(img.resize([28, 28]).convert("L")).reshape(1, 784).astype(np.float32)
-            x_input = np.multiply(img2, 1.0 / 255.0)
-            if model == 'softmax':
-                res = style_softmax_sess.run(style_softmax_y, feed_dict={style_softmax_x: x_input})
-            else:
-                res = style_cnn_sess.run(style_cnn_y, feed_dict={style_cnn_x: x_input, style_cnn_keep_prob: 1})
+        # if res.status_code == 200:
+        #     src_id = res.json()['src_id']
+        source = mdb.style_source.find_one({"_id": int(src_id)})
+        file_path = config.gconf['domain'] + source['result']['chin']
+        img = Image.open(file_path)
+        img2 = np.array(img.resize([28, 28]).convert("L")).reshape(1, 784).astype(np.float32)
+        x_input = np.multiply(img2, 1.0 / 255.0)
+        if model == 'softmax':
+            res = style_softmax_sess.run(style_softmax_y, feed_dict={style_softmax_x: x_input})
+        else:
+            res = style_cnn_sess.run(style_cnn_y, feed_dict={style_cnn_x: x_input, style_cnn_keep_prob: 1})
 
-            style = LabelList[np.argmax(res).tolist()]
+        style = LabelList[np.argmax(res).tolist()]
 
-            mdb.style_source.update_one({"_id": src_id}, {"$set": {"label": style, 'sense': SenceAndOutline[style][0],
-                                                                   'outline': SenceAndOutline[style][1]}})
+        mdb.style_source.update_one({"_id": src_id}, {"$set": {"label": style, 'sense': SenceAndOutline[style][0],
+                                                               'outline': SenceAndOutline[style][1]}})
 
         return self.finish(base.rtjson(style=style))

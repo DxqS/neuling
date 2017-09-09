@@ -22,5 +22,4 @@ urls = [
     ('/tf/model/style', tf_ctrl.ModelStyle),
     ('/tf/model/style/cnn', tf_ctrl.ModelStyleCNN),
     ('/tf/model/style/(softmax|cnn)/test', tf_ctrl.ModelStyleTest),
-
 ]
