@@ -188,18 +188,18 @@ def number_train(learning_rate, train_epochs):
 
     with tf.name_scope('input_reshape'):
         image_shaped_input = tf.reshape(x, [-1, 28, 28, 1])
-        tf.summary.image('input', image_shaped_input, 10)
+    tf.summary.image('input', image_shaped_input, 10)
     # W = tf.Variable(tf.truncated_normal([784, 10], stddev=0.1))
     # b = tf.Variable(tf.constant(0.1, shape=[10]))
     with tf.name_scope('weights'):
         W = tf.Variable(tf.zeros([784, 10]))
         w_mean = tf.reduce_mean(W)
-        tf.summary.scalar("mean", w_mean)
+    tf.summary.scalar("mean", w_mean)
 
     with tf.name_scope('biases'):
         b = tf.Variable(tf.zeros([10]))
         b_mean = tf.reduce_mean(b)
-        tf.summary.scalar("mean", b_mean)
+    tf.summary.scalar("mean", b_mean)
 
     tf.global_variables_initializer().run()
 
@@ -207,21 +207,21 @@ def number_train(learning_rate, train_epochs):
 
     with tf.name_scope('cross_entropy'):
         cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
-        tf.summary.scalar("cross_entropy", cross_entropy)
+    tf.summary.scalar("cross_entropy", cross_entropy)
 
     train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
     with tf.name_scope('correct_prediction'):
         correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
     with tf.name_scope('accuracy'):
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-        tf.summary.scalar("accuracy", accuracy)
+    tf.summary.scalar("accuracy", accuracy)
 
     merged = tf.summary.merge_all()
     train_writer = tf.summary.FileWriter('resource/summary/number/softmax/train', sess.graph)
     for step in range(train_epochs):
         xs_batch, ys_batch = get_random_block_from_data(data, 100)
         train_step.run({x: xs_batch, y_: ys_batch})
-        # summary = sess.run([merged], {x: xs_batch, y_: ys_batch})
+        sess.run([merged], {x: xs_batch, y_: ys_batch})
         # train_writer.add_summary(summary, step)
         if step % 100 == 0:
             print(accuracy.eval(feed_dict={x: xs_batch, y_: ys_batch}))
