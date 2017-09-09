@@ -285,7 +285,7 @@ class ModelStyleTest(base.BaseHandler):
         # res = requests.post(config.gconf['domain'] + '/tf/source/add', data=args)
         # print(res)
 
-        label = "TMKA" # 标签
+        label = "TMKA"  # 标签
         typ = "predict"  # 类型
         src_id = base.getRedisID('style_source')
         file_path = 'resource/style/origin/{}/{}.jpg'.format(label, src_id)
@@ -315,12 +315,11 @@ class ModelStyleTest(base.BaseHandler):
 
             mdb.style_source.insert(face_source)
 
-
-        style = "Error"
+        # style = "Error"
         # if res.status_code == 200:
         #     src_id = res.json()['src_id']
         source = mdb.style_source.find_one({"_id": int(src_id)})
-        file_path = config.gconf['domain'] + source['result']['chin']
+        file_path = source['result']['chin'].replace("/resource", "resource")
         img = Image.open(file_path)
         img2 = np.array(img.resize([28, 28]).convert("L")).reshape(1, 784).astype(np.float32)
         x_input = np.multiply(img2, 1.0 / 255.0)
