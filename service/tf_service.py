@@ -212,7 +212,6 @@ def number_train(learning_rate, train_epochs):
     train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
     with tf.name_scope('correct_prediction'):
         correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
-        tf.summary.scalar("correct_prediction", correct_prediction)
     with tf.name_scope('accuracy'):
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
         tf.summary.scalar("accuracy", accuracy)
