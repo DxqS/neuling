@@ -278,6 +278,7 @@ class ModelStyleTest(base.BaseHandler):
             "type": "predict"
         }
         res = requests.post(config.gconf['domain'] + '/tf/source/add', data=args)
+        print(res)
         style = "Error"
         if res.status_code == 200:
             src_id = res.json()['src_id']
