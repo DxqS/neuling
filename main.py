@@ -24,7 +24,6 @@ settings = dict(
     # debug=True,
 )
 
-
 def make_app():
     return tornado.web.Application(controller.urls.ctrls, **settings)
 
