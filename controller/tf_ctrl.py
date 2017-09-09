@@ -274,27 +274,15 @@ class ModelStyleCNN(base.BaseHandler):
 
 class ModelStyleTest(base.BaseHandler):
     def post(self, model):
-        print('test')
         face = self.input('face')  # Base64Img
-        # import requests
-        # args = {
-        #     "face": face,
-        #     "label": "TMKA",  # 标签
-        #     "type": "predict"
-        # }
-        # res = requests.post(config.gconf['domain'] + '/tf/source/add', data=args)
-        # print(res)
-
         label = "TMKA"  # 标签
         typ = "predict"  # 类型
         src_id = base.getRedisID('style_source')
         file_path = 'resource/style/origin/{}/{}.jpg'.format(label, src_id)
         # BaseImg 存入本地
         tf_service.saveBaseImg(face, file_path)
-        print('saved')
         # 获取图片的关键点
         face_landmarks_dict = tf_service.face_landmarks(file_path)
-        print('points')
         result = {}
         for feature in FEATURES:
             outline = face_landmarks_dict[feature]
@@ -315,9 +303,6 @@ class ModelStyleTest(base.BaseHandler):
 
             mdb.style_source.insert(face_source)
 
-        # style = "Error"
-        # if res.status_code == 200:
-        #     src_id = res.json()['src_id']
         source = mdb.style_source.find_one({"_id": int(src_id)})
         file_path = source['result']['chin'].replace("/resource", "resource")
         img = Image.open(file_path)
