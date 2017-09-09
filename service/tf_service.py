@@ -121,29 +121,6 @@ def draw_points(points, file_name):
     return True
 
 
-def Add_Face_DB(path, label, src_id):
-    face_landmarks_dict = face_landmarks(path)  # 暂时只画轮廓
-    result = {}
-    for feature in FEATURES:
-        outline = face_landmarks_dict[feature]
-        file_name = path.replace('Source', 'Result/' + feature)
-        drawPoints(points=outline, file_name=file_name)
-        result[feature] = '/' + file_name
-    if face_landmarks_dict != "Error":
-        table_name = 'face_train_source' if label != 'TEST'else 'face_test_source'
-
-        face_source = {
-            '_id': int(src_id),
-            'path': '/' + path,
-            'label': label,
-            'type': 'train',
-            'result': result
-        }
-        face_source.update(face_landmarks_dict)
-        mdb[table_name].insert(face_source)
-    return True
-
-
 def get_know_face_encodings():
     known_faces = []
     known_names = []
@@ -193,15 +170,9 @@ def number_train(learning_rate, train_epochs):
     # b = tf.Variable(tf.constant(0.1, shape=[10]))
     with tf.name_scope('weights'):
         W = tf.Variable(tf.zeros([784, 10]))
-        w_mean = tf.reduce_mean(W)
-    tf.summary.scalar("mean", w_mean)
 
     with tf.name_scope('biases'):
         b = tf.Variable(tf.zeros([10]))
-        b_mean = tf.reduce_mean(b)
-    tf.summary.scalar("mean", b_mean)
-
-
 
     y = tf.nn.softmax(tf.matmul(x, W) + b)
 
