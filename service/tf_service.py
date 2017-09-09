@@ -217,7 +217,7 @@ def number_train(learning_rate, train_epochs):
         tf.summary.scalar("accuracy", accuracy)
 
     merged = tf.summary.merge_all()
-    train_writer = tf.summary.FileWriter(config.gconf['domain'] + '/resource/summary/number/softmax/train', sess.graph)
+    train_writer = tf.summary.FileWriter('resource/summary/number/softmax/train', sess.graph)
     for step in range(train_epochs):
         xs_batch, ys_batch = get_random_block_from_data(data, 100)
         train_step.run({x: xs_batch, y_: ys_batch})
