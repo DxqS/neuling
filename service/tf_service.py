@@ -221,7 +221,7 @@ def number_train(learning_rate, train_epochs):
     for step in range(train_epochs):
         xs_batch, ys_batch = get_random_block_from_data(data, 100)
         train_step.run({x: xs_batch, y_: ys_batch})
-        summary = merged.run({x: xs_batch, y_: ys_batch})
+        summary = sess.run([merged], {x: xs_batch, y_: ys_batch})
         train_writer.add_summary(summary)
         if step % 100 == 0:
             print(accuracy.eval(feed_dict={x: xs_batch, y_: ys_batch}))
