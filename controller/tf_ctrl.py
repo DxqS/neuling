@@ -278,13 +278,22 @@ class ModelStyleTest(base.BaseHandler):
             "type": "predict"
         }
         res = requests.post(config.gconf['domain'] + '/tf/source/add', data=args)
+        style = "Error"
         if res.status_code == 200:
             src_id = res.json()['src_id']
             source = mdb.style_source.find_one({"_id": int(src_id)})
             file_path = config.gconf['domain'] + source['result']['chin']
             img = Image.open(file_path)
             img2 = np.array(img.resize([28, 28]).convert("L")).reshape(1, 784).astype(np.float32)
-            image = np.multiply(img2, 1.0 / 255.0)
-            tf_service.number_test()
+            x_input = np.multiply(img2, 1.0 / 255.0)
+            if model == 'softmax':
+                res = style_softmax_sess.run(style_softmax_y, feed_dict={style_softmax_x: x_input})
+            else:
+                res = style_cnn_sess.run(style_cnn_y, feed_dict={style_cnn_x: x_input, style_cnn_keep_prob: 1})
 
-        return self.finish(base.rtjson(num=LabelList[np.argmax(res).tolist()]))
+            style = LabelList[np.argmax(res).tolist()]
+
+            mdb.style_source.update_one({"_id": src_id}, {"$set": {"label": style, 'sense': SenceAndOutline[style][0],
+                                                                   'outline': SenceAndOutline[style][1]}})
+
+        return self.finish(base.rtjson(style=style))
