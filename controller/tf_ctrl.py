@@ -11,25 +11,25 @@ from common import base
 import config
 from service import tf_service, picture_service
 
-import model_variable
-
-number_softmax_sess = model_variable.number_softmax_sess
-number_softmax_x = model_variable.number_softmax_x
-number_softmax_y = model_variable.number_softmax_y
-
-style_softmax_sess = model_variable.style_softmax_sess
-style_softmax_x = model_variable.style_softmax_x
-style_softmax_y = model_variable.style_softmax_y
-
-number_cnn_sess = model_variable.number_cnn_sess
-number_cnn_x = model_variable.number_cnn_x
-number_cnn_y = model_variable.number_cnn_y
-number_cnn_keep_prob = model_variable.number_cnn_keep_prob
-
-style_cnn_sess = model_variable.style_cnn_sess
-style_cnn_x = model_variable.style_cnn_x
-style_cnn_y = model_variable.style_cnn_y
-style_cnn_keep_prob = model_variable.style_cnn_keep_prob
+# import model_variable
+#
+# number_softmax_sess = model_variable.number_softmax_sess
+# number_softmax_x = model_variable.number_softmax_x
+# number_softmax_y = model_variable.number_softmax_y
+#
+# style_softmax_sess = model_variable.style_softmax_sess
+# style_softmax_x = model_variable.style_softmax_x
+# style_softmax_y = model_variable.style_softmax_y
+#
+# number_cnn_sess = model_variable.number_cnn_sess
+# number_cnn_x = model_variable.number_cnn_x
+# number_cnn_y = model_variable.number_cnn_y
+# number_cnn_keep_prob = model_variable.number_cnn_keep_prob
+#
+# style_cnn_sess = model_variable.style_cnn_sess
+# style_cnn_x = model_variable.style_cnn_x
+# style_cnn_y = model_variable.style_cnn_y
+# style_cnn_keep_prob = model_variable.style_cnn_keep_prob
 
 mdb = config.mdb
 rdb = config.rdb
