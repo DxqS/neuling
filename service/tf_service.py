@@ -270,13 +270,13 @@ def number_cnn_train(learning_rate, train_epochs):
     with tf.name_scope("b_conv1"):
         b_conv1 = bias_variable([32])
 
-    features = conv2d(x_image, W_conv1) + b_conv1
-    for i in range(2):
-        feature = features[:, :, :, i]
-        tf.summary.image('feature', feature, 10)
+
     with tf.name_scope("layer1"):
         h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
         h_pool1 = max_pool_2x2(h_conv1)
+
+    feature = tf.reshape(h_pool1, [-1, 32], name='h_pool1')
+    tf.summary.image('feature', feature, 10)
 
     with tf.name_scope("W_conv2"):
         W_conv2 = weight_variable([5, 5, 32, 64])
