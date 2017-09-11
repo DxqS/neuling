@@ -133,7 +133,7 @@ def get_random_block_from_data(data, batch_size):
 
 X_train, X_test = standard_scale(mnist.train.images, mnist.test.images)
 n_samples = int(mnist.train.num_examples)
-training_epochs = 2
+training_epochs = 100
 batch_size = 128
 display_step = 1
 autoencoder = AdditiveGaussianNoiseAutoEncoder(n_input=784, n_hidden=100, transfer_function=tf.nn.softplus,
