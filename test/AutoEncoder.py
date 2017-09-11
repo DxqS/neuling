@@ -59,6 +59,7 @@ class AdditiveGaussianNoiseAutoEncoder(object):
         self.reconstruction = tf.add(tf.matmul(self.hidden, self.weights['w2']), self.weights['b2'])
         # 定义损失函数：重构层的输出和原始输入x的平方误差
         self.cost = 0.5 * tf.reduce_sum(tf.pow(tf.subtract(self.reconstruction, self.x), 2.0))
+        tf.summary.scalar("cost", self.cost)
         # 定义优化器进行训练
         self.optimizer = optimizer.minimize(self.cost)
 
