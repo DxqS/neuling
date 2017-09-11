@@ -62,8 +62,12 @@ class AdditiveGaussianNoiseAutoEncoder(object):
         self.optimizer = optimizer.minimize(self.cost)
 
         # 创建session，初始化变量
-        init = tf.global_variables_initializer()
         self.sess = tf.Session()
+
+        self.merged = tf.summary.merge_all()
+        self.train_writer = tf.summary.FileWriter('train', self.sess.graph)
+
+        init = tf.global_variables_initializer()
         self.sess.run(init)
 
     def _initialize_weights(self):
@@ -78,13 +82,15 @@ class AdditiveGaussianNoiseAutoEncoder(object):
         all_weights['b2'] = tf.Variable(tf.zeros([self.n_input], dtype=tf.float32))
         return all_weights
 
-    def partial_fit(self, X):
+    def partial_fit(self, X, step):
         '''
         定义计算损失函数cost及执行一步训练
         :param X: 训练模型feed数据
         :return:cost 损失值
         '''
-        cost, opt = self.sess.run((self.cost, self.optimizer), feed_dict={self.x: X, self.scale: self.training_scale})
+        cost, opt, _ = self.sess.run((self.cost, self.optimizer, self.merged),
+                                     feed_dict={self.x: X, self.scale: self.training_scale})
+        self.train_writer.add_summary(_, step)
         return cost
 
     # 以下暂时未仔细看
@@ -92,6 +98,7 @@ class AdditiveGaussianNoiseAutoEncoder(object):
         return self.sess.run(self.cost, feed_dict={self.x: X, self.scale: self.training_scale})
 
     def transform(self, X):
+        tf.summary.image('hid', tf.reshape(self.hidden, [-1, 10, 10, 1]), 10)
         return self.sess.run(self.hidden, feed_dict={self.x: X, self.scale: self.training_scale})
 
     def generate(self, hidden=None):
@@ -136,7 +143,7 @@ for epoch in range(training_epochs):
     total_batch = int(n_samples / batch_size)
     for i in range(total_batch):
         batch_xs = get_random_block_from_data(X_train, batch_size)
-        cost = autoencoder.partial_fit(batch_xs)
+        cost = autoencoder.partial_fit(batch_xs, i)
         transform = autoencoder.transform(batch_xs)
         avg_cost += cost / n_samples * batch_size
 
