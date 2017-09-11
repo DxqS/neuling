@@ -54,6 +54,7 @@ class AdditiveGaussianNoiseAutoEncoder(object):
                                  self.weights['w1']),
                        self.weights['b1'])
             )
+            tf.summary.scalar("hidden", self.hidden)
         self.step = 0
         # 重构层
         # self.hidden 等于重构层的input输入
