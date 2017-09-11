@@ -53,6 +53,7 @@ class AdditiveGaussianNoiseAutoEncoder(object):
                              self.weights['w1']),
                    self.weights['b1'])
         )
+        self.step = 0
         # 重构层
         # self.hidden 等于重构层的input输入
         self.reconstruction = tf.add(tf.matmul(self.hidden, self.weights['w2']), self.weights['b2'])
@@ -90,7 +91,7 @@ class AdditiveGaussianNoiseAutoEncoder(object):
         '''
         cost, opt, _ = self.sess.run((self.cost, self.optimizer, self.merged),
                                      feed_dict={self.x: X, self.scale: self.training_scale})
-        # self.train_writer.add_summary(_, step)
+        self.train_writer.add_summary(_, step)
         return cost
 
     # 以下暂时未仔细看
