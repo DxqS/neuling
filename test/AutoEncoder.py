@@ -41,6 +41,7 @@ class AdditiveGaussianNoiseAutoEncoder(object):
 
         network_weights = self._initialize_weights()
         self.weights = network_weights
+        tf.summary.scalar("weights", self.weights)
 
         # 训练模型feed数据
         self.x = tf.placeholder(tf.float32, [None, self.n_input])
@@ -54,8 +55,6 @@ class AdditiveGaussianNoiseAutoEncoder(object):
                                  self.weights['w1']),
                        self.weights['b1'])
             )
-            tf.summary.scalar("hidden", self.hidden)
-        self.step = 0
         # 重构层
         # self.hidden 等于重构层的input输入
         self.reconstruction = tf.add(tf.matmul(self.hidden, self.weights['w2']), self.weights['b2'])
