@@ -274,8 +274,8 @@ def number_cnn_train(learning_rate, train_epochs):
         h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
         h_pool1 = max_pool_2x2(h_conv1)
 
-    feature1 = tf.reshape(h_pool1, [-1, 14, 14, 1], name='h_pool1')
-    tf.summary.image('feature1', feature1, 10)
+    # feature1 = tf.reshape(h_pool1, [-1, 14, 14, 1], name='h_pool1')
+    # tf.summary.image('feature1', feature1, 10)
 
     with tf.name_scope("W_conv2"):
         W_conv2 = weight_variable([5, 5, 32, 64])
@@ -285,8 +285,8 @@ def number_cnn_train(learning_rate, train_epochs):
     with tf.name_scope("layer2"):
         h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
         h_pool2 = max_pool_2x2(h_conv2)
-    feature2 = tf.reshape(h_pool2, [-1, 7, 7, 1], name='h_pool2')
-    tf.summary.image('feature2', feature2, 10)
+    # feature2 = tf.reshape(h_pool2, [-1, 7, 7, 1], name='h_pool2')
+    # tf.summary.image('feature2', feature2, 10)
 
     with tf.name_scope("W_fc1"):
         W_fc1 = weight_variable([7 * 7 * 64, 1024])
