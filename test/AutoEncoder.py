@@ -144,7 +144,7 @@ for epoch in range(training_epochs):
     total_batch = int(n_samples / batch_size)
     for i in range(total_batch):
         batch_xs = get_random_block_from_data(X_train, batch_size)
-        cost = autoencoder.partial_fit(batch_xs, i)
+        cost, summary = autoencoder.partial_fit(batch_xs, i)
         transform = autoencoder.transform(batch_xs)
         avg_cost += cost / n_samples * batch_size
 
