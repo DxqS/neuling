@@ -142,8 +142,9 @@ for epoch in range(training_epochs):
 
     if epoch % display_step == 0:
         print("Epoch:", '%04d' % (epoch + 1), "cost=", "{:.9f}".format(avg_cost))
-        print(transform)
+        # print(tf.reshape(transform, [-1, total_batch * 200]))
 
+        print(transform.shape)
 # 保存模型
 # saver = tf.train.Saver(tf.global_variables())
 # saver.save(autoencoder.sess, "model/AutoEncoder.ckpt")
