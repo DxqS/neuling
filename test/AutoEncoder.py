@@ -92,7 +92,7 @@ class AdditiveGaussianNoiseAutoEncoder(object):
         cost, opt = self.sess.run((self.cost, self.optimizer),
                                   feed_dict={self.x: X, self.scale: self.training_scale})
         summary = self.sess.run(self.merged, feed_dict={self.x: X, self.scale: self.training_scale})
-        return cost
+        return cost, summary
 
     # 以下暂时未仔细看
     def calc_total_cost(self, X):
