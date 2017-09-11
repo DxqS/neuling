@@ -83,15 +83,15 @@ class AdditiveGaussianNoiseAutoEncoder(object):
         all_weights['b2'] = tf.Variable(tf.zeros([self.n_input], dtype=tf.float32))
         return all_weights
 
-    def partial_fit(self, X,i):
+    def partial_fit(self, X, i):
         '''
         定义计算损失函数cost及执行一步训练
         :param X: 训练模型feed数据
         :return:cost 损失值
         '''
         cost, opt = self.sess.run((self.cost, self.optimizer),
-                                     feed_dict={self.x: X, self.scale: self.training_scale})
-        print(i)
+                                  feed_dict={self.x: X, self.scale: self.training_scale})
+        summary = self.sess.run(self.merged, feed_dict={self.x: X, self.scale: self.training_scale})
         return cost
 
     # 以下暂时未仔细看
@@ -144,7 +144,7 @@ for epoch in range(training_epochs):
     total_batch = int(n_samples / batch_size)
     for i in range(total_batch):
         batch_xs = get_random_block_from_data(X_train, batch_size)
-        cost = autoencoder.partial_fit(batch_xs,i)
+        cost = autoencoder.partial_fit(batch_xs, i)
         transform = autoencoder.transform(batch_xs)
         avg_cost += cost / n_samples * batch_size
 
