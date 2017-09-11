@@ -48,11 +48,12 @@ class AdditiveGaussianNoiseAutoEncoder(object):
         # 1、加噪后数据：self.x + scale * tf.random_normal((n_input,))
         # 2、wx+b
         # 3、transfer激活
-        self.hidden = self.transfer(
-            tf.add(tf.matmul(self.x + scale * tf.random_normal((n_input,)),
-                             self.weights['w1']),
-                   self.weights['b1'])
-        )
+        with tf.name_scope("hidden"):
+            self.hidden = self.transfer(
+                tf.add(tf.matmul(self.x + scale * tf.random_normal((n_input,)),
+                                 self.weights['w1']),
+                       self.weights['b1'])
+            )
         self.step = 0
         # 重构层
         # self.hidden 等于重构层的input输入
