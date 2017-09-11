@@ -272,7 +272,6 @@ def number_cnn_train(learning_rate, train_epochs):
 
     h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
     h_pool1 = max_pool_2x2(h_conv1)
-    # tf.summary.image('h_pool1', h_pool1, 10)
 
     with tf.name_scope("W_conv2"):
         W_conv2 = weight_variable([5, 5, 32, 64])
