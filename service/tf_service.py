@@ -272,6 +272,7 @@ def number_cnn_train(learning_rate, train_epochs):
 
     h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
     h_pool1 = max_pool_2x2(h_conv1)
+    tf.summary.image('h_pool1', h_pool1, 10)
 
     with tf.name_scope("W_conv2"):
         W_conv2 = weight_variable([5, 5, 32, 64])
@@ -382,20 +383,6 @@ def style_cnn_train(learning_rate, train_epochs):
 
 
 ###################################################CNN模型###############################################
-def number_test(x_input):
-    # 定义变量
-    sess = tf.InteractiveSession()
-
-    x = tf.placeholder(tf.float32, [None, 784])
-    W = tf.Variable(tf.zeros([784, 10]))
-    b = tf.Variable(tf.zeros([10]))
-    y = tf.nn.softmax(tf.matmul(x, W) + b)
-
-    saver = tf.train.Saver()
-    saver.restore(sess, "resource/model/number.ckpt")
-    res = sess.run(y, feed_dict={x: x_input})
-    return res
-
 
 def extract_image(face):
     return 1
