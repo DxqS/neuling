@@ -41,7 +41,6 @@ class AdditiveGaussianNoiseAutoEncoder(object):
 
         network_weights = self._initialize_weights()
         self.weights = network_weights
-        tf.summary.scalar("weights", self.weights)
 
         # 训练模型feed数据
         self.x = tf.placeholder(tf.float32, [None, self.n_input])
