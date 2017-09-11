@@ -89,9 +89,8 @@ class AdditiveGaussianNoiseAutoEncoder(object):
         :param X: 训练模型feed数据
         :return:cost 损失值
         '''
-        cost, opt, _ = self.sess.run((self.cost, self.optimizer, self.merged),
+        cost, opt = self.sess.run((self.cost, self.optimizer),
                                      feed_dict={self.x: X, self.scale: self.training_scale})
-        # self.train_writer.add_summary(_, self.step)
         return cost
 
     # 以下暂时未仔细看
