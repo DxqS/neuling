@@ -140,7 +140,7 @@ training_epochs = 100
 batch_size = 128
 display_step = 1
 autoencoder = AdditiveGaussianNoiseAutoEncoder(n_input=784, n_hidden=100, transfer_function=tf.nn.softplus,
-                                               optimizer=tf.train.AdamOptimizer(learning_rate=0.001), scale=0.01)
+                                               optimizer=tf.train.AdamOptimizer(learning_rate=0.01), scale=0.01)
 for epoch in range(training_epochs):
     avg_cost = 0
     total_batch = int(n_samples / batch_size)
