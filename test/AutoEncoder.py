@@ -54,7 +54,7 @@ class AdditiveGaussianNoiseAutoEncoder(object):
                                  self.weights['w1']),
                        self.weights['b1'])
             )
-        tf.summary.image('hid', tf.reshape(self.hidden, [-1, 10, 10, 1]), 10)
+        tf.summary.image('hid', tf.reshape(self.hidden, [-1, 10, 10, 1]))
         # 重构层
         # self.hidden 等于重构层的input输入
         self.reconstruction = tf.add(tf.matmul(self.hidden, self.weights['w2']), self.weights['b2'])
