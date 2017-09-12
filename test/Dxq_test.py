@@ -30,32 +30,39 @@ mdb.admin.authenticate(srv['mongo']['uname'], str(srv['mongo']['pwd']), mechanis
 mdb = mdb[srv['mongo']['db']]
 
 
-def load_data_mat(file_name):
-    if os.path.exists(file_name):
-        return True
-    train_source = mdb.face_train_source.find()
-    num = train_source.count()
-    x = np.zeros([num, 784])
-    y = np.zeros([num, 9])
-    for i, source in enumerate(train_source):
-        out_line = source['result']['chin']
-        img = Image.open('..' + out_line)
-        img2 = np.array(img.resize([28, 28]).convert("L")).reshape(1, 784).astype(np.float32)
-        image = np.multiply(img2, 1.0 / 255.0)
-        x[i + 1:] = image
-        y[i + 1:] = LabelToCode[source['label']]
-    scio.savemat('../resource/' + file_name, {'X': x, 'Y': y})
-    return True
+def dis(p1, p2):
+    import math
+    return math.sqrt(math.pow(p1[0] - p2[0], 2) + math.pow(p1[1] - p2[1], 2))
 
 
-def read_source_to_db(label):
-    pathDir = os.listdir('../resource/' + label)
-    for sourceDir in pathDir:
-        print(Image.open('../resource/' + label + '/' + sourceDir))
+def eye_dis_ratio():
+    sources = mdb.style_source.find()
+    for i, source in enumerate(sources):
+        left_eye = source['left_eye']
+        right_eye = source['right_eye']
+
+        mid_len = dis(left_eye[3], right_eye[0])
+        est_len = dis(left_eye[0], right_eye[3])
+        mdb.style_source.update_one({"_id": source['_id']}, {"$set": {"eye_dis_ratio": round(mid_len / est_len, 5)}})
+        if i % 100 == 0:
+            print(i)
+
+
+def find_point():
+    big_sense_sample = mdb.style_source.count({"sense": "大"})
+    # mid_sense = mdb.style_source.count({"sense": "中"})
+    # small_sense = mdb.style_source.count({"sense": "小"})
+    for i in range(3789, 5001):
+        ratio = i * 1.0 / 10000.0
+        big_sense = mdb.style_source.count({"sense": "大", "eye_dis_ratio": {"$lt": ratio}})
+        print('accuracy', big_sense * 1.0 / big_sense_sample)
+        # mid_sense = mdb.style_source.count({"sense": "中"})
+        # small_sense = mdb.style_source.count({"sense": "小"})
 
 
 if __name__ == "__main__":
-    read_source_to_db("GYRM")
+    # read_source_to_db("GYRM")
+    find_point()
     # load_data_mat('face_data.mat')
     # data = scio.loadmat('face_data.mat')
     # print(data['X'].shape)
