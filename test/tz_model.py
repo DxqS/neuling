@@ -42,4 +42,8 @@ def load_data_mat(file_name):
 if __name__ == "__main__":
     # load_data_mat('tz_data.mat')
     data = scio.loadmat('tz_data.mat')
-    print(data['X'].shape)
+    tt = [data['X'][0], data['X'][1]]
+    print(tt)
+    yy = np.array([x[0] for x in tt])
+    print(yy)
+    print(yy.shape)
