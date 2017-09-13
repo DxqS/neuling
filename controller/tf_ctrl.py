@@ -258,7 +258,7 @@ class ModelStyle(base.BaseHandler):
 
     def post(self):
         # tf_service.style_train(0.0001, 3000)
-        tf_service.tz_train(0.005, 3000)
+        tf_service.tz_train(0.0001, 10000)
         return self.finish(base.rtjson())
 
 
