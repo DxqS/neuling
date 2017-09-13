@@ -233,6 +233,51 @@ def style_train(learning_rate, train_epochs):
     return True
 
 
+def tz_train(learning_rate, train_epochs):
+    # 数据集已经处理完毕存resource/tz_data.mat后才能正常使用
+    sess = tf.InteractiveSession()
+    data = scio.loadmat('resource/tz_data.mat')
+
+    # 限定命名空间
+    with tf.name_scope("input"):
+        x = tf.placeholder(tf.float32, [None, 2], name='x-input')
+        y_ = tf.placeholder(tf.float32, [None, 3], name='y-input')
+
+    with tf.name_scope('weights'):
+        W = tf.Variable(tf.zeros([2, 3]))
+
+    with tf.name_scope('biases'):
+        b = tf.Variable(tf.zeros([3]))
+
+    y = tf.nn.softmax(tf.matmul(x, W) + b)
+
+    with tf.name_scope('cross_entropy'):
+        cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
+    tf.summary.scalar("cross_entropy", cross_entropy)
+
+    train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
+    with tf.name_scope('correct_prediction'):
+        correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
+    with tf.name_scope('accuracy'):
+        accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+    tf.summary.scalar("accuracy", accuracy)
+
+    merged = tf.summary.merge_all()
+    train_writer = tf.summary.FileWriter('resource/summary/tz/softmax/train', sess.graph)
+    tf.global_variables_initializer().run()
+    for step in range(train_epochs):
+        xs_batch, ys_batch = get_random_block_from_data(data, 100)
+        train_step.run({x: xs_batch, y_: ys_batch})
+        summary = sess.run(merged, feed_dict={x: xs_batch, y_: ys_batch})
+        train_writer.add_summary(summary, step)
+        if step % 100 == 0:
+            print(accuracy.eval(feed_dict={x: xs_batch, y_: ys_batch}))
+
+    saver = tf.train.Saver(tf.global_variables())
+    saver.save(sess, "resource/model/tz/softmax/model.ckpt")
+    return True
+
+
 ###################################################CNN模型###############################################
 
 def weight_variable(shape):
