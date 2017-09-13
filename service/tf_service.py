@@ -271,7 +271,9 @@ def tz_train(learning_rate, train_epochs):
         summary = sess.run(merged, feed_dict={x: xs_batch, y_: ys_batch})
         train_writer.add_summary(summary, step)
         if step % 100 == 0:
+            ww = sess.run(W, feed_dict={x: xs_batch, y_: ys_batch})
             print(accuracy.eval(feed_dict={x: xs_batch, y_: ys_batch}))
+            print(ww)
 
     saver = tf.train.Saver(tf.global_variables())
     saver.save(sess, "resource/model/tz/softmax/model.ckpt")
