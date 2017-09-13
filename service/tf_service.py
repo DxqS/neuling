@@ -240,16 +240,22 @@ def tz_train(learning_rate, train_epochs):
 
     # 限定命名空间
     with tf.name_scope("input"):
-        x = tf.placeholder(tf.float32, [None, 2], name='x-input')
+        x1 = tf.placeholder(tf.float32, [None, 1], name='x1-input')
+        x2 = tf.placeholder(tf.float32, [None, 1], name='x2-input')
         y_ = tf.placeholder(tf.float32, [None, 3], name='y-input')
 
     with tf.name_scope('weights'):
-        W = tf.Variable(tf.zeros([2, 3]))
-
+        W1 = tf.Variable(tf.zeros([1, 3]))
+        W2 = tf.Variable(tf.zeros([1, 3]))
+        W3 = tf.Variable(tf.zeros([6, 3]))
     with tf.name_scope('biases'):
-        b = tf.Variable(tf.zeros([3]))
+        b1 = tf.Variable(tf.zeros([3]))
+        b2 = tf.Variable(tf.zeros([3]))
+        b3 = tf.Variable(tf.zeros([3]))
 
-    y = tf.nn.softmax(tf.matmul(x, W) + b)
+    y1 = tf.nn.softmax(tf.matmul(x1, W1) + b1)
+    y2 = tf.nn.softmax(tf.matmul(x2, W2) + b2)
+    y = tf.nn.softmax(tf.matmul(np.append(y1, y2), W3) + b3)
 
     with tf.name_scope('cross_entropy'):
         cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
@@ -267,13 +273,12 @@ def tz_train(learning_rate, train_epochs):
     tf.global_variables_initializer().run()
     for step in range(train_epochs):
         xs_batch, ys_batch = get_random_block_from_data(data, 100)
-        train_step.run({x: xs_batch, y_: ys_batch})
-        summary = sess.run(merged, feed_dict={x: xs_batch, y_: ys_batch})
+        train_step.run({x1: xs_batch[:][0], x2: xs_batch[:][1], y_: ys_batch})
+        summary = sess.run(merged, feed_dict={x1: xs_batch[:][0], x2: xs_batch[:][1], y_: ys_batch})
         train_writer.add_summary(summary, step)
         if step % 100 == 0:
-            ww = sess.run(W, feed_dict={x: xs_batch, y_: ys_batch})
-            print(accuracy.eval(feed_dict={x: xs_batch, y_: ys_batch}))
-            print(ww)
+            # ww = sess.run(W, feed_dict={x: xs_batch, y_: ys_batch})
+            print(accuracy.eval(feed_dict={x1: xs_batch[:][0], x2: xs_batch[:][1], y_: ys_batch}))
 
     saver = tf.train.Saver(tf.global_variables())
     saver.save(sess, "resource/model/tz/softmax/model.ckpt")

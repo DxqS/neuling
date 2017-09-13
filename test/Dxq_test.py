@@ -89,8 +89,10 @@ def draw_points(points):
 
 if __name__ == "__main__":
     # read_source_to_db("GYRM")
-    draw_points(face_struct)
-
+    # draw_points(face_struct)
+    a = np.array([[2, 3, 4]])
+    b = np.array([[1, 3, 2]])
+    print(np.append(a,b))
     # load_data_mat('face_data.mat')
     # data = scio.loadmat('face_data.mat')
     # print(data['X'].shape)
