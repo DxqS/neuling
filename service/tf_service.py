@@ -255,8 +255,7 @@ def tz_train(learning_rate, train_epochs):
 
     y1 = tf.nn.relu(tf.matmul(x1, W1) + b1)
     y2 = tf.nn.relu(tf.matmul(x2, W2) + b2)
-    y = tf.nn.softmax(tf.matmul(np.append(y1, y2), W3) + b3)
-
+    y = tf.nn.softmax(tf.matmul(y1, W3) + b3)
     with tf.name_scope('cross_entropy'):
         cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
     tf.summary.scalar("cross_entropy", cross_entropy)
