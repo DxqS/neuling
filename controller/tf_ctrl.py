@@ -269,7 +269,7 @@ class ModelStyleCNN(base.BaseHandler):
         return self.render('dxq_tf/model_style_cnn.html', source_list=source_list, pager=pager)
 
     def post(self):
-        tf_service.style_cnn_train(0.001, 3000)
+        tf_service.style_cnn_train(0.001, 2000)
         return self.finish(base.rtjson())
 
 
