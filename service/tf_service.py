@@ -249,7 +249,7 @@ def tz_train(learning_rate, train_epochs):
         W2 = tf.Variable(tf.zeros([1, 3]))
         W3 = tf.Variable(tf.zeros([6, 3]))
         W4 = tf.constant(.5)
-        W5 = tf.constant(.25)
+        W5 = tf.constant(.2)
     with tf.name_scope('biases'):
         b1 = tf.Variable(tf.zeros([3]))
         b2 = tf.Variable(tf.zeros([3]))
