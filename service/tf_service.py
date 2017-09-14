@@ -252,6 +252,7 @@ def tz_train(learning_rate, train_epochs):
         W3 = tf.Variable(tf.zeros([6, 3]))
         W4 = tf.constant(.5)
         W5 = tf.constant(.2)
+        # tf.add_to_collection('loss', tf.contrib.layers.l2_regularizer(0.1)(W3))
     with tf.name_scope('biases'):
         b1 = tf.Variable(tf.zeros([3]))
         b2 = tf.Variable(tf.zeros([3]))
@@ -271,12 +272,13 @@ def tz_train(learning_rate, train_epochs):
     # with tf.name_scope('cross_entropy'):
     #     cross_entropy = -tf.reduce_sum(
     #         W4 * y_ * tf.log(y) + W5 * y_ * tf.log(y1) + (1 - W4 - W5) * y_ * tf.log(y2))
-    with tf.name_scope("cross_entropy"):
-        cross_entropy = tf.reduce_mean(tf.square(y - y_))
+    with tf.name_scope("mse_loss"):
+        mse_loss = tf.reduce_mean(tf.square(y - y_))
+        tf.add_to_collection('loss', mse_loss)
+        tf.summary.scalar("mse_loss", mse_loss)
 
-    tf.summary.scalar("cross_entropy", cross_entropy)
-
-    train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy, global_step=global_step)
+    loss = tf.add_n(tf.get_collection('loss'))
+    train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss, global_step=global_step)
 
     with tf.name_scope('correct_prediction'):
         correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
