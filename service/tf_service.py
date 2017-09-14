@@ -303,7 +303,7 @@ def tz_train(learning_rate, train_epochs):
                 print('b1', bb1)
                 print('b2', bb2)
                 print('b3', bb3)
-    xs_batch_all, ys_batch_all = get_random_block_from_data(data, 1200)
+    xs_batch_all, ys_batch_all = get_random_block_from_data(data, 1000)
     print('all', accuracy.eval(
         feed_dict={x1: np.array([[x[0]] for x in xs_batch_all]), x2: np.array([[x[1]] for x in xs_batch_all]),
                    y_: ys_batch_all}))
