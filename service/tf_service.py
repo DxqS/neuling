@@ -267,7 +267,8 @@ def tz_train(learning_rate, train_epochs):
 
     # 损失函数要优化
     with tf.name_scope('cross_entropy'):
-        cross_entropy = -tf.reduce_sum(W4 * y_ * tf.log(y) + W5 * y_ * tf.log(y1) + (1 - W4 - W5) * y_ * tf.log(y2))
+        cross_entropy = -tf.reduce_sum(
+            W4 * W4 * y_ * tf.log(y) + W5 * W5 * y_ * tf.log(y1) + (1 - W4 * W4 - W5 * W5) * y_ * tf.log(y2))
     tf.summary.scalar("cross_entropy", cross_entropy)
 
     train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
@@ -291,9 +292,10 @@ def tz_train(learning_rate, train_epochs):
         summary = sess.run(merged, feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
                                               x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
         train_writer.add_summary(summary, step)
-        ww1, ww2, ww3,ww4,ww5, bb1, bb2, bb3 = sess.run([W1, W2, W3,W4,W5, b1, b2, b3],
-                                                feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
-                                                           x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
+        ww1, ww2, ww3, ww4, ww5, bb1, bb2, bb3 = sess.run([W1, W2, W3, W4, W5, b1, b2, b3],
+                                                          feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
+                                                                     x2: np.array([[x[1]] for x in xs_batch]),
+                                                                     y_: ys_batch})
         if step % 100 == 0:
             print(accuracy.eval(
                 feed_dict={x1: np.array([[x[0]] for x in xs_batch]), x2: np.array([[x[1]] for x in xs_batch]),
