@@ -289,12 +289,13 @@ def tz_train(learning_rate, train_epochs):
         ww1, ww2, ww3 = sess.run([W1, W2, W3], feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
                                                           x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
         if step % 100 == 0:
-            print(ww1)
-            print(ww2)
-            print(ww3)
             print(accuracy.eval(
                 feed_dict={x1: np.array([[x[0]] for x in xs_batch]), x2: np.array([[x[1]] for x in xs_batch]),
                            y_: ys_batch}))
+            if step % 1000 == 0:
+                print('W1', ww1)
+                print('W1', ww1)
+                print('W1', ww1)
 
     saver = tf.train.Saver(tf.global_variables())
     saver.save(sess, "resource/model/tz/softmax/model.ckpt")
