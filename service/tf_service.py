@@ -253,9 +253,17 @@ def tz_train(learning_rate, train_epochs):
         b2 = tf.Variable(tf.zeros([3]))
         b3 = tf.Variable(tf.zeros([3]))
 
-    y1 = tf.nn.softmax(tf.matmul(x1, W1) + b1)
-    y2 = tf.nn.softmax(tf.matmul(x2, W2) + b2)
+    with tf.name_scope('Y1'):
+        y1 = tf.nn.softmax(tf.matmul(x1, W1) + b1)
+    tf.summary.scalar("Y1", y1)
+
+    with tf.name_scope('Y1'):
+        y2 = tf.nn.softmax(tf.matmul(x2, W2) + b2)
+    tf.summary.scalar("Y1", y1)
+
     y = tf.nn.softmax(tf.matmul(tf.reshape(tf.stack([y1, y2], 1), [-1, 6]), W3) + b3)
+
+    # 损失函数要优化
     with tf.name_scope('cross_entropy'):
         cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
     tf.summary.scalar("cross_entropy", cross_entropy)
@@ -278,7 +286,9 @@ def tz_train(learning_rate, train_epochs):
                                               x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
         train_writer.add_summary(summary, step)
         if step % 100 == 0:
-            # ww = sess.run(W, feed_dict={x: xs_batch, y_: ys_batch})
+            Y1 = sess.run(y1, feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
+                                         x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
+            print(Y1)
             print(accuracy.eval(
                 feed_dict={x1: np.array([[x[0]] for x in xs_batch]), x2: np.array([[x[1]] for x in xs_batch]),
                            y_: ys_batch}))
