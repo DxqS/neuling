@@ -266,7 +266,8 @@ def tz_train(learning_rate, train_epochs):
         y2 = tf.nn.softmax(tf.matmul(x2, W2) + b2)
     tf.summary.histogram("Y2", y2)
 
-    y = tf.nn.softmax(tf.matmul(tf.reshape(tf.stack([y1, y2], 1), [-1, 6]), W3) + b3)
+    y3 = tf.reshape(tf.stack([y1, y2], 1), [-1, 6])
+    y = tf.nn.softmax(tf.matmul(y3, W3) + b3)
 
     # 损失函数要优化
     # with tf.name_scope('cross_entropy'):
@@ -296,14 +297,17 @@ def tz_train(learning_rate, train_epochs):
         summary = sess.run(merged, feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
                                               x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
         train_writer.add_summary(summary, step)
-        # ww1, ww2, ww3, ww4, ww5, bb1, bb2, bb3 = sess.run([W1, W2, W3, W4, W5, b1, b2, b3],
-        #                                                   feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
-        #                                                              x2: np.array([[x[1]] for x in xs_batch]),
-        #                                                              y_: ys_batch})
+        yy1, yy2, yy3 = sess.run([y1, y2, y3],
+                                 feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
+                                            x2: np.array([[x[1]] for x in xs_batch]),
+                                            y_: ys_batch})
         if step % 100 == 0:
             print(accuracy.eval(
                 feed_dict={x1: np.array([[x[0]] for x in xs_batch]), x2: np.array([[x[1]] for x in xs_batch]),
                            y_: ys_batch}))
+            print('y1', yy1)
+            print('y2', yy2)
+            print('y3', yy3)
             # if step % 1000 == 0:
             #     print('W1', ww1)
             #     print('W2', ww2)
