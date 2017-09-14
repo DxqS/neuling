@@ -266,9 +266,12 @@ def tz_train(learning_rate, train_epochs):
     y = tf.nn.softmax(tf.matmul(tf.reshape(tf.stack([y1, y2], 1), [-1, 6]), W3) + b3)
 
     # 损失函数要优化
-    with tf.name_scope('cross_entropy'):
-        cross_entropy = -tf.reduce_sum(
-            W4 * y_ * tf.log(y) + W5 * y_ * tf.log(y1) + (1 - W4 - W5) * y_ * tf.log(y2))
+    # with tf.name_scope('cross_entropy'):
+    #     cross_entropy = -tf.reduce_sum(
+    #         W4 * y_ * tf.log(y) + W5 * y_ * tf.log(y1) + (1 - W4 - W5) * y_ * tf.log(y2))
+    with tf.name_scope("cross_entropy"):
+        cross_entropy = tf.reduce_mean(tf.square(y - y_))
+
     tf.summary.scalar("cross_entropy", cross_entropy)
 
     train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
