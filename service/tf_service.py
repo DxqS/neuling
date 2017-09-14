@@ -286,13 +286,9 @@ def tz_train(learning_rate, train_epochs):
         summary = sess.run(merged, feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
                                               x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
         train_writer.add_summary(summary, step)
+        ww1, ww2, ww3 = sess.run([W1, W2, W3], feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
+                                                          x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
         if step % 100 == 0:
-            ww1 = sess.run(W1, feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
-                                         x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
-            ww2 = sess.run(W2, feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
-                                          x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
-            ww3 = sess.run(W3, feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
-                                          x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
             print(ww1)
             print(ww2)
             print(ww3)
