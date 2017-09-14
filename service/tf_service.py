@@ -255,11 +255,11 @@ def tz_train(learning_rate, train_epochs):
 
     with tf.name_scope('Y1'):
         y1 = tf.nn.softmax(tf.matmul(x1, W1) + b1)
-    tf.summary.scalar("Y1", y1)
+    tf.summary.histogram("Y1", y1)
 
-    with tf.name_scope('Y1'):
+    with tf.name_scope('Y2'):
         y2 = tf.nn.softmax(tf.matmul(x2, W2) + b2)
-    tf.summary.scalar("Y1", y1)
+    tf.summary.histogram("Y2", y2)
 
     y = tf.nn.softmax(tf.matmul(tf.reshape(tf.stack([y1, y2], 1), [-1, 6]), W3) + b3)
 
