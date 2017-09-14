@@ -254,7 +254,7 @@ def tz_train(learning_rate, train_epochs):
         b3 = tf.Variable(tf.zeros([3]))
 
     with tf.name_scope('Y1'):
-        y1 =tf.nn.softmax(tf.matmul(x1, W1) + b1)
+        y1 = tf.nn.softmax(tf.matmul(x1, W1) + b1)
     tf.summary.histogram("Y1", y1)
 
     with tf.name_scope('Y2'):
