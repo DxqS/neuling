@@ -17,9 +17,9 @@ import model_variable
 # number_softmax_x = model_variable.number_softmax_x
 # number_softmax_y = model_variable.number_softmax_y
 #
-style_softmax_sess = model_variable.style_softmax_sess
-style_softmax_x = model_variable.style_softmax_x
-style_softmax_y = model_variable.style_softmax_y
+# style_softmax_sess = model_variable.style_softmax_sess
+# style_softmax_x = model_variable.style_softmax_x
+# style_softmax_y = model_variable.style_softmax_y
 #
 # number_cnn_sess = model_variable.number_cnn_sess
 # number_cnn_x = model_variable.number_cnn_x
