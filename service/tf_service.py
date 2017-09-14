@@ -248,6 +248,8 @@ def tz_train(learning_rate, train_epochs):
         W1 = tf.Variable(tf.zeros([1, 3]))
         W2 = tf.Variable(tf.zeros([1, 3]))
         W3 = tf.Variable(tf.zeros([6, 3]))
+        W4 = tf.constant(.5, tf.float32)
+        W5 = tf.constant(.2, tf.float32)
     with tf.name_scope('biases'):
         b1 = tf.Variable(tf.zeros([3]))
         b2 = tf.Variable(tf.zeros([3]))
@@ -265,7 +267,7 @@ def tz_train(learning_rate, train_epochs):
 
     # 损失函数要优化
     with tf.name_scope('cross_entropy'):
-        cross_entropy = -tf.reduce_sum(.5 * y_ * tf.log(y) + .2 * y_ * tf.log(y1) + .3 * y_ * tf.log(y2))
+        cross_entropy = -tf.reduce_sum(W4 * y_ * tf.log(y) + W5 * y_ * tf.log(y1) + (1 - W4 - W5) * y_ * tf.log(y2))
     tf.summary.scalar("cross_entropy", cross_entropy)
 
     train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
