@@ -43,7 +43,7 @@ if __name__ == "__main__":
     # load_data_mat('tz_data.mat')
     data = scio.loadmat('tz_data.mat')
     tt = [data['X'][0], data['X'][1]]
-    print(tt)
+    print(len(data['X']))
     yy = np.array([[x[0]] for x in tt])
     print(yy)
     print(yy.shape)
