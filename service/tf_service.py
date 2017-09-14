@@ -265,7 +265,7 @@ def tz_train(learning_rate, train_epochs):
 
     # 损失函数要优化
     with tf.name_scope('cross_entropy'):
-        cross_entropy = -tf.reduce_sum(y_ * tf.log(y) + y_ * tf.log(y1) + y_ * tf.log(y2))
+        cross_entropy = -tf.reduce_sum(.5 * y_ * tf.log(y) + .2 * y_ * tf.log(y1) + .3 * y_ * tf.log(y2))
     tf.summary.scalar("cross_entropy", cross_entropy)
 
     train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
