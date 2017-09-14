@@ -289,7 +289,7 @@ def tz_train(learning_rate, train_epochs):
         summary = sess.run(merged, feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
                                               x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
         train_writer.add_summary(summary, step)
-        ww1, ww2, ww3, b1, b2, b3 = sess.run([W1, W2, W3, b1, b2, b3],
+        ww1, ww2, ww3, bb1, bb2, bb3 = sess.run([W1, W2, W3, b1, b2, b3],
                                              feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
                                                         x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
         if step % 100 == 0:
@@ -300,9 +300,9 @@ def tz_train(learning_rate, train_epochs):
                 print('W1', ww1)
                 print('W2', ww2)
                 print('W3', ww3)
-                print('b1', b1)
-                print('b2', b2)
-                print('b3', b3)
+                print('b1', bb1)
+                print('b2', bb2)
+                print('b3', bb3)
 
     saver = tf.train.Saver(tf.global_variables())
     saver.save(sess, "resource/model/tz/softmax/model.ckpt")
