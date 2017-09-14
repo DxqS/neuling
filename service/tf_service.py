@@ -238,6 +238,8 @@ def tz_train(learning_rate, train_epochs):
     sess = tf.InteractiveSession()
     data = scio.loadmat('resource/tz_data.mat')
 
+    global_step = tf.Variable(0)
+    learning_rate = tf.train.exponential_decay(0.1, global_step, 500, 0.98, staircase=True)
     # 限定命名空间
     with tf.name_scope("input"):
         x1 = tf.placeholder(tf.float32, [None, 1], name='x1-input')
@@ -274,7 +276,8 @@ def tz_train(learning_rate, train_epochs):
 
     tf.summary.scalar("cross_entropy", cross_entropy)
 
-    train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
+    train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy, global_step=global_step)
+
     with tf.name_scope('correct_prediction'):
         correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
     with tf.name_scope('accuracy'):
