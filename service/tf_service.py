@@ -149,8 +149,7 @@ def get_know_face_encodings():
 
 def get_random_block_from_data(data, batch_size):
     num = len(data['X'])
-    print(num)
-    randomlist = random.sample(range(num - batch_size), batch_size)
+    randomlist = random.sample(range(num), batch_size)
     return [data['X'][i] for i in randomlist], [data['Y'][i] for i in randomlist]
 
 
