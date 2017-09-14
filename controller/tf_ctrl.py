@@ -257,8 +257,8 @@ class ModelStyle(base.BaseHandler):
         return self.render('dxq_tf/model_style.html', source_list=source_list, pager=pager)
 
     def post(self):
-        # tf_service.style_train(0.0001, 3000)
-        tf_service.tz_train(0.0001, 10000)
+        tf_service.style_train(0.0001, 3000)
+        # tf_service.tz_train(0.0001, 10000)
         return self.finish(base.rtjson())
 
 
