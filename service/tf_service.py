@@ -207,24 +207,25 @@ def style_train(learning_rate, train_epochs):
     # 数据集已经处理完毕存resource/face_data.mat后才能正常使用
     sess = tf.InteractiveSession()
     data = scio.loadmat('resource/face_data.mat')
-    global_step = tf.Variable(0)
-    learning_rate = tf.train.exponential_decay(0.001, global_step, 100, 0.98, staircase=True)
+    # global_step = tf.Variable(0)
+    # learning_rate = tf.train.exponential_decay(0.001, global_step, 100, 0.98, staircase=True)
 
     x = tf.placeholder(tf.float32, [None, 784])
     y_ = tf.placeholder(tf.float32, [None, 9])
 
     W = tf.Variable(tf.zeros([784, 9]))
-    tf.add_to_collection('loss', tf.contrib.layers.l2_regularizer(0.1)(W))
+    # tf.add_to_collection('loss', tf.contrib.layers.l2_regularizer(0.1)(W))
 
     b = tf.Variable(tf.zeros([9]))
     tf.global_variables_initializer().run()
 
     y = tf.nn.softmax(tf.matmul(x, W) + b)
+
     cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
     tf.add_to_collection('loss', cross_entropy)
     loss = tf.add_n(tf.get_collection('loss'))
 
-    train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss, global_step=global_step)
+    train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss)
     correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
