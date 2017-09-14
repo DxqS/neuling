@@ -297,8 +297,8 @@ def tz_train(learning_rate, train_epochs):
                            y_: ys_batch}))
             if step % 1000 == 0:
                 print('W1', ww1)
-                print('W1', ww1)
-                print('W1', ww1)
+                print('W2', ww2)
+                print('W3', ww3)
 
     saver = tf.train.Saver(tf.global_variables())
     saver.save(sess, "resource/model/tz/softmax/model.ckpt")
