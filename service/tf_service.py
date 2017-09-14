@@ -248,8 +248,8 @@ def tz_train(learning_rate, train_epochs):
         W1 = tf.Variable(tf.zeros([1, 3]))
         W2 = tf.Variable(tf.zeros([1, 3]))
         W3 = tf.Variable(tf.zeros([6, 3]))
-        W4 = tf.constant(.7)
-        W5 = tf.constant(.1)
+        W4 = tf.constant(.5)
+        W5 = tf.constant(.3)
     with tf.name_scope('biases'):
         b1 = tf.Variable(tf.zeros([3]))
         b2 = tf.Variable(tf.zeros([3]))
@@ -288,23 +288,23 @@ def tz_train(learning_rate, train_epochs):
         summary = sess.run(merged, feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
                                               x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
         train_writer.add_summary(summary, step)
-        ww1, ww2, ww3, ww4, ww5, bb1, bb2, bb3 = sess.run([W1, W2, W3, W4, W5, b1, b2, b3],
-                                                          feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
-                                                                     x2: np.array([[x[1]] for x in xs_batch]),
-                                                                     y_: ys_batch})
+        # ww1, ww2, ww3, ww4, ww5, bb1, bb2, bb3 = sess.run([W1, W2, W3, W4, W5, b1, b2, b3],
+        #                                                   feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
+        #                                                              x2: np.array([[x[1]] for x in xs_batch]),
+        #                                                              y_: ys_batch})
         if step % 100 == 0:
             print(accuracy.eval(
                 feed_dict={x1: np.array([[x[0]] for x in xs_batch]), x2: np.array([[x[1]] for x in xs_batch]),
                            y_: ys_batch}))
-            if step % 1000 == 0:
-                print('W1', ww1)
-                print('W2', ww2)
-                print('W3', ww3)
-                print('W4', ww4)
-                print('W5', ww5)
-                print('b1', bb1)
-                print('b2', bb2)
-                print('b3', bb3)
+            # if step % 1000 == 0:
+            #     print('W1', ww1)
+            #     print('W2', ww2)
+            #     print('W3', ww3)
+            #     print('W4', ww4)
+            #     print('W5', ww5)
+            #     print('b1', bb1)
+            #     print('b2', bb2)
+            #     print('b3', bb3)
     xs_batch_all, ys_batch_all = get_random_block_from_data(data, 1300)
     print('all', accuracy.eval(
         feed_dict={x1: np.array([[x[0]] for x in xs_batch_all]), x2: np.array([[x[1]] for x in xs_batch_all]),
