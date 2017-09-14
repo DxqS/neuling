@@ -279,7 +279,7 @@ def tz_train(learning_rate, train_epochs):
     train_writer = tf.summary.FileWriter('resource/summary/tz/softmax/train', sess.graph)
     tf.global_variables_initializer().run()
     for step in range(train_epochs):
-        xs_batch, ys_batch = get_random_block_from_data(data, 100)
+        xs_batch, ys_batch = get_random_block_from_data(data, 500)
         if step in [1, 5, 9]:
             print(step, ':::::::::::::', np.array([[x[0]] for x in xs_batch]))
             print(step, ':::::::::::::', np.array([[x[1]] for x in xs_batch]))
