@@ -280,15 +280,22 @@ def tz_train(learning_rate, train_epochs):
     tf.global_variables_initializer().run()
     for step in range(train_epochs):
         xs_batch, ys_batch = get_random_block_from_data(data, 100)
+        print(np.array([[x[0]] for x in xs_batch]))
         train_step.run(
             {x1: np.array([[x[0]] for x in xs_batch]), x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
         summary = sess.run(merged, feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
                                               x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
         train_writer.add_summary(summary, step)
         if step % 100 == 0:
-            Y1 = sess.run(y1, feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
+            ww1 = sess.run(W1, feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
                                          x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
-            print(Y1)
+            ww2 = sess.run(W2, feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
+                                          x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
+            ww3 = sess.run(W3, feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
+                                          x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
+            print(ww1)
+            print(ww2)
+            print(ww3)
             print(accuracy.eval(
                 feed_dict={x1: np.array([[x[0]] for x in xs_batch]), x2: np.array([[x[1]] for x in xs_batch]),
                            y_: ys_batch}))
