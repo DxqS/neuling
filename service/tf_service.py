@@ -482,7 +482,9 @@ def style_cnn_train(learning_rate, train_epochs):
             train_accuracy = accuracy.eval(feed_dict={x: xs_batch, y_: ys_batch, keep_prob: 1.0})
             print("step %d,training accuracy %g" % (i, train_accuracy))
         train_step.run(feed_dict={x: xs_batch, y_: ys_batch, keep_prob: 0.5})
-    # print("test accuracy %g" % accuracy.eval(feed_dict={x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0}))
+
+    xs_batch_test, ys_batch_test = get_random_block_from_data(data, 1300)
+    print("test accuracy %g" % accuracy.eval(feed_dict={x: xs_batch_test, y_: ys_batch_test, keep_prob: 1.0}))
     saver = tf.train.Saver(tf.global_variables())
     saver.save(sess, "resource/model/style/cnn/model.ckpt")
     print(time.time() - ts)
