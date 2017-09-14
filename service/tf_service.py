@@ -274,7 +274,7 @@ def tz_train(learning_rate, train_epochs):
     #     cross_entropy = -tf.reduce_sum(
     #         W4 * y_ * tf.log(y) + W5 * y_ * tf.log(y1) + (1 - W4 - W5) * y_ * tf.log(y2))
     with tf.name_scope("mse_loss"):
-        mse_loss = tf.reduce_mean(tf.square(y - y_))
+        mse_loss = tf.reduce_mean(tf.square(y1 - y_))
         tf.add_to_collection('loss', mse_loss)
         tf.summary.scalar("mse_loss", mse_loss)
 
