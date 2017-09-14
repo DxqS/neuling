@@ -254,11 +254,11 @@ def tz_train(learning_rate, train_epochs):
         b3 = tf.Variable(tf.zeros([3]))
 
     with tf.name_scope('Y1'):
-        y1 = tf.nn.softmax(tf.matmul(x1, W1) + b1)
+        y1 = tf.argmax(tf.nn.softmax(tf.matmul(x1, W1) + b1), 1)
     tf.summary.histogram("Y1", y1)
 
     with tf.name_scope('Y2'):
-        y2 = tf.nn.softmax(tf.matmul(x2, W2) + b2)
+        y2 = tf.argmax(tf.nn.softmax(tf.matmul(x2, W2) + b2), 1)
     tf.summary.histogram("Y2", y2)
 
     y = tf.nn.softmax(tf.matmul(tf.reshape(tf.stack([y1, y2], 1), [-1, 6]), W3) + b3)
@@ -290,8 +290,8 @@ def tz_train(learning_rate, train_epochs):
                                               x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
         train_writer.add_summary(summary, step)
         ww1, ww2, ww3, bb1, bb2, bb3 = sess.run([W1, W2, W3, b1, b2, b3],
-                                             feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
-                                                        x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
+                                                feed_dict={x1: np.array([[x[0]] for x in xs_batch]),
+                                                           x2: np.array([[x[1]] for x in xs_batch]), y_: ys_batch})
         if step % 100 == 0:
             print(accuracy.eval(
                 feed_dict={x1: np.array([[x[0]] for x in xs_batch]), x2: np.array([[x[1]] for x in xs_batch]),
