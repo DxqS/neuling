@@ -208,7 +208,7 @@ def style_train(learning_rate, train_epochs):
     sess = tf.InteractiveSession()
     data = scio.loadmat('resource/face_data.mat')
     global_step = tf.Variable(0)
-    learning_rate = tf.train.exponential_decay(0.1, global_step, 100, 0.98, staircase=True)
+    learning_rate = tf.train.exponential_decay(0.001, global_step, 100, 0.98, staircase=True)
 
     x = tf.placeholder(tf.float32, [None, 784])
     y_ = tf.placeholder(tf.float32, [None, 9])
