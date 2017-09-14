@@ -254,18 +254,18 @@ def tz_train(learning_rate, train_epochs):
         b3 = tf.Variable(tf.zeros([3]))
 
     with tf.name_scope('Y1'):
-        y1 = tf.nn.relu(tf.matmul(x1, W1) + b1)
+        y1 = tf.nn.softmax(tf.matmul(x1, W1) + b1)
     tf.summary.histogram("Y1", y1)
 
     with tf.name_scope('Y2'):
-        y2 = tf.nn.relu(tf.matmul(x2, W2) + b2)
+        y2 = tf.nn.softmax(tf.matmul(x2, W2) + b2)
     tf.summary.histogram("Y2", y2)
 
     y = tf.nn.softmax(tf.matmul(tf.reshape(tf.stack([y1, y2], 1), [-1, 6]), W3) + b3)
 
     # 损失函数要优化
     with tf.name_scope('cross_entropy'):
-        cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
+        cross_entropy = -tf.reduce_sum(y_ * tf.log(y) + y_ * tf.log(y1) + y_ * tf.log(y2))
     tf.summary.scalar("cross_entropy", cross_entropy)
 
     train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
@@ -279,7 +279,7 @@ def tz_train(learning_rate, train_epochs):
     train_writer = tf.summary.FileWriter('resource/summary/tz/softmax/train', sess.graph)
     tf.global_variables_initializer().run()
     for step in range(train_epochs):
-        xs_batch, ys_batch = get_random_block_from_data(data, 500)
+        xs_batch, ys_batch = get_random_block_from_data(data, 50)
         if step in [1, 5, 9]:
             print(step, ':::::::::::::', np.array([[x[0]] for x in xs_batch]))
             print(step, ':::::::::::::', np.array([[x[1]] for x in xs_batch]))
