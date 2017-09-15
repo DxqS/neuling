@@ -439,7 +439,6 @@ def number_cnn_train(learning_rate, train_epochs):
 
 
 def style_cnn_train(learning_rate, train_epochs):
-    print(1)
     sess = tf.InteractiveSession()
     data_train = scio.loadmat('resource/face_train_data.mat')
     data_test = scio.loadmat('resource/face_test_data.mat')
