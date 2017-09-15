@@ -184,6 +184,7 @@ CATEGORICAL_COLUMNS = [
     'fill_inc_questionnaire_for_veteran_admin', 'veterans_benefits', 'year'
 ]
 
+
 TRAIN_FILE = 'census-income.data'
 TEST_FILE = 'census-income.test'
 
