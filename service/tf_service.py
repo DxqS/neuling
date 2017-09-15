@@ -464,7 +464,6 @@ def style_cnn_train(learning_rate, train_epochs):
         h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
         h_pool2 = max_pool_2x2(h_conv2)
 
-
     W_fc1 = weight_variable([7 * 7 * 64, 1024])
     b_fc1 = bias_variable([1024])
     h_pool2_flat = tf.reshape(h_pool2, [-1, 7 * 7 * 64])
@@ -480,7 +479,7 @@ def style_cnn_train(learning_rate, train_epochs):
 
     with tf.name_scope("cross_entropy"):
         cross_entropy = -tf.reduce_sum(y_ * tf.log(y_conv))
-        tf.add_to_collection('loss', tf.contrib.layers.l2_regularizer(0.5)(cross_entropy))
+        tf.add_to_collection('loss', cross_entropy)
 
     loss = tf.add_n(tf.get_collection('loss'))
     tf.summary.scalar('loss', loss)
