@@ -12,10 +12,10 @@ from tensorflow.contrib.tensor_forest.client import random_forest
 tf.logging.set_verbosity(tf.logging.INFO)
 
 # categorical base columns
-outline = tf.contrib.layers.sparse_column_with_keys(
-    column_name='outline', key=['big', 'mid', 'small'])
-sense = tf.contrib.layers.sparse_column_with_hash_bucket(
-    column_name='sense', key=['big', 'mid', 'small'])
+# outline = tf.contrib.layers.sparse_column_with_keys(
+#     column_name='outline', key=['big', 'mid', 'small'])
+# sense = tf.contrib.layers.sparse_column_with_hash_bucket(
+#     column_name='sense', key=['big', 'mid', 'small'])
 
 sex = tf.contrib.layers.sparse_column_with_keys(
     column_name='sex', keys=['Female', 'Male'])
