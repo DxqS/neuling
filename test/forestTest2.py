@@ -32,12 +32,32 @@ classifier = random_forest.TensorForestEstimator(hparams, model_dir=model_dir,
                                                  config=tf.contrib.learn.RunConfig(save_checkpoints_secs=60))
 
 iris = tf.contrib.learn.datasets.load_iris()
+print('iris', iris)
 data = iris.data.astype(np.float32)
 target = iris.target.astype(np.int)
+print('data', data)
 
-
-def train_input_fn():
-    return data, target
+# def train_input_fn():
+#     continuous_cols = {
+#         k: tf.expand_dims(tf.constant(data.astype(np.float32).values), 1)
+#         for k in CONTINUOUS_COLUMNS
+#     }
+#     # Creates a dictionary mapping from each categorical feature column name (k)
+#     # to the values of that column stored in a tf.SparseTensor.
+#     categorical_cols = {
+#         k: tf.SparseTensor(
+#             indices=[[i, 0] for i in range(df[k].size)],
+#             values=df[k].values,
+#             dense_shape=[df[k].size, 1])
+#         for k in CATEGORICAL_COLUMNS
+#     }
+#     # Merges the two dictionaries into one.
+#     feature_cols = dict(continuous_cols.items() + categorical_cols.items())
+#     # Add example id list
+#     # Converts the label column into a constant Tensor.
+#     label = tf.constant(target.values)
+#     # Returns the feature columns and the label.
+#     return feature_cols, label
 
 
 
