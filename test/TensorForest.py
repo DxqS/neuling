@@ -27,7 +27,7 @@ age = tf.contrib.layers.real_valued_column('age')
 age_buckets = tf.contrib.layers.bucketized_column(
     age, boundaries=[18, 25, 30, 35, 40, 45, 50, 55, 60, 65])
 
-COLUMNS = ['age', 'detailed_industry_recode', 'sex']
+COLUMNS = ['age', 'detailed_industry_recode', 'sex', 'label']
 FEATURE_COLUMNS = [age, age_buckets, detailed_industry_recode, sex]
 # FEATURE_COLUMNS = [age, detailed_occupation_recode, education, wage_per_hour]
 
