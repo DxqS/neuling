@@ -340,7 +340,7 @@ def tz_train(learning_rate, train_epochs):
 
 def weight_variable(shape):
     initial = tf.truncated_normal(shape, stddev=0.1)
-    tf.add_to_collection('loss', tf.contrib.layers.l2_regularizer(0.003)(initial))
+    tf.add_to_collection('loss', tf.contrib.layers.l2_regularizer(0.5)(initial))
     return tf.Variable(initial)
 
 
