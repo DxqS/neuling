@@ -149,7 +149,10 @@ def get_know_face_encodings():
 
 def get_random_block_from_data(data, batch_size):
     num = len(data['X'])
-    randomlist = random.sample(range(num), batch_size)
+    if batch_size == -1:
+        randomlist = range(num)
+    else:
+        randomlist = random.sample(range(num), batch_size)
     return [data['X'][i] for i in randomlist], [data['Y'][i] for i in randomlist]
 
 
@@ -436,10 +439,9 @@ def number_cnn_train(learning_rate, train_epochs):
 
 
 def style_cnn_train(learning_rate, train_epochs):
-    ts = time.time()
     sess = tf.InteractiveSession()
-    data = scio.loadmat('resource/face_data.mat')
-
+    data_train = scio.loadmat('resource/face_train_data.mat')
+    data_test = scio.loadmat('resource/face_test_data.mat')
     # global_step = tf.Variable(0)
     # learning_rate = tf.train.exponential_decay(0.001, global_step, 50, 0.98, staircase=True)
     with tf.name_scope("input"):
@@ -490,7 +492,7 @@ def style_cnn_train(learning_rate, train_epochs):
     tf.global_variables_initializer().run()
 
     for step in range(train_epochs):
-        xs_batch, ys_batch = get_random_block_from_data(data, 50)
+        xs_batch, ys_batch = get_random_block_from_data(data_train, 50)
         summary = sess.run(merged, feed_dict={x: xs_batch, y_: ys_batch, keep_prob: 1.0})
         train_writer.add_summary(summary, step)
         if step % 100 == 0:
@@ -498,11 +500,10 @@ def style_cnn_train(learning_rate, train_epochs):
             print("step %d,training accuracy %g" % (step, train_accuracy))
         train_step.run(feed_dict={x: xs_batch, y_: ys_batch, keep_prob: 0.5})
 
-    xs_batch_test, ys_batch_test = get_random_block_from_data(data, 1300)
+    xs_batch_test, ys_batch_test = get_random_block_from_data(data_test, -1)
     print("test accuracy %g" % accuracy.eval(feed_dict={x: xs_batch_test, y_: ys_batch_test, keep_prob: 1.0}))
     saver = tf.train.Saver(tf.global_variables())
     saver.save(sess, "resource/model/style/cnn/model.ckpt")
-    print(time.time() - ts)
     return True
 
 
