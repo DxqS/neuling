@@ -32,9 +32,9 @@ FEATURE_COLUMNS = [age, age_buckets, detailed_industry_recode, sex]
 # FEATURE_COLUMNS = [age, detailed_occupation_recode, education, wage_per_hour]
 
 LABEL_COLUMN = 'label'
-CONTINUOUS_COLUMNS = [
-    'age'
-]
+# CONTINUOUS_COLUMNS = [
+#     'age'
+# ]
 CATEGORICAL_COLUMNS = [
     'detailed_industry_recode', 'sex'
 ]
@@ -56,17 +56,18 @@ df_test[LABEL_COLUMN] = (
 # print df_train.dtypes
 dtypess = df_train.dtypes
 
+
 # print dtypess[CATEGORICAL_COLUMNS]
 
-print(df_train.head(5))
-print(df_test.head(5))
+# print(df_train.head(5))
+# print(df_test.head(5))
 
 
 def input_fn(df):
-    continuous_cols = {
-        k: tf.expand_dims(tf.constant(df[k].astype(np.float32).values), 1)
-        for k in CONTINUOUS_COLUMNS
-    }
+    # continuous_cols = {
+    #     k: tf.expand_dims(tf.constant(df[k].astype(np.float32).values), 1)
+    #     for k in CONTINUOUS_COLUMNS
+    # }
     # Creates a dictionary mapping from each categorical feature column name (k)
     # to the values of that column stored in a tf.SparseTensor.
     categorical_cols = {
@@ -77,7 +78,8 @@ def input_fn(df):
         for k in CATEGORICAL_COLUMNS
     }
     # Merges the two dictionaries into one.
-    feature_cols = dict(continuous_cols.items() + categorical_cols.items())
+    # feature_cols = dict(continuous_cols.items() + categorical_cols.items())
+    feature_cols = dict(categorical_cols.items())
     # Add example id list
     # Converts the label column into a constant Tensor.
     label = tf.constant(df[LABEL_COLUMN].values)
@@ -116,7 +118,8 @@ hparams = tf.contrib.tensor_forest.python.tensor_forest.ForestHParams(
     num_trees=10,
     max_nodes=1000,
     num_classes=2,
-    num_features=len(CONTINUOUS_COLUMNS) + len(CATEGORICAL_COLUMNS))
+    # num_features=len(CONTINUOUS_COLUMNS) + len(CATEGORICAL_COLUMNS))
+    num_features=len(CATEGORICAL_COLUMNS))
 classifier = random_forest.TensorForestEstimator(hparams, model_dir=model_dir,
                                                  config=tf.contrib.learn.RunConfig(save_checkpoints_secs=60))
 
