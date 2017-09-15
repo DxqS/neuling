@@ -340,6 +340,7 @@ def tz_train(learning_rate, train_epochs):
 
 def weight_variable(shape):
     initial = tf.truncated_normal(shape, stddev=0.1)
+    tf.add_to_collection('loss', tf.contrib.layers.l2_regularizer(0.003)(initial))
     return tf.Variable(initial)
 
 
@@ -463,6 +464,7 @@ def style_cnn_train(learning_rate, train_epochs):
         h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
         h_pool2 = max_pool_2x2(h_conv2)
 
+
     W_fc1 = weight_variable([7 * 7 * 64, 1024])
     b_fc1 = bias_variable([1024])
     h_pool2_flat = tf.reshape(h_pool2, [-1, 7 * 7 * 64])
@@ -478,9 +480,12 @@ def style_cnn_train(learning_rate, train_epochs):
 
     with tf.name_scope("cross_entropy"):
         cross_entropy = -tf.reduce_sum(y_ * tf.log(y_conv))
-    tf.summary.scalar('cross_entropy', cross_entropy)
+        tf.add_to_collection('loss', tf.contrib.layers.l2_regularizer(0.003)(cross_entropy))
 
-    train_step = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
+    loss = tf.add_n(tf.get_collection('loss'))
+    tf.summary.scalar('loss', loss)
+
+    train_step = tf.train.AdamOptimizer(learning_rate).minimize(loss)
 
     correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1))
     with tf.name_scope("accuracy"):
