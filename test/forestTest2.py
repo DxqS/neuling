@@ -40,5 +40,6 @@ def train_input_fn():
     return data, target
 
 
+
 classifier.fit(input_fn=train_input_fn, steps=100)
 classifier.evaluate(input_fn=train_input_fn, steps=10, metrics=validation_metrics)
