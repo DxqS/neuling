@@ -480,7 +480,7 @@ def style_cnn_train(learning_rate, train_epochs):
 
     with tf.name_scope("cross_entropy"):
         cross_entropy = -tf.reduce_sum(y_ * tf.log(y_conv))
-        tf.add_to_collection('loss', tf.contrib.layers.l2_regularizer(0.003)(cross_entropy))
+        tf.add_to_collection('loss', tf.contrib.layers.l2_regularizer(0.5)(cross_entropy))
 
     loss = tf.add_n(tf.get_collection('loss'))
     tf.summary.scalar('loss', loss)
