@@ -43,7 +43,7 @@ def train_input_fn():
         dense_shape=[data.size, 1])
     # Add example id list
     # Converts the label column into a constant Tensor.
-    label = tf.constant(target.values)
+    label = tf.constant(target)
     # Returns the feature columns and the label.
     return feature_cols, label
 
