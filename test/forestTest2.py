@@ -39,7 +39,7 @@ target = iris.target.astype(np.int)
 def train_input_fn():
     feature_cols = tf.SparseTensor(
         indices=[[i, 0] for i in range(data.size)],
-        values=data.values,
+        values=data,
         dense_shape=[data.size, 1])
     # Add example id list
     # Converts the label column into a constant Tensor.
