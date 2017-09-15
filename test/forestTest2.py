@@ -8,6 +8,23 @@ import tensorflow as tf
 import numpy as  np
 from tensorflow.contrib.tensor_forest.client import random_forest
 
+validation_metrics = {
+    "accuracy":
+        tf.contrib.learn.MetricSpec(
+            metric_fn=tf.contrib.metrics.streaming_accuracy,
+            prediction_key='probabilities'
+        ),
+    "precision":
+        tf.contrib.learn.MetricSpec(
+            metric_fn=tf.contrib.metrics.streaming_precision,
+            prediction_key='probabilities'
+        ),
+    "recall":
+        tf.contrib.learn.MetricSpec(
+            metric_fn=tf.contrib.metrics.streaming_recall,
+            prediction_key='probabilities'
+        )
+}
 model_dir = 'temp/summary'
 hparams = tf.contrib.tensor_forest.python.tensor_forest.ForestHParams(
     num_trees=3, max_nodes=1000, num_classes=3, num_features=4)
@@ -18,4 +35,4 @@ data = iris.data.astype(np.float32)
 target = iris.target.astype(np.int)
 
 classifier.fit(x=data, y=target, steps=100)
-classifier.evaluate(x=data, y=target, steps=10)
+classifier.evaluate(x=data, y=target, steps=10, metrics=validation_metrics)
