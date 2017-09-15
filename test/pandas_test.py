@@ -42,7 +42,7 @@ df_train[['age']] = df_train[['age']].astype(str)
 #
 df_train[LABEL_COLUMN] = (
     df_train[LABEL_COLUMN].apply(lambda x: '+' in x)).astype(int)
-print(df_train[LABEL_COLUMN])
+print(df_train[LABEL_COLUMN].values)
 # df_test[LABEL_COLUMN] = (
 #     df_test[LABEL_COLUMN].apply(lambda x: '+' in x)).astype(int)
 print (df_train.dtypes)
