@@ -33,6 +33,5 @@ classifier = random_forest.TensorForestEstimator(hparams, model_dir=model_dir,
 iris = tf.contrib.learn.datasets.load_iris()
 data = iris.data.astype(np.float32)
 target = iris.target.astype(np.int)
-
-classifier.fit(x=data, y=target, steps=100)
-classifier.evaluate(x=data, y=target, steps=10, metrics=validation_metrics)
+classifier.fit(input_fn=[data, target], steps=100)
+classifier.evaluate(input_fn=[data, target], steps=10, metrics=validation_metrics)
