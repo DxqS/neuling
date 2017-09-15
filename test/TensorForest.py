@@ -184,8 +184,8 @@ CATEGORICAL_COLUMNS = [
     'fill_inc_questionnaire_for_veteran_admin', 'veterans_benefits', 'year'
 ]
 
-TRAIN_FILE = '../data/census/census-income.data'
-TEST_FILE = '../data/census/census-income.test'
+TRAIN_FILE = 'census-income.data'
+TEST_FILE = 'census-income.test'
 
 df_train = pd.read_csv(TRAIN_FILE, names=COLUMNS, skipinitialspace=True)
 df_test = pd.read_csv(TEST_FILE, names=COLUMNS, skipinitialspace=True)
@@ -249,7 +249,7 @@ def eval_input_fn():
     return input_fn(df_test)
 
 
-model_dir = '../rf_model_dir'
+model_dir = '../resource/summary/temp/forest'
 validation_metrics = {
     "accuracy":
         tf.contrib.learn.MetricSpec(
