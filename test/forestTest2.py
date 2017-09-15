@@ -14,7 +14,7 @@ classifier = random_forest.TensorForestEstimator(hparams)
 
 iris = tf.contrib.learn.datasets.load_iris()
 data = iris.data.astype(np.float32)
-target = iris.target.astype(np.float32)
+target = iris.target.astype(np.int)
 
 
 classifier.fit(x=data, y=target, steps=100)
