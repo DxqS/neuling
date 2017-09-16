@@ -1,4 +1,10 @@
 tornado
-web.py
 redis
 pymongo
+PyYAML
+requests
+pillow
+tensorflow
+
+web.py
+
