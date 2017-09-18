@@ -11,6 +11,7 @@ import redis
 from pymongo import MongoClient
 import scipy.io as scio
 from PIL import Image, ImageDraw
+import pandas as pd
 
 # from tensorflow.examples.tutorials.mnist import input_data
 
@@ -20,15 +21,14 @@ LabelToCode = {
     'LMMR': [0, 0, 0, 0, 0, 0, 1, 0, 0], 'HLGY': [0, 0, 0, 0, 0, 0, 0, 1, 0], 'XDMD': [0, 0, 0, 0, 0, 0, 0, 0, 1],
 }
 
+run_mode = os.environ.get('RUN_ENV', 'local')
+srv = yaml.load(open('srv.yml', 'r'))[run_mode]
+pool = redis.ConnectionPool(**srv['redis'])
+rdb = redis.StrictRedis(connection_pool=pool)
 
-# run_mode = os.environ.get('RUN_ENV', 'local')
-# srv = yaml.load(open('srv.yml', 'r'))[run_mode]
-# pool = redis.ConnectionPool(**srv['redis'])
-# rdb = redis.StrictRedis(connection_pool=pool)
-#
-# mdb = MongoClient(srv['mongo']['host'], srv['mongo']['port'], connect=False, maxPoolSize=50, waitQueueMultiple=10)
-# mdb.admin.authenticate(srv['mongo']['uname'], str(srv['mongo']['pwd']), mechanism='SCRAM-SHA-1')
-# mdb = mdb[srv['mongo']['db']]
+mdb = MongoClient(srv['mongo']['host'], srv['mongo']['port'], connect=False, maxPoolSize=50, waitQueueMultiple=10)
+mdb.admin.authenticate(srv['mongo']['uname'], str(srv['mongo']['pwd']), mechanism='SCRAM-SHA-1')
+mdb = mdb[srv['mongo']['db']]
 
 
 def dis(p1, p2):
@@ -87,14 +87,36 @@ def draw_points(points):
     return True
 
 
+def read_data_pandas():
+    import random
+    SenseToNum = {'小': 0, '中': 1, '大': 2}
+    sources = mdb.style_source.find({"type": "train"})
+    train_data_ratio = []
+    train_data_area = []
+    train_data_label = []
+    test_data_ratio = []
+    test_data_area = []
+    test_data_label = []
+    randomlist = random.sample(range(sources.count()), 1000)
+    for i, source in enumerate(sources):
+        if i in randomlist:
+            train_data_ratio.append(source['eye_dis_ratio'])
+            train_data_area.append(source['area'])
+            train_data_label.append(SenseToNum[source['sense']])
+        else:
+            test_data_ratio.append(source['eye_dis_ratio'])
+            test_data_area.append(source['area'])
+            test_data_label.append(SenseToNum[source['sense']])
+
+    train_save = pd.DataFrame({'ratio': train_data_ratio, 'area': train_data_area, 'label': train_data_label},
+                              index=randomlist)
+    train_save.index.name = 'index'
+    test_save = pd.DataFrame({'ratio': test_data_ratio, 'area': test_data_area, 'label': test_data_label})
+
+    train_save.sort_index().to_csv('style.train', index=True)
+    test_save.to_csv('style.test', index=True)
+    return True
+
+
 if __name__ == "__main__":
-    # read_source_to_db("GYRM")
-    # draw_points(face_struct)
-    a = np.array([[2, 3, 4]])
-    b = np.array([[1, 3, 2]])
-    print(np.append(a, b))
-    print([1, 2, 3] < [2, 2, 2])
-    # load_data_mat('face_data.mat')
-    # data = scio.loadmat('face_data.mat')
-    # print(data['X'].shape)
-    # print(data['Y'].shape)
+    read_data_pandas()
