@@ -13,22 +13,29 @@ from tensorflow.contrib.tensor_forest.client import random_forest
 
 # from tensorflow.contrib.learn.python.learn.estimators import random_forest as random_forest2
 
-ratio = tf.contrib.layers.real_valued_column('ratio')
-ratio_buckets = tf.contrib.layers.bucketized_column(
-    ratio, boundaries=[0.445, 0.460, 0.5])
-
-area = tf.contrib.layers.real_valued_column('area')
-area_buckets = tf.contrib.layers.bucketized_column(
-    area, boundaries=[25000.0, 27000.2, 32500.0])
+# type = tf.contrib.layers.real_valued_column('type')
+# ratio_buckets = tf.contrib.layers.bucketized_column(
+#     ratio, boundaries=[0.445, 0.460, 0.5])
+#
+# area = tf.contrib.layers.real_valued_column('area')
+# area_buckets = tf.contrib.layers.bucketized_column(
+#     area, boundaries=[25000.0, 27000.2, 32500.0])
 
 COLUMNS = [
-    'ratio', 'area', 'label'
+    'label',
+    'area', 'ratio',
+    'right_eye_ratio', 'left_eye_ratio', 'lip_ratio', 'nose_ratio',
+    'line_1_left_ratio', 'line_1_right_ratio', 'line_2_ratio'
 ]
 
 # FEATURE_COLUMNS = [age, detailed_occupation_recode, education, wage_per_hour]
 #
 CATEGORICAL_COLUMNS = [
-    'ratio', 'area'
+
+    'line_1_left_ratio', 'line_1_right_ratio', 'line_2_ratio',
+    'right_eye_ratio', 'left_eye_ratio', 'lip_ratio', 'nose_ratio',
+
+    'area', 'ratio',
 ]
 TRAIN_FILE = 'style.train'
 TEST_FILE = 'style.test'
@@ -92,18 +99,36 @@ validation_metrics = {
     #         prediction_key='probabilities'
     #     )
 }
-#
+# 10-250-7-3==0.894，0.612
+# 10-250-8-3==0.891，0.631
+# 10-250-9-3==0.895，0.637
+# 10-255-9-3==0.893，0.629
+# 10-245-9-3==0.891，0.621
+# 10-250-9-3==0.891，0.593
+# 10-200-9-3==0.867，0.615
+# 05-200-9-3==0.921，0.615
+# 15-250-9-3==0.889，0.590
+# 15-250-9-3==0.908，0.639
+# 15-250-9-3==0.908，0.620
+# 15-250-9-3==0.889，0.626
+# 18-250-9-3==0.901，0.631
+# 18-250-9-3-0.8==0.91，0.617
+
+#20-300
 hparams = tf.contrib.tensor_forest.python.tensor_forest.ForestHParams(
-    num_trees=6,
-    max_nodes=50,
-    num_classes=3,
-    num_features=2)
-early_stopping_rounds = 100
-check_every_n_steps = 100
+    num_trees=2,
+    max_nodes=5,
+    num_features=9,
+    num_classes=2,
+    # feature_bagging_fraction=0.7,
+    # bagging_fraction=.8
+)
+# early_stopping_rounds = 100
+# check_every_n_steps = 100
 # monitor = random_forest.TensorForestLossHook(early_stopping_rounds, check_every_n_steps)
-# num_trees=100,
-# max_nodes=10000,
-# bagging_fraction=1.0,
+# num_trees=100,树的数量,允许情况尽可能高
+# max_nodes=10000,最大叶子节点数
+# bagging_fraction=1.0, 数据提取百分百
 # num_splits_to_consider=0,
 # feature_bagging_fraction=1.0,
 # max_fertile_nodes=0,
@@ -131,17 +156,21 @@ config = {
 classifier = random_forest.TensorForestEstimator(hparams, model_dir=model_dir,
                                                  config=tf.contrib.learn.RunConfig(**config))
 classifier.fit(input_fn=train_input_fn, steps=200)
+
+results2 = classifier.evaluate(
+    input_fn=train_input_fn, steps=1)
+for key in sorted(results2):
+    print("train%s: %s" % (key, results2[key]))
+
+results3 = classifier.evaluate(
+    input_fn=train_input_fn, steps=10)
+for key in sorted(results3):
+    print("train%s: %s" % (key, results3[key]))
+
 results = classifier.evaluate(
     input_fn=eval_input_fn, steps=1)
 for key in sorted(results):
-    print("%s: %s" % (key, results[key]))
-
-
-results2 = classifier.evaluate(
-    input_fn=train_input_fn, steps=2)
-for key in sorted(results2):
-    print("%s: %s" % (key, results2[key]))
-
+    print("test%s: %s" % (key, results[key]))
 # 训练和评估模型
 # print(train_input_fn())
 # model = tf.contrib.learn.LinearClassifier(
