@@ -355,5 +355,6 @@ def load_outline_data(file_name):
 if __name__ == "__main__":
     load_outline_data("style_outline.train")
 
+
     # df_train = pd.read_csv("style_outline.train", skipinitialspace=True)
     # print(np.array(df_train['outline'])[1].shape)
