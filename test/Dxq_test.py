@@ -315,36 +315,45 @@ def style_data():
 def load_outline_data(file_name):
     if os.path.exists(file_name):
         return True
-    QualityToNum = {"曲": 0, "中": 1, "直": 2}
-    train_source = mdb.style_source.find()
-    num = train_source.count()
-    train_data_outline = []
-    train_data_label = []
-    test_data_outline = []
-    test_data_label = []
-    randomlist = random.sample(range(num), 1000)
+    QualityToNum = {"曲": [1, 0, 0], "中": [0, 1, 0], "直": [0, 0, 1]}
+    sources = mdb.style_source.find()
+    num = sources.count()
+    randomlist = random.sample(range(num), num - 1000)
 
-    for i, source in enumerate(train_source):
+    train_x = np.zeros([1000, 784])
+    train_y = np.zeros([1000, 3])
+    test_x = np.zeros([num - 1000, 784])
+    test_y = np.zeros([num - 1000, 3])
+    test = 0
+    train = 0
+    for i, source in enumerate(sources):
         out_line = source['result']['chin']
         img = Image.open('..' + out_line)
         img2 = np.array(img.resize([28, 28]).convert("L")).reshape(1, 784).astype(np.float32)
         image = np.multiply(img2, 1.0 / 255.0)
-
         if i in randomlist:
-            train_data_outline.append(image)
-            train_data_label.append(QualityToNum[source['outline']])
+            try:
+                test_x[test:] = image
+                test_y[test:] = QualityToNum[source['outline']]
+                test += 1
+            except:
+                print(test)
         else:
-            test_data_outline.append(image)
-            test_data_label.append(QualityToNum[source['outline']])
+            try:
 
-    train_save = pd.DataFrame({'outline': train_data_outline, 'label': train_data_label}, index=randomlist)
-    train_save.index.name = 'index'
-    test_save = pd.DataFrame({'outline': train_data_outline, 'label': train_data_label})
+                train_x[train:] = image
+                train_y[train:] = QualityToNum[source['outline']]
+                train += 1
+            except:
+                print(train)
+    scio.savemat(file_name.replace('train', 'test'), {'X': test_x, 'Y': test_y})
+    scio.savemat(file_name, {'X': train_x, 'Y': train_y})
 
-    train_save.sort_index().to_csv(file_name, index=True)
-    test_save.to_csv(file_name.replace('train', 'test'), index=True)
     return True
 
 
 if __name__ == "__main__":
     load_outline_data("style_outline.train")
+
+    # df_train = pd.read_csv("style_outline.train", skipinitialspace=True)
+    # print(np.array(df_train['outline'])[1].shape)
